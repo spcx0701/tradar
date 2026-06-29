@@ -11,8 +11,6 @@
 """
 from __future__ import annotations
 
-import re
-
 from .dataset import Dataset
 from .forecasting import forecast
 from .radar import market_signal, radar_for_product, risk_alerts, top_opportunities
