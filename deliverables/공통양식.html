@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>무역풍 공통 양식 (붙임1~4)</title>
+<style>
+  @page { size: A4; margin: 16mm 16mm; }
+  * { box-sizing: border-box; }
+  body{ font-family:"Apple SD Gothic Neo","Pretendard","Noto Sans KR",sans-serif; color:#16233a; font-size:10.6px; line-height:1.6; margin:0; }
+  .page{ page-break-after:always; } .page:last-child{ page-break-after:auto; }
+  h2{ text-align:center; font-size:17px; margin:2px 0 3px; letter-spacing:-.02em; }
+  .att{ font-size:10px; color:#5b6b82; }
+  .head{ display:flex; justify-content:space-between; align-items:flex-end; border-bottom:2px solid #0a2540; padding-bottom:5px; margin-bottom:10px; }
+  .head .t{ font-weight:800; color:#0a2540; font-size:11px; }
+  table{ width:100%; border-collapse:collapse; margin:6px 0; }
+  th,td{ border:1px solid #9fb2c9; padding:5px 7px; vertical-align:middle; font-size:10px; }
+  th{ background:#eef4fb; color:#0a2540; font-weight:700; text-align:center; width:22%; }
+  .fill{ color:#0b5fa5; font-weight:700; }
+  .blank{ color:#9aa7b8; }
+  .chk{ font-size:12px; } .on{ color:#0a2540; font-weight:800; }
+  .note{ background:#f1f7fd; border:1px solid #d9e2ee; border-radius:7px; padding:7px 10px; font-size:9.4px; color:#33506f; margin:6px 0; }
+  p{ margin:5px 0; } b{ color:#0a2540; }
+  ol{ padding-left:18px; } ol li{ margin:4px 0; }
+  .sign{ margin-top:14px; text-align:right; line-height:2.1; }
+  .sign .d{ text-align:center; margin:10px 0; }
+  .small{ font-size:9px; color:#5b6b82; }
+  .recv{ text-align:center; font-weight:800; color:#0a2540; margin-top:14px; }
+</style>
+</head>
+<body>
+
+<!-- ── 붙임 1 참가신청서 ── -->
+<div class="page">
+  <div class="head"><span class="t">[붙임 1] 공통 양식</span><span class="att">2026 관세청 공공데이터·AI 활용 창업경진대회</span></div>
+  <h2>참 가 신 청 서</h2>
+  <p class="small" style="text-align:right">* 해당란에 ■ 표시 / 【 】 및 밑줄 칸은 신청인이 직접 기재·서명</p>
+  <table>
+    <tr><th>공모 분야</th><td><span class="chk">☐ 아이디어 기획&nbsp;&nbsp;&nbsp; <span class="on">■ 제품 및 서비스 개발</span></span></td></tr>
+    <tr><th>참가 구분</th><td><span class="chk">☐ 개인&nbsp;&nbsp;&nbsp; ☐ 팀(기업)</span> &nbsp; <span class="blank">← 해당란 표시</span></td></tr>
+    <tr><th>창업 여부</th><td><span class="chk">☐ 창업예정*(~금년말)&nbsp;&nbsp;&nbsp; ☐ 창업중**(제품 판매·서비스 제공)</span><br>
+      <span class="small">* ① 사업규모(　　백만원) ② 채용규모(　　명) ③ 기타 : / ** ① 앱스토어(　　) ② 웹사이트(주소 : <span class="fill">spcx0701.github.io/tradewind</span>) ③ 기타 :</span></td></tr>
+    <tr><th>성명(팀명)</th><td class="blank">【 신청인 성명 / 팀명 기재 】</td></tr>
+    <tr><th>제품·서비스 명</th><td class="fill">무역풍 (Tradewind) — 관세 무역데이터·국산 AI 기반 한류 수출 수요예측·조기경보 ‘AI 무역참모’</td></tr>
+    <tr><th>기획 개요<br>(50자 이내)</th><td class="fill">관세청 수출입통계를 국산 AI로 분석해 한류 품목의 국가별 수출 수요를 예측·조기경보하는 모바일 앱·웹 (47자)</td></tr>
+  </table>
+  <table>
+    <tr><th rowspan="3">활용데이터<br><span class="small">※관세청 필수</span></th>
+      <td colspan="3"><span class="small">출처 / 제공기관명 / 데이터명 (복수기재 가능)</span></td></tr>
+    <tr><td style="width:30%"><b>출처</b> 공공데이터포털(data.go.kr)</td><td style="width:24%"><b>제공기관</b> 관세청</td><td><b>데이터명</b> 품목별 국가별 수출입실적(GW)</td></tr>
+    <tr><td>공공데이터포털 / 관세청 수출입무역통계</td><td>관세청</td><td>품목별·국가별 수출입실적, 표준품명(HSK)</td></tr>
+  </table>
+  <table>
+    <tr><th>활용 AI 기술</th><td>
+      <b>AI 기술명</b> : <span class="fill">자체 개발 수요예측·조기경보 AI(승법 계절분해+감쇠 로그선형 추세), AI 무역참모(국산 LLM 연동)</span><br>
+      <b>적용 내용</b> : <span class="fill">HS코드×국가 월별 수출 시계열로 6개월 수요예측·기회/리스크 스코어 산출, 수치 근거 기반 상담</span><br>
+      <b>국산기술 여부</b> : <span class="on">■ 국산</span> &nbsp; ☐ 국외 &nbsp; <span class="small">(예측·경보 엔진 자체 구현, 상담 LLM은 국산 모델 연동)</span></td></tr>
+  </table>
+  <table>
+    <tr><th>참가자 정보</th><td>
+      <table style="margin:0"><tr><th style="width:18%">구분</th><th>성명</th><th>소속</th><th>연락처(휴대전화)</th><th>이메일</th></tr>
+      <tr><td>대표자</td><td class="blank">【기재】</td><td class="blank">【기재】</td><td class="blank">【기재】</td><td class="blank">【기재】</td></tr>
+      <tr><td>팀원</td><td class="blank">　</td><td class="blank">　</td><td class="blank">　</td><td class="blank">　</td></tr></table></td></tr>
+    <tr><th>이전 수혜 이력<br>및 입상 실적</th><td class="blank">【해당 시 연도·내용 기재 / 없으면 ‘해당없음’】</td></tr>
+  </table>
+  <p class="small">본인(팀)은 ‘2026년 관세청 공공데이터·AI 활용 창업경진대회’ 참가와 관련하여 제출한 사항에 허위가 없으며, 유의사항을 숙지하고 진행에 필요한 사항에 성실히 응할 것을 동의합니다.</p>
+  <div class="sign"><div class="d">2026년　　　월　　　일</div>신청인(대표자) :　　　　　　　　　 (서명 또는 인)</div>
+  <div class="note">자동 기재 항목(파란색): 제품·서비스명·기획개요·활용데이터·활용 AI. <b>신청인이 기재할 항목</b>: 참가구분·창업여부 체크, 성명/팀명, 참가자 인적사항, 입상실적, 서명.</div>
+</div>
+
+<!-- ── 붙임 2 참가서약서 ── -->
+<div class="page">
+  <div class="head"><span class="t">[붙임 2] 공통 양식</span><span class="att">2026 관세청 공공데이터·AI 활용 창업경진대회</span></div>
+  <h2>참 가 서 약 서</h2>
+  <p>본인(팀)은 「2026년 관세청 공공데이터·AI 활용 창업경진대회」에 출품하며 아래 사항을 숙지하고, 허위사실 기재 및 타인의 권리를 침해하는 등의 행위로 인하여 손해를 발생시키는 경우, 본인의 귀책으로 인하여 발생되는 손해에 관한 손해배상책임이 본인에게 있음을 확인합니다.</p>
+  <ol>
+    <li>이미 채택된 제안과 동일한 것, 표절 및 복제 등의 지식재산권 침해 작품, 타 공모전 입상작품 등은 심사에서 제외되며, 이에 따른 모든 법적 책임은 참가자에게 있음</li>
+    <li>제출한 작품이 제3자의 권리(소유권, 저작권, 이용권)를 침해하였거나 이와 관련한 분쟁이 발생한 사실이 없으며, 이로 인하여 발생하는 법적인 책임은 출품자에게 있음</li>
+    <li>수상 이후 위반 사실이 밝혀질 경우 수상 취소 및 상금 환수(자진반납)에 이의를 제기하지 않음</li>
+  </ol>
+  <p>본인은 유의사항을 충분히 숙지하였으며 대회진행에 필요한 주관기관의 요구사항에 성실히 응할 것에 동의합니다.</p>
+  <div class="sign"><div class="d">2026년　　　월　　　일</div>
+    서약자(개인) :　성명　　　　　　　 (서명 또는 인)<br>
+    서약자(팀) :　성명　　　　　　　 (서명 또는 인)<br>
+    서약자(팀) :　성명　　　　　　　 (서명 또는 인)<br>
+    서약자(팀) :　성명　　　　　　　 (서명 또는 인)</div>
+  <div class="recv">관 세 청 장 귀 중</div>
+</div>
+
+<!-- ── 붙임 3 개인정보 동의서 ── -->
+<div class="page">
+  <div class="head"><span class="t">[붙임 3] 공통 양식</span><span class="att">2026 관세청 공공데이터·AI 활용 창업경진대회</span></div>
+  <h2>개인정보 수집·이용 동의서</h2>
+  <p class="small">관세청은 개인정보보호법 등 관련 법령상의 개인정보보호 규정을 준수하며, 본 경진대회 진행에 따른 개인정보 수집과 관련하여 다음과 같이 귀하의 동의를 얻고자 합니다.</p>
+  <table>
+    <tr><th>수집 항목</th><td>성명, 휴대전화번호, 이메일, 소속, (수상작 선정 시) 주민등록번호</td></tr>
+    <tr><th>수집·이용 목적</th><td>참가자 정보 확인 및 접수 / 수상작 선정 및 시상 등 경진대회 운영 및 사후관리</td></tr>
+    <tr><th>보유·이용 기간</th><td>수집·이용 목적이 달성된 경우 해당 정보 파기</td></tr>
+    <tr><th>거부 권리·불이익</th><td>동의를 거부할 권리가 있으나, 거부 시 심사대상에서 제외될 수 있음</td></tr>
+  </table>
+  <p>본인은 개인정보 수집·이용에 대해 충분히 숙지 및 동의함을 서약하며 상기와 같이 동의서를 제출합니다.</p>
+  <div class="sign"><div class="d">2026년　　　월　　　일</div>
+    성명(개인) :　　　　　　　 (서명 또는 인)<br>
+    성명(팀) :　　　　　　　 (서명 또는 인)<br>
+    성명(팀) :　　　　　　　 (서명 또는 인)</div>
+  <div class="recv">관 세 청 장 귀 중</div>
+</div>
+
+<!-- ── 붙임 4 제3자 공개·공유 동의서 ── -->
+<div class="page">
+  <div class="head"><span class="t">[붙임 4] 공통 양식</span><span class="att">2026 관세청 공공데이터·AI 활용 창업경진대회</span></div>
+  <h2>출품작 제3자 공개·공유 동의서</h2>
+  <p class="small">관세청은 본 경진대회 진행에 따른 출품작에 대하여 다음과 같이 귀하의 동의를 얻고자 합니다.</p>
+  <table>
+    <tr><th>공개·공유 목적</th><td>응모된 출품작에 대한 평가와 경진대회 관리·운영에 관련한 업무수행</td></tr>
+    <tr><th>공개·공유 항목</th><td>응모된 출품작의 목적, 사용하는 데이터 종류, 효과성 등</td></tr>
+    <tr><th>보유·이용 기간</th><td>최종발표일로부터 2년 이내 폐기. 사후관리·중앙 경진대회 추천 시 본인 동의 후 관련 기관 제공 가능</td></tr>
+    <tr><th>동의 여부</th><td><span class="chk">☐ 동의함&nbsp;&nbsp;&nbsp; ☐ 동의하지 않음</span> &nbsp; <span class="small">← 해당란 표시 (거부 시 심사대상 제외될 수 있음)</span></td></tr>
+  </table>
+  <div class="note">※ 동의를 거부할 권리가 있으나, 거부 시 심사대상에서 제외될 수 있습니다. 기타 문의: 관세청 데이터담당관(042-481-7985).</div>
+  <div class="sign"><div class="d">2026년　　　월　　　일</div>성명 :　　　　　　　 (서명 또는 인)</div>
+  <div class="recv">관 세 청 장 귀 중</div>
+  <div class="note" style="margin-top:18px">📌 <b>제출 안내</b> — 공통 양식(붙임1~4)은 <b>자필 서명 포함 스캔본</b>으로 제출합니다(이메일 customsdata@korea.kr).
+    제품·서비스 개발 기획서(붙임6)는 <b>하나의 PDF</b>로 ‘무역풍_제품및서비스개발_신청인(팀)’ 형식으로 별도 제출합니다.</div>
+</div>
+
+</body>
+</html>

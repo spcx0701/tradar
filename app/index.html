@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1">
+<title>무역풍 Tradewind — 한류 수출 수요예측·조기경보</title>
+<meta name="description" content="관세청 수출입통계와 국산 AI로 K-Food·K-뷰티·K-컬처의 국가별 수출 수요를 예측하고 떠오르는 시장을 먼저 알려주는 AI 무역참모.">
+<meta name="theme-color" content="#0a2540">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icons/logo.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icons/icon-180.png">
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<header class="appbar">
+  <div class="wrap">
+    <div class="brand">
+      <img src="icons/logo.svg" class="logo" alt="무역풍">
+      <div>무역풍<small>Tradewind · AI 무역참모</small></div>
+    </div>
+    <div class="spacer"></div>
+    <span class="databadge" id="databadge">관세청 수출입통계</span>
+  </div>
+</header>
+
+<main class="wrap">
+  <!-- 홈 — 수출 일기예보 -->
+  <section class="view active" id="view-home">
+    <div class="eyebrow">오늘의 수출 날씨</div>
+    <div class="chips" id="home-chips"></div>
+    <div id="home-hero"></div>
+    <div class="between" style="margin:18px 0 8px"><h3 style="margin:0">🌊 지금 떠오르는 시장</h3><a class="small" href="#" data-go="radar">전체 레이더 →</a></div>
+    <div id="home-markets"></div>
+    <div class="between" style="margin:8px 0 8px"><h3 style="margin:0">📈 대표 시장 수요예측</h3></div>
+    <div class="card" id="home-forecast"></div>
+  </section>
+
+  <!-- 레이더 — 급등시장 + 리스크 -->
+  <section class="view" id="view-radar">
+    <div class="eyebrow">급등시장 레이더</div>
+    <h2 class="sec">떠오르는 한류 수출 기회</h2>
+    <div class="chips" id="radar-chips"></div>
+    <div id="radar-list"></div>
+    <div class="between" style="margin:20px 0 10px"><h3 style="margin:0">⚠️ 리스크 조기경보</h3></div>
+    <div id="radar-risk"></div>
+  </section>
+
+  <!-- AI 참모 — 바람이 -->
+  <section class="view" id="view-advisor">
+    <div class="eyebrow">AI 무역참모 ‘바람이’</div>
+    <h2 class="sec">수치로 답하는 수출 상담</h2>
+    <div class="chips" id="advisor-suggest"></div>
+    <div class="chat" id="chat"></div>
+  </section>
+
+  <!-- 리포트 — 내 수출 -->
+  <section class="view" id="view-report">
+    <div class="eyebrow">내 수출 리포트</div>
+    <h2 class="sec">품목·시장별 정밀 전망</h2>
+    <div class="card">
+      <div class="grid2">
+        <div><label class="small muted">품목</label><select class="sel" id="rep-product"></select></div>
+        <div><label class="small muted">수출 대상국</label><select class="sel" id="rep-country"></select></div>
+      </div>
+    </div>
+    <div id="report-out"></div>
+    <div class="card src" id="report-src"></div>
+  </section>
+</main>
+
+<!-- AI 참모 입력창(advisor 뷰에서만 표시) -->
+<div class="composer" id="composer" style="display:none">
+  <div class="wrap">
+    <input id="chat-input" type="text" placeholder="예) 라면 어디에 수출하면 좋을까?" autocomplete="off">
+    <button id="chat-send" aria-label="보내기">↑</button>
+  </div>
+</div>
+
+<nav class="tabbar">
+  <button data-tab="home" class="active"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-7 9 7M5 10v10h14V10"/></svg>홈</button>
+  <button data-tab="radar"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v9l6 3"/><circle cx="12" cy="12" r="9"/></svg>레이더</button>
+  <button data-tab="advisor"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>AI참모</button>
+  <button data-tab="report"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19V5a2 2 0 0 1 2-2h9l5 5v11a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/><path d="M8 13l2.5 2.5L16 10"/></svg>리포트</button>
+</nav>
+
+<script src="app.js"></script>
+</body>
+</html>

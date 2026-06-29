@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>무역풍 Tradewind — 수출의 바람을 먼저 읽다</title>
+<meta name="description" content="관세청 수출입통계와 국산 AI로 한류 수출 수요를 예측하고 떠오르는 시장을 먼저 알려주는 AI 무역참모. 수출 소상공인·중소기업을 위한 서비스.">
+<meta name="theme-color" content="#0a2540">
+<meta property="og:title" content="무역풍 Tradewind — AI 무역참모">
+<meta property="og:description" content="관세청 데이터·국산 AI로 한류 수출 수요를 예측하는 AI 무역참모">
+<link rel="icon" href="icons/logo.svg" type="image/svg+xml">
+<link rel="manifest" href="manifest.json">
+<link rel="stylesheet" href="app.css">
+<style>
+  body { padding-bottom: 0; }
+  .lwrap { max-width: 1080px; margin: 0 auto; padding: 0 22px; }
+  .nav { position: sticky; top: 0; z-index: 20; background: rgba(255,255,255,.92); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
+  .nav .lwrap { display: flex; align-items: center; gap: 10px; height: 60px; }
+  .nav .brand { color: var(--ink); }
+  .nav a.navlink { margin-left: 18px; font-weight: 600; color: var(--ink-2); font-size: 14px; }
+  .hero { background: var(--grad); color: #fff; padding: 56px 0 64px; position: relative; overflow: hidden; }
+  .hero .glow { position: absolute; right: -100px; top: -120px; width: 420px; height: 420px; background: radial-gradient(circle, rgba(245,158,11,.32), transparent 68%); }
+  .hero .lwrap { display: grid; grid-template-columns: 1.25fr .9fr; gap: 30px; align-items: center; position: relative; }
+  .hero h1 { font-size: 42px; line-height: 1.18; letter-spacing: -.03em; margin: 10px 0 14px; font-weight: 800; }
+  .hero p.sub { font-size: 17px; opacity: .92; line-height: 1.6; }
+  .tag { display: inline-block; background: rgba(255,255,255,.16); padding: 6px 13px; border-radius: 999px; font-size: 13px; font-weight: 700; }
+  .cta { display: flex; gap: 12px; margin-top: 24px; flex-wrap: wrap; }
+  .cta a { padding: 14px 22px; border-radius: 12px; font-weight: 700; font-size: 15px; }
+  .cta .primary { background: #fff; color: var(--navy); }
+  .cta .second { background: rgba(255,255,255,.14); color: #fff; border: 1px solid rgba(255,255,255,.35); }
+  .qrcard { background: #fff; color: var(--ink); border-radius: 18px; padding: 18px; text-align: center; box-shadow: var(--shadow); }
+  .qrcard img { width: 150px; height: 150px; }
+  .qrcard .t { font-weight: 700; font-size: 14px; margin-top: 8px; }
+  .qrcard .u { font-size: 11.5px; color: var(--muted); word-break: break-all; }
+  .strip { background: #fff; border-bottom: 1px solid var(--line); }
+  .strip .lwrap { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; padding: 22px 22px; text-align: center; }
+  .strip .v { font-size: 26px; font-weight: 800; color: var(--blue); letter-spacing: -.02em; }
+  .strip .l { font-size: 12.5px; color: var(--muted); }
+  section.blk { padding: 56px 0; }
+  .ey { color: var(--teal); font-weight: 700; font-size: 13px; letter-spacing: .04em; text-transform: uppercase; }
+  h2.big { font-size: 30px; font-weight: 800; letter-spacing: -.02em; margin: 8px 0 28px; }
+  .feat { display: grid; grid-template-columns: repeat(3,1fr); gap: 22px; }
+  .feat .f { background: #fff; border: 1px solid var(--line); border-radius: 18px; padding: 22px; box-shadow: var(--shadow); }
+  .feat .f .ico { font-size: 30px; }
+  .feat .f h3 { font-size: 17px; margin: 10px 0 6px; }
+  .feat .f p { font-size: 14px; color: var(--ink-2); margin: 0; line-height: 1.6; }
+  .shots { display: grid; grid-template-columns: repeat(3,1fr); gap: 18px; margin-top: 8px; }
+  .shots img { width: 100%; border-radius: 18px; border: 1px solid var(--line); box-shadow: var(--shadow); }
+  .shots figcaption { text-align: center; font-size: 13px; color: var(--muted); margin-top: 8px; }
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: center; }
+  .pillrow { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
+  .pillrow span { background: var(--teal-soft); color: #0a7d72; padding: 6px 12px; border-radius: 999px; font-size: 13px; font-weight: 600; }
+  .prob { background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 18px 20px; margin-bottom: 12px; }
+  .prob b { color: var(--navy); }
+  footer { background: var(--navy); color: #cbd5e1; padding: 30px 0; font-size: 13px; }
+  footer a { color: #93c5fd; }
+  @media (max-width: 880px){ .hero .lwrap,.two{grid-template-columns:1fr} .feat,.shots,.strip .lwrap{grid-template-columns:1fr 1fr} .hero h1{font-size:32px} .feat{grid-template-columns:1fr} }
+</style>
+</head>
+<body>
+<nav class="nav"><div class="lwrap">
+  <div class="brand"><img src="icons/logo.svg" class="logo" alt=""> 무역풍 <small style="font-weight:600">Tradewind</small></div>
+  <div style="flex:1"></div>
+  <a class="navlink" href="index.html">웹앱</a>
+  <a class="navlink" href="dashboard.html">B2G 콘솔</a>
+</div></nav>
+
+<header class="hero"><div class="glow"></div><div class="lwrap">
+  <div>
+    <span class="tag">관세청 수출입통계 · 국산 AI</span>
+    <h1>수출의 바람을<br>먼저 읽다</h1>
+    <p class="sub">관세 무역데이터와 국산 AI로 <b>K-Food·K-뷰티·K-컬처</b>의 국가별 수출 수요를 예측하고,
+      지금 떠오르는 시장을 먼저 알려주는 <b>AI 무역참모</b>. 수출 소상공인·중소기업의 첫 해외 시장 결정을 데이터로 돕습니다.</p>
+    <div class="cta">
+      <a class="primary" href="index.html">▶ 웹앱 바로 열기</a>
+      <a class="second" href="dashboard.html">B2G 관제 콘솔</a>
+    </div>
+  </div>
+  <div class="qrcard">
+    <img src="media/qr-demo.png" alt="무역풍 웹앱 QR">
+    <div class="t">📱 모바일로 바로 체험</div>
+    <div class="u">spcx0701.github.io/tradewind</div>
+  </div>
+</div></header>
+
+<div class="strip"><div class="lwrap">
+  <div><div class="v">100억$+</div><div class="l">2024 K-Food 수출 (관세청)</div></div>
+  <div><div class="v">12품목·22국</div><div class="l">실시간 분석 대상</div></div>
+  <div><div class="v">6개월</div><div class="l">국가별 수요 예측 horizon</div></div>
+  <div><div class="v">100% 국산 AI</div><div class="l">자체 예측·기회점수 모델</div></div>
+</div></div>
+
+<section class="blk"><div class="lwrap">
+  <div class="ey">왜 무역풍인가</div>
+  <h2 class="big">수출 소상공인의 정보 비대칭을 풉니다</h2>
+  <div class="two">
+    <div>
+      <div class="prob">📉 <b>"어느 나라부터 뚫어야 하죠?"</b><br>대기업은 시장조사팀이 있지만, K-푸드 소상공인은 감(感)에 의존합니다.</div>
+      <div class="prob">🗂️ <b>데이터는 있는데 못 씁니다.</b><br>관세청 통계는 방대하지만, 표·코드의 벽에 막혀 현장에선 읽히지 않습니다.</div>
+      <div class="prob">⏱️ <b>한발 늦은 진출.</b><br>시장이 달아오른 뒤 들어가면 이미 레드오션. 무역풍은 <b>달아오르기 전</b>을 신호합니다.</div>
+    </div>
+    <div class="feat" style="grid-template-columns:1fr">
+      <div class="f"><div class="ico">🌤️</div><h3>수출 일기예보</h3><p>품목·국가별로 향후 6개월 수요를 예측해 ‘맑음/흐림’으로 한눈에. 관세청 시계열에 자체 AI가 계절·추세를 분해합니다.</p></div>
+      <div class="f"><div class="ico">📡</div><h3>급등시장 레이더 & 조기경보</h3><p>지금 빠르게 떠오르는 시장과 식어가는 시장을 기회점수로 신호. 의존 시장이 둔화되면 먼저 알립니다.</p></div>
+      <div class="f"><div class="ico">💬</div><h3>AI 무역참모 ‘바람이’</h3><p>“라면 어디에 팔까?”라고 물으면 실제 수출 수치를 근거로 답합니다. 환각 없이, 숫자로.</p></div>
+    </div>
+  </div>
+</div></section>
+
+<section class="blk" style="background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line)"><div class="lwrap">
+  <div class="ey">실제 작동 화면</div>
+  <h2 class="big">설치 없이, 웹에서 바로</h2>
+  <div class="shots">
+    <figure><img src="media/screen-home.png" alt="수출 일기예보"><figcaption>홈 · 수출 일기예보</figcaption></figure>
+    <figure><img src="media/screen-radar.png" alt="급등시장 레이더"><figcaption>레이더 · 급등시장</figcaption></figure>
+    <figure><img src="media/screen-advisor.png" alt="AI 무역참모"><figcaption>AI참모 · 바람이</figcaption></figure>
+  </div>
+</div></section>
+
+<section class="blk"><div class="lwrap">
+  <div class="ey">데이터 & 기술</div>
+  <h2 class="big">관세청 공공데이터 + 100% 국산 AI</h2>
+  <p style="font-size:15px;color:var(--ink-2);max-width:720px;line-height:1.7">
+    필수 데이터로 관세청 <b>품목별 국가별 수출입실적</b>(공공데이터포털)을 사용합니다.
+    예측·기회점수는 외산 모델·API에 의존하지 않고 <b>무역풍이 직접 개발한 국산 AI</b>(승법 계절분해 + 감쇠 로그선형 추세,
+    이상탐지 기반 조기경보)로 산출합니다. AI 상담은 국산 LLM(Solar·HyperCLOVA X) 연동 구조입니다.</p>
+  <div class="pillrow">
+    <span>관세청 수출입무역통계</span><span>data.go.kr OpenAPI</span><span>자체 수요예측 모델</span>
+    <span>급등·조기경보 엔진</span><span>국산 LLM 연동</span><span>오프라인 동작 PWA</span>
+  </div>
+</div></section>
+
+<footer><div class="lwrap">
+  <div class="brand" style="color:#fff;margin-bottom:10px"><img src="icons/logo.svg" class="logo" alt=""> 무역풍 Tradewind</div>
+  관세청 공공데이터·AI 활용 창업경진대회 출품작 (제품 및 서비스 개발 부문) · 2026<br>
+  데이터 출처: 관세청 품목별 국가별 수출입실적(공공데이터포털) · 데모 데이터는 공개 통계에 앵커링한 대표 스냅샷이며 개인·기업 식별정보를 포함하지 않습니다.<br>
+  <a href="index.html">웹앱</a> · <a href="dashboard.html">B2G 콘솔</a> · <a href="https://github.com/spcx0701/tradewind">GitHub</a>
+</div></footer>
+</body>
+</html>

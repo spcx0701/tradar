@@ -1,0 +1,33 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.egg-info/
+
+# Node / Android
+node_modules/
+packaging/android/.gradle/
+packaging/android/build/
+packaging/android/app/build/
+packaging/android/local.properties
+*.apk
+*.aab
+*.keystore
+
+# Env / secrets
+.env
+.env.local
+
+# OS / editor
+.DS_Store
+*.swp
+.idea/
+.vscode/
+
+# Build scratch
+/tmp/
+*.log

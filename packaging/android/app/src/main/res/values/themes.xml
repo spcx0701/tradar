@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Compose 전용 앱 — 프레임워크 NoActionBar 테마 사용(외부 테마 의존 없음) -->
+    <style name="Theme.Tradewind" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:statusBarColor">@color/navy</item>
+        <item name="android:windowBackground">@color/bg</item>
+    </style>
+</resources>

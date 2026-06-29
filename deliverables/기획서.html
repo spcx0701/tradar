@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>무역풍 제품·서비스 개발 기획서</title>
+<style>
+  @page { size: A4; margin: 14mm 14mm 12mm; }
+  * { box-sizing: border-box; }
+  :root{ --navy:#0a2540; --blue:#0b5fa5; --teal:#12b3a6; --ink:#16233a; --muted:#5b6b82; --line:#d9e2ee; --soft:#f1f7fd; --amber:#d97706; --surge:#16a34a; --cool:#dc2626; }
+  body{ font-family:"Apple SD Gothic Neo","Pretendard","Noto Sans KR",sans-serif; color:var(--ink); font-size:10.3px; line-height:1.55; margin:0; }
+  h1,h2,h3{ margin:0; letter-spacing:-.02em; }
+  .page{ page-break-after:always; }
+  .page:last-child{ page-break-after:auto; }
+  section{ page-break-inside:avoid; margin-bottom:11px; }
+  .sec-h{ display:flex; align-items:center; gap:8px; border-left:4px solid var(--blue); padding:3px 0 3px 9px; margin:0 0 7px; }
+  .sec-h .no{ background:var(--blue); color:#fff; font-weight:800; font-size:10px; border-radius:5px; padding:1px 7px; }
+  .sec-h h2{ font-size:14px; color:var(--navy); }
+  .sec-h .crit{ margin-left:auto; font-size:8.5px; color:var(--teal); font-weight:700; border:1px solid var(--teal); border-radius:999px; padding:1px 8px; }
+  p{ margin:4px 0; } b{ color:var(--navy); }
+  ul{ margin:4px 0; padding-left:16px; } li{ margin:2px 0; }
+  table{ width:100%; border-collapse:collapse; margin:5px 0; font-size:9.3px; }
+  th,td{ border:1px solid var(--line); padding:4px 6px; text-align:left; vertical-align:top; }
+  th{ background:var(--soft); color:var(--navy); font-weight:700; }
+  .lead{ background:var(--soft); border:1px solid var(--line); border-radius:8px; padding:9px 11px; }
+  .grid2{ display:grid; grid-template-columns:1fr 1fr; gap:9px; }
+  .grid3{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; }
+  .card{ border:1px solid var(--line); border-radius:8px; padding:8px 10px; }
+  .card h3{ font-size:10.6px; color:var(--blue); margin-bottom:3px; }
+  .pillok{ color:var(--surge); font-weight:700; } .pillno{ color:var(--cool); font-weight:700; }
+  .muted{ color:var(--muted); } .small{ font-size:8.8px; }
+  .shot{ border:1px solid var(--line); border-radius:9px; width:100%; }
+  /* 표지 */
+  .cover{ height:268mm; display:flex; flex-direction:column; }
+  .cover .top{ background:linear-gradient(135deg,#0a2540,#0b5fa5 60%,#12b3a6 130%); color:#fff; border-radius:14px; padding:26px 28px; position:relative; overflow:hidden; }
+  .cover .top .glow{ position:absolute; right:-60px; top:-70px; width:240px; height:240px; background:radial-gradient(circle,rgba(245,158,11,.35),transparent 68%); }
+  .cover .tag{ display:inline-block; background:rgba(255,255,255,.18); padding:4px 12px; border-radius:999px; font-size:10.5px; font-weight:700; }
+  .cover h1{ font-size:40px; margin:14px 0 2px; font-weight:800; }
+  .cover .en{ font-size:15px; opacity:.85; font-weight:600; }
+  .cover .def{ font-size:13.5px; margin-top:14px; opacity:.96; line-height:1.6; max-width:150mm; }
+  .cover .mid{ display:flex; gap:14px; margin-top:18px; align-items:stretch; }
+  .cover .qr{ background:#fff; color:var(--ink); border-radius:12px; padding:12px; text-align:center; width:46mm; }
+  .cover .qr img{ width:34mm; height:34mm; } .cover .qr .t{ font-weight:700; font-size:10px; margin-top:5px; } .cover .qr .u{ font-size:8.6px; color:var(--muted); }
+  .cover .run{ flex:1; border:1px solid var(--line); border-radius:12px; padding:12px 14px; }
+  .cover .run h3{ font-size:12px; color:var(--navy); margin-bottom:5px; }
+  .cover .meta{ margin-top:auto; border-top:2px solid var(--line); padding-top:10px; display:grid; grid-template-columns:1fr 1fr; gap:4px 16px; font-size:10.5px; }
+  .cover .meta b{ color:var(--navy); }
+  .kgrid{ display:grid; grid-template-columns:repeat(4,1fr); gap:7px; margin:6px 0; }
+  .kgrid .k{ background:var(--soft); border:1px solid var(--line); border-radius:8px; padding:7px 8px; text-align:center; }
+  .kgrid .k b{ font-size:16px; color:var(--blue); display:block; } .kgrid .k span{ font-size:8.6px; color:var(--muted); }
+  .shots3{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; }
+  .shots3 figcaption{ text-align:center; font-size:8.8px; color:var(--muted); margin-top:3px; }
+  .foot{ font-size:8.4px; color:var(--muted); border-top:1px solid var(--line); padding-top:5px; margin-top:6px; }
+</style>
+</head>
+<body>
+
+<!-- ───────── 표지 ───────── -->
+<div class="page"><div class="cover">
+  <div class="top"><div class="glow"></div>
+    <span class="tag">2026 관세청 공공데이터·AI 활용 창업경진대회 · 제품 및 서비스 개발 부문</span>
+    <h1>무역풍 <span style="font-size:22px">Tradewind</span></h1>
+    <div class="en">관세 무역데이터·국산 AI 기반 한류 수출 수요예측·조기경보 ‘AI 무역참모’</div>
+    <div class="def">“수출의 바람을 먼저 읽다” — 관세청 수출입통계를 국산 AI로 해석해
+      K-Food·K-뷰티·K-컬처 <b style="color:#fff">수출 소상공인·중소기업</b>에게
+      <b style="color:#fff">어느 나라에, 언제, 무엇을</b> 팔지 데이터로 알려주는 모바일 앱·웹 서비스.</div>
+    <div class="mid">
+      <div class="run">
+        <h3>▶ 실행 확인 (설치 없이 즉시 실행되는 웹앱)</h3>
+        <p class="small">· 웹앱(PWA) : <b>https://spcx0701.github.io/tradewind/</b><br>
+        · 서비스 소개 : https://spcx0701.github.io/tradewind/home.html<br>
+        · B2G 관제 콘솔 : https://spcx0701.github.io/tradewind/dashboard.html<br>
+        · 소스·재현 : https://github.com/spcx0701/tradewind</p>
+        <p class="small muted">QR 또는 위 URL로 모바일·PC에서 즉시 동작합니다(오프라인 지원). 본 기획서 4~5쪽에 실행 화면을 수록.</p>
+      </div>
+      <div class="qr"><img src="../assets/brand/qr-demo.png" alt="웹앱 QR"><div class="t">📱 웹앱 바로 실행</div><div class="u">spcx0701.github.io/tradewind</div></div>
+    </div>
+  </div>
+  <div class="meta">
+    <div>제품·서비스명 : <b>무역풍 (Tradewind)</b></div><div>공모 분야 : <b>■ 모바일 앱 &nbsp; ■ 웹</b></div>
+    <div>응모 부문 : <b>② 제품 및 서비스 개발</b></div><div>활용 AI : <b>자체 개발 국산 AI (수요예측·조기경보·상담)</b></div>
+    <div>필수 데이터 : <b>관세청 품목별 국가별 수출입실적</b></div><div>팀명 : <b>【팀명 기재】</b></div>
+    <div style="grid-column:1/3" class="small muted">2026. ___ . &nbsp; / &nbsp; 본 문서는 자유양식 기획서(붙임6)이며, 공통 양식(붙임1~4)은 자필 서명 스캔본으로 별도 제출합니다.</div>
+  </div>
+</div></div>
+
+<!-- ───────── 1 개요 ───────── -->
+<div class="page">
+<section>
+  <div class="sec-h"><span class="no">1</span><h2>제품 및 서비스 개요</h2></div>
+  <p class="lead"><b>무역풍</b>은 관세청 수출입무역통계를 국산 AI로 분석해 한류 품목(K-Food·뷰티·컬처)의
+    <b>국가별 수출 수요를 예측(6개월)</b>하고, 지금 <b>떠오르는 시장과 식어가는 시장을 먼저 신호</b>하며,
+    “라면 어디에 팔까?” 같은 질문에 <b>실제 수치를 근거로 답하는 AI 무역참모</b>를 제공하는 모바일 앱·웹 서비스입니다. (98자)</p>
+  <div class="kgrid">
+    <div class="k"><b>12품목·22국</b><span>실시간 분석 대상</span></div>
+    <div class="k"><b>6개월</b><span>국가별 수요예측</span></div>
+    <div class="k"><b>100% 국산 AI</b><span>자체 예측·경보 모델</span></div>
+    <div class="k"><b>설치 0초</b><span>웹·PWA 즉시 실행</span></div>
+  </div>
+  <p><b>개발 동기.</b> K-Food 수출은 2024년 약 100억 달러로 사상 최대를 기록했지만, 수출의 다수를 차지하는
+    중소·소상공인은 “어느 나라부터 뚫어야 하나”를 <b>감(感)에 의존</b>합니다. 대기업은 시장조사팀이 있지만,
+    관세청이 개방한 방대한 무역통계는 HS코드·표의 벽에 막혀 현장에서 읽히지 않습니다.
+    무역풍은 이 공공데이터를 <b>‘수출 일기예보’와 ‘AI 상담’</b>으로 번역해, 소상공인의 첫 해외시장 결정을 데이터로 바꿉니다.</p>
+  <p><b>핵심 가치.</b> ① 사후 통계 조회가 아니라 <b>사전 예측·조기경보</b> ② 표가 아니라 <b>대화와 권고</b>
+    ③ 소비형이 아니라 <b>공공데이터를 B2G로 환류</b>하는 양방향 구조.</p>
+</section>
+
+<!-- ───────── 2 기능 및 특징 ───────── -->
+<section>
+  <div class="sec-h"><span class="no">2</span><h2>제품 및 서비스의 기능 및 특징</h2><span class="crit">심사: 기술성</span></div>
+  <div class="grid2" style="margin-bottom:6px">
+    <div class="card"><h3>🌤️ 수출 일기예보</h3><p class="small">품목·국가별 향후 6개월 수요를 예측해 ‘맑음/흐림’으로 표시. 관세청 시계열을 계절·추세로 분해, 95% 예측구간 제공.</p></div>
+    <div class="card"><h3>📡 급등시장 레이더 & 조기경보</h3><p class="small">모멘텀·가속도·변동성으로 떠오르는 시장(기회점수)과 식어가는 시장(리스크)을 신호. 의존 시장 둔화를 선제 경보.</p></div>
+    <div class="card"><h3>💬 AI 무역참모 ‘바람이’</h3><p class="small">한국어 질문→실제 수출 수치를 근거로 답변. 추천·예측·리스크 의도를 자동 인식, 근거 동반으로 환각 차단.</p></div>
+    <div class="card"><h3>📊 B2G 관제 콘솔 & 내 수출 리포트</h3><p class="small">기관용 한류 수출 히트맵(공공 환류) + 개인용 품목·시장 정밀 전망과 AI 권고.</p></div>
+  </div>
+  <p><b>핵심 AI 엔진(자체 개발 · 국산).</b></p>
+  <table>
+    <tr><th style="width:24%">엔진</th><th style="width:34%">방법(외산 모델·API 미사용)</th><th>입력 → 출력</th></tr>
+    <tr><td>수요예측</td><td>승법 계절분해 + 감쇠 로그선형 추세 외삽(numpy)</td><td>HS×국가 월 수출 시계열 → 6개월 예측·예측구간·적합도(MAPE)</td></tr>
+    <tr><td>급등·조기경보</td><td>단기성장·YoY·로그추세·가속도·변동계수 결합 스코어</td><td>시계열 → 기회점수(0~100)·리스크점수·상태(급등/상승/안정/둔화/변동)</td></tr>
+    <tr><td>AI 상담(바람이)</td><td>의도추출 + 근거검색 NLG + <b>국산 LLM</b>(Solar·HyperCLOVA X) 어댑터</td><td>한국어 질문 → 수치 근거 답변·권고</td></tr>
+  </table>
+  <p class="small"><b>구성.</b> 관세청 OpenAPI → 스냅샷 → AI 엔진 → 정적 PWA(오프라인 동작) / FastAPI 라이브 API 동시 제공.
+    무프레임워크 경량 설계로 온디바이스·국내 인프라에서 그대로 구동. <b>완성도</b>: 웹앱·B2G 대시board·랜딩 + 테스트 통과(개발 완료, 라이브 배포).</p>
+</section>
+</div>
+
+<!-- ───────── 3 데이터·AI 활용 ───────── -->
+<div class="page">
+<section>
+  <div class="sec-h"><span class="no">3</span><h2>관세청 공공데이터 등 데이터 활용 방안</h2><span class="crit">심사: 공공데이터+AI 활용</span></div>
+  <table>
+    <tr><th style="width:30%">데이터 (필수: 관세청)</th><th style="width:34%">획득 방법 / 출처</th><th>서비스 내 활용</th></tr>
+    <tr><td><b>품목별 국가별 수출입실적(GW)</b></td><td>공공데이터포털 OpenAPI<br>apis.data.go.kr/1220000/nitemtrade</td><td>핵심 시계열 — HS×국가×월 수출금액·중량. 예측·레이더·상담의 원천</td></tr>
+    <tr><td>품목별 수출입실적 / 국가별 수출입실적</td><td>공공데이터포털(15101609 / 15101612)</td><td>품목 총수출 추세·국가별 비중(대시보드)</td></tr>
+    <tr><td>국가별 관세율표 · 표준품명(HSK)</td><td>공공데이터포털(15051176 / 15049721)</td><td>(확장) HS 자동분류·FTA·관세율 융합 landed-cost</td></tr>
+    <tr><td class="muted">타기관(선택) — KOTRA 수출지원사업·환율·해외소비</td><td class="muted">KOTRA·한국은행·통계청</td><td class="muted">지원사업 매칭·가격 경쟁력·시장 잠재력 정규화</td></tr>
+  </table>
+  <div class="grid2">
+    <div class="card"><h3>AI 기술 적용(국산)</h3>
+      <p class="small">① <b>예측</b>: 계절지수 추정→탈계절화→최근 18개월 로그선형 회귀로 현 국면 성장률 추정→감쇠 외삽(폭주·평균회귀 방지).
+      ② <b>경보</b>: 가속도·변동성 결합 이상신호. ③ <b>상담</b>: 근거 고정 후 국산 LLM이 문체만 생성.</p></div>
+    <div class="card"><h3>데이터 지속성·가공·범위</h3>
+      <p class="small">관세청 OpenAPI는 월 단위 현행화 → 인증키로 <b>자동 일/월 배치 동기화</b>.
+      HS 2·4·6·10단위로 세분 확장 가능. 집계·익명 데이터만 사용해 개인·기업 식별정보 없음(프라이버시 안전).</p></div>
+  </div>
+  <p class="small"><b>국산 AI 가점 대응.</b> 예측·경보 모델은 외산 라이브러리/모델·해외 API 없이 자체 구현했고,
+    대화형 AI는 국산 LLM(Solar·HyperCLOVA X) 연동 구조입니다.</p>
+</section>
+
+<!-- ───────── 4 사업(창업) 계획 ───────── -->
+<section>
+  <div class="sec-h"><span class="no">4</span><h2>제품 및 서비스의 사업(창업) 계획</h2><span class="crit">심사: 발전 가능성</span></div>
+  <p><b>시장.</b> 수출 중소기업 약 9만 개사, K-Food 수출업체의 다수가 중소·소상공인. 한류 확산으로 신규 수출
+    수요는 계속 늘지만, 이들을 위한 <b>‘쉬운 수출 인텔리전스’ 도구는 공백</b> — 무역풍이 첫 주자입니다.</p>
+  <table>
+    <tr><th style="width:26%">수익원</th><th style="width:42%">내용</th><th>가격(안)</th></tr>
+    <tr><td>B2C 프리미엄 구독</td><td>전 품목·국가 예측 무제한, 둔화 경보 알림, AI 상담 무제한</td><td>월 9,900원</td></tr>
+    <tr><td>B2G 관제 SaaS</td><td>관세청·KOTRA·지자체 수출지원기관 대시보드 라이선스(공공 환류)</td><td>기관당 연 2~6천만원</td></tr>
+    <tr><td>제휴·커머스</td><td>물류·통관·번역·인증 파트너 연계, 수출바우처 매칭 수수료</td><td>건당 수수료</td></tr>
+  </table>
+  <div class="grid2">
+    <div class="card"><h3>추진 의지·로드맵</h3><p class="small">프로토타입 개발·라이브 배포 완료(본 문서 수록 화면). <b>1년차</b> 실데이터 동기화·수출지원기관 시범 →
+      <b>2년차</b> HS 자동분류·FTA 융합·국산 LLM 정식 연동 → <b>3년차</b> 인바운드(해외 바이어 매칭)·예비창업 패키지.</p></div>
+    <div class="card"><h3>창업(사업화) 계획</h3><p class="small">예비창업자 트랙으로 시작해 수출지원기관 B2G 레퍼런스 확보 → 구독 B2C 확장.
+      관세청·KOTRA 협력 채널과 수출바우처 연계로 초기 신뢰·유통을 확보합니다.</p></div>
+  </div>
+</section>
+</div>
+
+<!-- ───────── 5 차별성·독창성 ───────── -->
+<div class="page">
+<section>
+  <div class="sec-h"><span class="no">5</span><h2>기존 서비스와 차별성 및 독창성</h2><span class="crit">심사: 차별성</span></div>
+  <table>
+    <tr><th style="width:22%">구분</th><th>무역통계 누리집·K-stat</th><th>TRASS 등 유료 통계</th><th>관세청 빅데이터포털</th><th style="background:#e7f6f3">무역풍</th></tr>
+    <tr><td>핵심 성격</td><td>통계 조회·다운로드</td><td>통계 조회·리포트</td><td>트렌드 열람</td><td><b>예측·조기경보·상담</b></td></tr>
+    <tr><td>미래 전망</td><td class="pillno">—</td><td class="pillno">—</td><td class="pillno">—</td><td class="pillok">국가별 6개월 예측</td></tr>
+    <tr><td>의사결정 지원</td><td class="pillno">표·그래프</td><td>리포트</td><td class="pillno">표·그래프</td><td class="pillok">기회점수·AI 권고</td></tr>
+    <tr><td>대화형 AI</td><td class="pillno">—</td><td class="pillno">—</td><td class="pillno">—</td><td class="pillok">근거기반 AI 참모</td></tr>
+    <tr><td>대상</td><td>실무·연구자</td><td>기업</td><td>실무</td><td class="pillok">수출 소상공인·중소기업</td></tr>
+    <tr><td>공공 환류(B2G)</td><td class="pillno">—</td><td class="pillno">—</td><td class="pillno">—</td><td class="pillok">기관 관제 콘솔</td></tr>
+  </table>
+  <div class="grid3" style="margin-top:5px">
+    <div class="card"><h3>① 조회→예측</h3><p class="small">국내 무역통계 서비스 대부분이 ‘과거 조회’에 머무는 반면, 무역풍은 국가별 <b>미래 수요와 조기경보</b>를 제공.</p></div>
+    <div class="card"><h3>② 표→대화·권고</h3><p class="small">소상공인 눈높이의 <b>일기예보 UX와 AI 상담</b>으로 데이터 문해력 장벽을 제거.</p></div>
+    <div class="card"><h3>③ 소비→환류</h3><p class="small">공공데이터를 소비만 하지 않고 <b>집계 인사이트를 B2G로 되돌리는</b> 양방향 모델.</p></div>
+  </div>
+</section>
+
+<!-- ───────── 6 기대효과 ───────── -->
+<section>
+  <div class="sec-h"><span class="no">6</span><h2>기대 효과 (사회적 가치)</h2><span class="crit">심사: 효과성</span></div>
+  <div class="grid2">
+    <div class="card"><h3>정량적 기대효과</h3>
+      <table style="margin:0"><tr><th>지표</th><th>기대</th></tr>
+      <tr><td>소상공인 시장조사 시간</td><td class="pillok">수일 → 수분</td></tr>
+      <tr><td>첫 수출국 선정 실패율</td><td class="pillok">감(感) → 데이터 근거</td></tr>
+      <tr><td>둔화 시장 사전 회피</td><td class="pillok">조기경보로 손실 선제 대응</td></tr>
+      <tr><td>공공데이터 활용 저변</td><td class="pillok">전문가 → 일반 수출자</td></tr></table></div>
+    <div class="card"><h3>정성적 기대효과</h3>
+      <ul class="small" style="margin:0">
+        <li><b>한류 수출 저변 확대</b> — K-Food·뷰티·컬처 소상공인의 해외 진출 문턱을 낮춤(범정부 한류·K-브랜드 정책과 정렬)</li>
+        <li><b>지역·청년 수출 창업</b> 촉진, 일자리 창출</li>
+        <li><b>공공데이터 생태계 기여</b> — 관세 무역데이터의 민간 활용 모범사례, B2G 환류</li>
+        <li><b>국산 AI 자립</b> — 외산 의존 없는 예측·경보 + 국산 LLM 상담</li>
+      </ul></div>
+  </div>
+  <p class="small lead">요약 — 무역풍은 “글로벌 실물경제의 거울”인 관세 무역데이터를 <b>국산 AI</b>로 번역해,
+    한류 수출 소상공인의 의사결정을 돕고 공공데이터를 사회적 가치로 환원합니다.</p>
+</section>
+</div>
+
+<!-- ───────── 부록: 실행 화면 ───────── -->
+<div class="page">
+<section>
+  <div class="sec-h"><span class="no">부록 A</span><h2>실행 화면 (실제 구동 캡처)</h2></div>
+  <div class="shots3">
+    <figure style="margin:0"><img class="shot" src="../assets/screens/01-home.png"><figcaption>① 홈 · 수출 일기예보</figcaption></figure>
+    <figure style="margin:0"><img class="shot" src="../assets/screens/02-radar.png"><figcaption>② 급등시장 레이더·조기경보</figcaption></figure>
+    <figure style="margin:0"><img class="shot" src="../assets/screens/03-advisor.png"><figcaption>③ AI 무역참모 ‘바람이’</figcaption></figure>
+  </div>
+  <div class="grid2" style="margin-top:8px; align-items:start">
+    <figure style="margin:0"><img class="shot" src="../assets/screens/04-report.png"><figcaption class="small muted" style="text-align:center">④ 내 수출 리포트(예측·AI 권고)</figcaption></figure>
+    <figure style="margin:0"><img class="shot" src="../assets/screens/05-dashboard.png"><figcaption class="small muted" style="text-align:center">⑤ B2G 관제 콘솔(공공 환류)</figcaption></figure>
+  </div>
+</section>
+<section>
+  <div class="sec-h"><span class="no">부록 B</span><h2>발표 시연 시나리오</h2></div>
+  <table>
+    <tr><th style="width:16%">화면</th><th>시연 내용</th></tr>
+    <tr><td>홈</td><td>품목 ‘라면’ 선택 → ‘급등’ 날씨와 떠오르는 시장 자동 표출(관세청 데이터→AI 점수 변환 설명)</td></tr>
+    <tr><td>레이더</td><td>김치·김·라면의 미국·동남아 급등 + 화장품 對중국 둔화 조기경보 확인</td></tr>
+    <tr><td>AI 참모</td><td>“라면 어디에 수출하면 좋을까?” 입력 → 수치 근거와 예측 차트로 답변(환각 없음 강조)</td></tr>
+    <tr><td>리포트</td><td>김→미국 6개월 예측·AI 권고·유사 시장 추천</td></tr>
+    <tr><td>B2G 콘솔</td><td>품목×시장 기회 히트맵·급등 TOP10·둔화 경보 — 수출지원기관 활용(공공 환류)</td></tr>
+  </table>
+  <p class="foot">데이터 출처: 관세청 품목별 국가별 수출입실적(공공데이터포털). 데모 데이터는 공개 통계에 앵커링한 대표 스냅샷으로 개인·기업 식별정보를 포함하지 않으며, 인증키 연동 시 실데이터로 대체됩니다.
+  예측·기회점수는 무역풍 자체 개발 국산 AI 산출. 실행 확인: https://spcx0701.github.io/tradewind/ · 소스: https://github.com/spcx0701/tradewind</p>
+</section>
+</div>
+
+</body>
+</html>

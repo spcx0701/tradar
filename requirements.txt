@@ -1,0 +1,6 @@
+# 무역풍 런타임 의존성 (FastAPI 라이브-API 서버용)
+# 정적 PWA 데모는 의존성 없이 동작 — 아래는 server/main.py(live API) 실행 시 필요.
+fastapi>=0.110
+uvicorn[standard]>=0.27
+numpy>=1.26
+pydantic>=2.5

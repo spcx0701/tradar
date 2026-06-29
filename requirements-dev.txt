@@ -1,0 +1,7 @@
+-r requirements.txt
+pytest>=8.0
+httpx>=0.27          # FastAPI TestClient
+ruff>=0.4            # lint
+cairosvg>=2.7        # 아이콘 래스터화(아이콘 재생성 시)
+pillow>=10           # 스크린샷 합성
+qrcode>=7            # 데모 QR 생성

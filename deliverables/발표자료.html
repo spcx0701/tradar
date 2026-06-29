@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>무역풍 발표자료</title>
+<style>
+  @page { size: 280mm 157.5mm; margin: 0; }   /* 16:9 */
+  *{ box-sizing:border-box; margin:0; }
+  :root{ --navy:#0a2540; --blue:#0b5fa5; --teal:#12b3a6; --amber:#f59e0b; --ink:#16233a; --muted:#5b6b82; --line:#dce5f0; --soft:#f1f7fd; --surge:#16a34a; --cool:#dc2626; }
+  body{ font-family:"Apple SD Gothic Neo","Pretendard","Noto Sans KR",sans-serif; color:var(--ink); }
+  .s{ width:280mm; height:157.5mm; padding:15mm 18mm; page-break-after:always; position:relative; overflow:hidden; }
+  .s:last-child{ page-break-after:auto; }
+  .kick{ color:var(--teal); font-weight:800; font-size:13px; letter-spacing:.06em; text-transform:uppercase; }
+  h1{ font-size:30px; color:var(--navy); letter-spacing:-.02em; margin:4px 0 14px; }
+  h1.big{ font-size:46px; }
+  p{ font-size:15px; line-height:1.6; } .mut{ color:var(--muted); }
+  .pageno{ position:absolute; bottom:8mm; right:14mm; font-size:11px; color:#9fb0c4; }
+  .brandmark{ position:absolute; bottom:7mm; left:18mm; font-size:11px; color:#9fb0c4; font-weight:700; }
+  /* 표지 */
+  .cover{ background:linear-gradient(135deg,#0a2540,#0b5fa5 58%,#12b3a6 130%); color:#fff; display:flex; flex-direction:column; justify-content:center; }
+  .cover .glow{ position:absolute; right:-50px; top:-60px; width:320px; height:320px; background:radial-gradient(circle,rgba(245,158,11,.34),transparent 68%); }
+  .cover .tag{ background:rgba(255,255,255,.18); padding:6px 16px; border-radius:999px; font-weight:700; font-size:14px; display:inline-block; width:fit-content; }
+  .cover h1{ color:#fff; font-size:62px; margin:18px 0 6px; }
+  .cover .en{ font-size:22px; opacity:.9; font-weight:600; }
+  .cover .sub{ font-size:18px; opacity:.94; margin-top:18px; max-width:200mm; }
+  .row{ display:flex; gap:18px; } .col{ flex:1; }
+  .card{ border:1px solid var(--line); border-radius:14px; padding:16px 18px; background:#fff; }
+  .card h3{ color:var(--blue); font-size:17px; margin-bottom:6px; }
+  .card p{ font-size:13.5px; }
+  .soft{ background:var(--soft); }
+  table{ width:100%; border-collapse:collapse; font-size:13.5px; margin-top:10px; }
+  th,td{ border:1px solid var(--line); padding:8px 10px; text-align:left; }
+  th{ background:var(--soft); color:var(--navy); }
+  .ok{ color:var(--surge); font-weight:700; } .no{ color:#b6c2d2; }
+  .shotrow{ display:flex; gap:14px; margin-top:8px; } .shotrow img{ height:96mm; border:1px solid var(--line); border-radius:12px; }
+  .big-quote{ font-size:21px; color:var(--navy); line-height:1.5; border-left:5px solid var(--teal); padding-left:16px; }
+  .kpi{ display:flex; gap:14px; margin-top:14px; } .kpi .k{ flex:1; background:var(--soft); border:1px solid var(--line); border-radius:12px; padding:14px; text-align:center; }
+  .kpi .k b{ font-size:26px; color:var(--blue); display:block; } .kpi .k span{ font-size:12px; color:var(--muted); }
+  ul{ padding-left:20px; } li{ font-size:14.5px; margin:6px 0; }
+  .qr{ width:120px; height:120px; }
+</style>
+</head>
+<body>
+
+<!-- 1 표지 -->
+<div class="s cover"><div class="glow"></div>
+  <span class="tag">2026 관세청 공공데이터·AI 활용 창업경진대회 · 제품 및 서비스 개발</span>
+  <h1>무역풍 <span style="font-size:34px">Tradewind</span></h1>
+  <div class="en">관세 무역데이터·국산 AI 기반 한류 수출 수요예측·조기경보 ‘AI 무역참모’</div>
+  <div class="sub">“수출의 바람을 먼저 읽다” — K-Food·K-뷰티·K-컬처 수출 소상공인·중소기업을 위한 모바일 앱·웹</div>
+  <div class="brandmark" style="color:#cfe3f5">spcx0701.github.io/tradewind &nbsp;·&nbsp; 팀명 【기재】</div>
+</div>
+
+<!-- 2 문제 -->
+<div class="s">
+  <div class="kick">왜 지금, 무역풍인가</div>
+  <h1>수출 소상공인은 ‘감(感)’으로 첫 시장을 고른다</h1>
+  <div class="big-quote">“한류 수요 예측 모델부터 수출입 비즈니스 서비스까지<br>다양한 우수 사례가 발굴되기를 희망한다.” — 관세청장</div>
+  <div class="row" style="margin-top:18px">
+    <div class="card col"><h3>📉 정보 비대칭</h3><p>대기업은 시장조사팀, 소상공인은 감. 첫 수출국 선정이 곧 성패.</p></div>
+    <div class="card col"><h3>🗂️ 못 쓰는 데이터</h3><p>관세청 통계는 방대하지만 HS코드·표의 벽에 막혀 현장에서 안 읽힘.</p></div>
+    <div class="card col"><h3>⏱️ 한발 늦은 진출</h3><p>달아오른 뒤 진입하면 레드오션. ‘달아오르기 전’ 신호가 없다.</p></div>
+  </div>
+  <p class="mut" style="margin-top:14px">→ K-Food 수출 100억 달러 시대, 정작 수출자를 위한 ‘쉬운 수출 인텔리전스’는 공백.</p>
+  <div class="brandmark">무역풍 Tradewind</div><div class="pageno">2</div>
+</div>
+
+<!-- 3 솔루션 -->
+<div class="s">
+  <div class="kick">솔루션</div>
+  <h1>관세청 데이터를 ‘예보·레이더·AI 참모’로 번역</h1>
+  <div class="row">
+    <div class="col">
+      <div class="card soft"><h3>🌤️ 수출 일기예보</h3><p>품목·국가별 6개월 수요예측을 ‘맑음/흐림’으로.</p></div>
+      <div class="card soft" style="margin-top:10px"><h3>📡 급등 레이더·조기경보</h3><p>떠오르는 시장·식어가는 시장을 기회점수로 신호.</p></div>
+      <div class="card soft" style="margin-top:10px"><h3>💬 AI 무역참모 ‘바람이’</h3><p>“라면 어디 팔까?” → 실제 수치 근거로 답변(환각 차단).</p></div>
+    </div>
+    <div class="col" style="flex:1.1">
+      <div class="shotrow"><img src="../assets/screens/01-home.png"><img src="../assets/screens/03-advisor.png"></div>
+    </div>
+  </div>
+  <div class="brandmark">무역풍 Tradewind</div><div class="pageno">3</div>
+</div>
+
+<!-- 4 데이터+AI -->
+<div class="s">
+  <div class="kick">기술성 · 공공데이터+AI 활용</div>
+  <h1>관세청 공공데이터 + 100% 국산 AI</h1>
+  <div class="row">
+    <div class="card col"><h3>관세청 공공데이터(필수)</h3>
+      <p><b>품목별 국가별 수출입실적</b>(공공데이터포털, nitemtrade) — HS×국가×월 수출입.<br>국가별·품목별 실적, 표준품명(HSK) 보강. 인증키로 실시간 동기화.</p></div>
+    <div class="card col"><h3>국산 AI(자체 개발)</h3>
+      <p>① 예측: 승법 계절분해 + 감쇠 로그선형 추세(numpy, 외산 무의존)<br>② 경보: 모멘텀·가속도·변동성 스코어<br>③ 상담: 근거검색 NLG + 국산 LLM(Solar·HyperCLOVA X)</p></div>
+  </div>
+  <div class="kpi">
+    <div class="k"><b>12품목·22국</b><span>분석 대상</span></div>
+    <div class="k"><b>6개월</b><span>국가별 예측</span></div>
+    <div class="k"><b>MAPE ~10%</b><span>예측 적합도</span></div>
+    <div class="k"><b>+5점</b><span>국산 AI 가점 대응</span></div>
+  </div>
+  <div class="brandmark">무역풍 Tradewind</div><div class="pageno">4</div>
+</div>
+
+<!-- 5 차별성 -->
+<div class="s">
+  <div class="kick">차별성</div>
+  <h1>‘조회’가 아니라 ‘예측·상담’</h1>
+  <table>
+    <tr><th style="width:24%">구분</th><th>무역통계 누리집·K-stat</th><th>관세청 빅데이터포털</th><th style="background:#e7f6f3">무역풍</th></tr>
+    <tr><td>성격</td><td>통계 조회·다운로드</td><td>트렌드 열람</td><td class="ok">예측·조기경보·AI 상담</td></tr>
+    <tr><td>미래 전망</td><td class="no">—</td><td class="no">—</td><td class="ok">국가별 6개월 예측</td></tr>
+    <tr><td>의사결정</td><td>표·그래프</td><td>표·그래프</td><td class="ok">기회점수·AI 권고</td></tr>
+    <tr><td>대상</td><td>실무·연구자</td><td>실무</td><td class="ok">수출 소상공인·중소기업</td></tr>
+    <tr><td>공공 환류</td><td class="no">—</td><td class="no">—</td><td class="ok">B2G 관제 콘솔</td></tr>
+  </table>
+  <p style="margin-top:14px"><b>독창 3축</b> — 조회→예측 · 표→대화/권고 · 소비→B2G 환류(양방향).</p>
+  <div class="brandmark">무역풍 Tradewind</div><div class="pageno">5</div>
+</div>
+
+<!-- 6 시연 -->
+<div class="s">
+  <div class="kick">라이브 시연</div>
+  <h1>설치 없이, 지금 바로 (URL·QR)</h1>
+  <div class="row">
+    <div class="col" style="flex:1.2">
+      <table style="margin-top:0">
+        <tr><th>화면</th><th>시연</th></tr>
+        <tr><td>홈</td><td>‘라면’ 급등 날씨 + 떠오르는 시장 자동 표출</td></tr>
+        <tr><td>레이더</td><td>김치·김 對미국 급등 / 화장품 對중국 둔화 경보</td></tr>
+        <tr><td>AI 참모</td><td>“라면 어디에?” → 수치 근거 + 예측 차트</td></tr>
+        <tr><td>B2G 콘솔</td><td>품목×시장 기회 히트맵(공공 환류)</td></tr>
+      </table>
+      <p class="mut" style="margin-top:12px">spcx0701.github.io/tradewind — 모바일·PC 즉시 실행(오프라인 지원)</p>
+    </div>
+    <div class="col" style="text-align:center"><img class="qr" src="../assets/brand/qr-demo.png"><br><span class="mut">웹앱 QR</span></div>
+  </div>
+  <div class="brandmark">무역풍 Tradewind</div><div class="pageno">6</div>
+</div>
+
+<!-- 7 발전가능성 -->
+<div class="s">
+  <div class="kick">발전 가능성</div>
+  <h1>B2C 구독 × B2G SaaS × 제휴</h1>
+  <div class="row">
+    <div class="card col"><h3>시장</h3><p>수출 중소기업 약 9만 개사, K-Food 수출자 다수가 소상공인. ‘쉬운 수출 인텔리전스’ 공백의 첫 주자.</p></div>
+    <div class="card col"><h3>수익모델</h3><p>B2C 구독 월 9,900원 · B2G 관제 SaaS 기관당 연 2~6천만원 · 물류/통관/번역 제휴·수출바우처 매칭.</p></div>
+    <div class="card col"><h3>로드맵</h3><p>1년 실데이터·기관 시범 → 2년 HS 자동분류·FTA 융합·국산 LLM → 3년 해외 바이어 매칭.</p></div>
+  </div>
+  <div class="brandmark">무역풍 Tradewind</div><div class="pageno">7</div>
+</div>
+
+<!-- 8 기대효과 + 마무리 -->
+<div class="s cover" style="justify-content:space-between"><div class="glow"></div>
+  <div>
+    <div class="tag">기대 효과</div>
+    <h1 style="margin-top:14px">한류 수출의 저변을 넓히고, 공공데이터를 사회가치로</h1>
+  </div>
+  <ul style="color:#eaf3fb; font-size:16px">
+    <li>소상공인 시장조사 <b>수일 → 수분</b>, 첫 수출국 선정을 <b>데이터 근거</b>로</li>
+    <li>둔화 시장 <b>조기경보</b>로 손실 선제 대응 · 한류 수출 저변·청년 수출창업 확대</li>
+    <li>관세 무역데이터의 민간 활용 <b>모범사례 + B2G 환류</b> · <b>국산 AI 자립</b></li>
+  </ul>
+  <div class="row" style="align-items:flex-end">
+    <div style="flex:1"><div class="en" style="font-size:28px; font-weight:800; color:#fff">“수출의 바람을 먼저 읽다”</div>
+      <div style="color:#cfe3f5; margin-top:6px">spcx0701.github.io/tradewind · github.com/spcx0701/tradewind</div></div>
+    <img class="qr" src="../assets/brand/qr-demo.png" style="background:#fff; border-radius:10px; padding:6px">
+  </div>
+  <div class="pageno" style="color:#cfe3f5">8</div>
+</div>
+
+</body>
+</html>
