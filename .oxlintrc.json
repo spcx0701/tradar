@@ -1,0 +1,6 @@
+{
+  "ignorePatterns": [
+    "app/vendor/**",
+    "app/_ds/**"
+  ]
+}
