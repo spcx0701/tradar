@@ -13,6 +13,7 @@
   <a href="https://www.codefactor.io/repository/github/spcx0701/tradar"><img alt="CodeFactor" src="https://www.codefactor.io/repository/github/spcx0701/tradar/badge"></a>
   <a href="https://codecov.io/gh/spcx0701/tradar"><img alt="Coverage" src="https://img.shields.io/codecov/c/github/spcx0701/tradar?label=coverage&logo=codecov"></a>
   <a href="https://scorecard.dev/viewer/?uri=github.com/spcx0701/tradar"><img alt="OpenSSF Scorecard" src="https://api.scorecard.dev/projects/github.com/spcx0701/tradar/badge"></a>
+  <a href="https://www.bestpractices.dev/en/projects/13452"><img alt="OpenSSF Best Practices" src="https://www.bestpractices.dev/projects/13452/badge"></a>
   <a href="https://sonarcloud.io/summary/overall?id=spcx0701_tradewind&branch=main"><img alt="Bugs" src="https://sonarcloud.io/api/project_badges/measure?project=spcx0701_tradewind&metric=bugs"></a>
   <a href="https://sonarcloud.io/summary/overall?id=spcx0701_tradewind&branch=main"><img alt="Security Rating" src="https://sonarcloud.io/api/project_badges/measure?project=spcx0701_tradewind&metric=security_rating"></a>
   <a href="https://sonarcloud.io/summary/overall?id=spcx0701_tradewind&branch=main"><img alt="Maintainability Rating" src="https://sonarcloud.io/api/project_badges/measure?project=spcx0701_tradewind&metric=sqale_rating"></a>

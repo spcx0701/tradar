@@ -12,6 +12,7 @@ Tradar badges follow the ForestMate rule: badges should point at live provider-b
 | CodeFactor code quality | CodeFactor | The public repository review was requested through CodeFactor and the live badge reports grade `B`. |
 | Codecov coverage | Codecov | `CI / test` uploads `coverage.xml` with GitHub OIDC after the repository was connected in Codecov. |
 | OpenSSF Scorecard | OpenSSF | `.github/workflows/scorecard.yml` publishes Scorecard results and uploads SARIF. |
+| OpenSSF Best Practices | OpenSSF | Tradar is registered as Best Practices project `13452`; the live badge reports `in progress 0%`. |
 | SonarCloud | SonarCloud | The GitHub repository is imported as project key `spcx0701_tradewind` and exposes Bugs, Security Rating, Maintainability Rating, and Technical Debt badges. |
 
 ## Not displayed until provider-backed
@@ -19,7 +20,6 @@ Tradar badges follow the ForestMate rule: badges should point at live provider-b
 | Surface | Why it is not in the README yet |
 |---|---|
 | GitHub Code Quality | GitHub's Code Quality setup API returned `Code quality is not available for this repository.` |
-| OpenSSF Best Practices | `https://www.bestpractices.dev/projects.json?url=https%3A%2F%2Fgithub.com%2Fspcx0701%2Ftradar` returns `[]`, so Tradar still needs its own Best Practices project id. Creating one requires Best Practices GitHub login/authorization and public profile display; do not reuse ForestMate's project id. |
 | REUSE API | The `github.com/spcx0701/tradar` REUSE API project was not registered at setup time. |
 | Store badges | There was no verified Google Play, F-Droid, Obtainium, or other store listing for Tradar at setup time. |
 | Product/static badges | Language, license, service, PWA, data, AI, and chart-library badges are intentionally omitted from the README badge row. |
