@@ -4,7 +4,7 @@
 
 <h1 align="center">Tradar · 트레이더</h1>
 
-<p align="center"><strong>관세청 수출입통계와 국산 AI로 한류 수출 시장을 스코어링하고, 떠오르는 시장을 먼저 포착하는 수출 인텔리전스 플랫폼.</strong></p>
+<p align="center"><strong>관세청 수출입통계(HS코드)와 AI로 전 수출산업의 품목·국가별 시장을 스코어링·예측하는 수출 데이터 분석 플랫폼.</strong></p>
 
 <p align="center">
   <img alt="license" src="https://img.shields.io/badge/license-MIT-blue">
@@ -15,85 +15,82 @@
 </p>
 
 <p align="center">
-  <a href="https://spcx0701.github.io/tradewind/"><strong>플랫폼 열기</strong></a> ·
-  <a href="https://spcx0701.github.io/tradewind/home.html"><strong>서비스 소개</strong></a> ·
-  <a href="https://spcx0701.github.io/tradewind/dashboard.html"><strong>B2G 관제 콘솔</strong></a> ·
+  <a href="https://spcx0701.github.io/tradar/"><strong>플랫폼 열기 →</strong></a> ·
   <a href="https://www.data.go.kr/data/15100475/openapi.do"><strong>관세청 데이터</strong></a>
 </p>
 
 > **2026 관세청 공공데이터·AI 활용 창업경진대회** 출품작 (제품 및 서비스 개발 부문).
-> K-Food·K-뷰티·K-컬처 **수출 소상공인·중소기업**을 위한 수출 인텔리전스 플랫폼.
+> 반도체·자동차·2차전지·조선부터 K-Food·K-뷰티까지 **전 수출산업 28개 품목 × 주요국**을 다룹니다.
 
 <p align="center">
   <img src="assets/screens/01-command.png" width="49%" alt="커맨드센터">
   <img src="assets/screens/02-map.png" width="49%" alt="마켓맵">
 </p>
 <p align="center">
-  <img src="assets/screens/03-score.png" width="49%" alt="스코어 분석">
-  <img src="assets/screens/04-advisor.png" width="49%" alt="AI 무역참모">
+  <img src="assets/screens/03-score.png" width="49%" alt="스코어 프로파일">
+  <img src="assets/screens/05-discovery.png" width="49%" alt="디스커버리">
 </p>
 
 ---
 
-## 무엇을 하나요
-
-수출을 시작하려는 소상공인의 가장 큰 질문은 **"어느 나라부터 뚫어야 하나?"** 입니다.
-Tradar는 관세청 무역통계를 국산 AI로 해석해 그 결정을 데이터로 바꿉니다.
+## 화면
 
 | 화면 | 설명 |
 |------|------|
-| 🧭 **커맨드센터** | Top Opportunities · Fastest Rising · Markets Heating Up · Risk Alerts를 한눈에 |
-| 🗺️ **마켓맵** | FINVIZ 스타일 트리맵 — 타일 크기=수출액, 색=모멘텀(초록 상승 / 빨강 둔화) |
-| 📊 **스코어 분석** | **Tradar Score**(수요·성장·안정성·잠재력 종합 0~100) + 6개월 AI 예측·유사 시장 클러스터 |
-| 💬 **AI 무역참모 ‘바람이’** | “라면 어디에 팔까?” → 실제 수출 수치·스코어를 **근거로** 답변(환각 차단) |
-| 🔎 **디스커버리** | 156개 시장을 스코어로 정렬·필터 탐색 · **B2G 콘솔**(공공 환류 히트맵) |
+| 🧭 **커맨드센터** | Top 수출 기회 · 달아오르는 시장 · 리스크 경보 · 뉴스 시그널을 한눈에 |
+| 🗺️ **마켓맵** | FINVIZ 스타일 트리맵 — 타일 크기=수출액, 색=모멘텀(초록 상승 / 빨강 둔화). 분야별·국가별 |
+| 📊 **스코어 프로파일** | 품목별 **Tradar Score**·하위점수·수출 추세·국가별 구성·이벤트 타임라인·리스크 인덱스 |
+| 🔎 **디스커버리** | 28개 품목을 Tradar Score로 정렬·카테고리 필터(K-Food/반도체/2차전지…) |
+| 📰 **뉴스 인텔리전스** | 실시간 뉴스 시그널을 품목·시장에 자동 연결(감성·영향도·관련 품목) |
+| 💬 **AI 애널리스트** | 품목·시장·뉴스를 실제 수치 근거로 답변. ⌘K 커맨드 팔레트 |
 
-⌘K 커맨드 팔레트 · 워치리스트 · 오프라인 PWA 지원.
+## 데이터 (관세청 실데이터 연동)
 
-## 데이터 + AI (국산)
+- **필수 공공데이터** — 관세청 [품목별 국가별 수출입실적](https://www.data.go.kr/data/15100475/openapi.do)(공공데이터포털, `apis.data.go.kr/1220000/nitemtrade`). 각 품목의 **HS코드 기준**으로 연동.
+- **파이프라인** — [scripts/build_tradar_data.py](scripts/build_tradar_data.py) 가 HS코드별 실적을 받아 연수출액·전년비·국가별 비중을 계산해 `app/data/tradar.js`로 굽는다.
+  - `DATA_GO_KR_KEY` 설정 시 data.go.kr에서 **실시간 동기화**([server/customs_client.py](server/customs_client.py)).
+  - 미설정 시 **2024년 관세청 공표치 앵커**(데모가 항상 동작).
+- **AI/분석(국산)** — Tradar Score(시장 매력도), 수요 추세, 이상탐지 등은 앱 내 자체 로직으로 산출. 별도 국산 AI 엔진(승법 계절분해·조기경보·근거기반 상담)이 [server/](server/)에 포함되어 파이프라인에 연결 가능.
 
-- **필수 공공데이터** — 관세청 [품목별 국가별 수출입실적](https://www.data.go.kr/data/15100475/openapi.do)(공공데이터포털, `apis.data.go.kr/1220000/nitemtrade`). HS코드 × 국가 × 월 수출입.
-- **국산 AI(자체 개발, numpy)** — 외산 모델·API 의존 없이:
-  - 수요예측: 승법 계절분해 + 감쇠 로그선형 추세 ([server/forecasting.py](server/forecasting.py))
-  - 조기경보: 모멘텀·가속도·변동성 스코어 ([server/radar.py](server/radar.py))
-  - **Tradar Score**: 수요·성장·안정성·잠재력 종합 ([server/scoring.py](server/scoring.py))
-  - AI 상담: 수치 근거 검색 NLG + 국산 LLM(Solar·HyperCLOVA X) 어댑터 ([server/advisor.py](server/advisor.py))
-
-> 심사 가점(국산 AI 최대 +5점)에 직접 대응합니다.
+> 관세청 공공데이터(필수) + 국산 AI → 심사 가점(국산 AI 최대 +5점)에 직접 대응.
 
 ## 작동 방식
 
 ```
-관세청 OpenAPI ──(customs_client)──▶ snapshot.json ──(forecasting·radar·scoring)──▶ app/data/*.json ──▶ 정적 SPA(ECharts)
-       └ 실서비스: 인증키로 실시간 동기화        └ 데모: 재현 가능 스냅샷(오프라인 동작)             └ 또는 FastAPI 라이브 API(/api)
+관세청 품목별 국가별 수출입실적 (HS코드)
+        │  scripts/build_tradar_data.py  (인증키 시 실시간 / 미설정 시 2024 공표치 앵커)
+        ▼
+app/data/tradar.js  ──▶  Tradar SPA (React + ECharts, Chartmetric 디자인시스템)
 ```
 
 ## 빠른 시작
 
 ```bash
-pip install -r requirements-dev.txt
-python scripts/generate_snapshot.py     # 관세청 스냅샷 생성
-python scripts/build_app_data.py        # AI 산출물(예측·레이더·스코어) → app/data/*.json
+python scripts/build_tradar_data.py     # 관세청 데이터 → app/data/tradar.js (인증키 시 실시간)
 python scripts/serve.py                 # 플랫폼: http://localhost:5183
-pytest -q                               # 테스트
 ```
 
 ## 구조
 
 ```
-server/      FastAPI · 예측·레이더·스코어·AI 상담 엔진 + 관세청 API 클라이언트
-app/         정적 SPA(Tradar 플랫폼·B2G 콘솔·랜딩), tradar.css 디자인 시스템, ECharts
-scripts/     스냅샷 생성 · 데이터 빌드 · 서버 · 화면 캡처
-packaging/   Android(Jetpack Compose + TWA)
-deliverables/ 대회 제출물(기획서·공통양식·발표자료)
-docs/        아키텍처 · 데이터 출처
+app/
+  index.html         Tradar 플랫폼(Claude Design 원본) + PWA 메타
+  support.js         디자인 런타임(dc-runtime)
+  _ds/               Chartmetric 디자인 시스템(토큰·스타일·컴포넌트)
+  data/tradar.js     관세청 연동 데이터(build_tradar_data.py 산출)
+  vendor/            React 18 · ECharts 5 (오프라인용 로컬 벤더링)
+server/              관세청 API 클라이언트 + 국산 AI 엔진(예측·스코어·상담)
+scripts/             build_tradar_data.py(데이터 파이프라인) · serve · capture
+packaging/android/   Android(Jetpack Compose + TWA)
+deliverables/        대회 제출물(기획서·공통양식·발표자료)
+design/              Tradar.dc.html 원본(Claude Design 소스)
 ```
 
 ## 디자인 시스템
 
-Tradar UI는 Chartmetric 스타일의 라이트 데이터-덴스 디자인 시스템([app/tradar.css](app/tradar.css))을 따릅니다 —
-다크 사이드바 + 화이트 캔버스, 절제된 블루 액센트, 브랜드 그라디언트, 탭ular 숫자, ECharts 시각화.
+Tradar UI는 Chartmetric 스타일의 라이트 데이터-덴스 디자인 시스템([app/_ds](app/_ds))을 따릅니다 —
+다크 사이드바 + 화이트 캔버스, 절제된 블루 액센트, 브랜드 그라디언트(cyan→blue→violet), 탭ular 숫자, ECharts 시각화.
 
 ## 라이선스
 
-[MIT](LICENSE). 데모 데이터는 관세청 공개 통계에 앵커링한 대표 스냅샷이며 개인·기업 식별정보를 포함하지 않습니다.
+[MIT](LICENSE). 데모 데이터는 관세청 공개 통계에 앵커링한 값이며 개인·기업 식별정보를 포함하지 않습니다.

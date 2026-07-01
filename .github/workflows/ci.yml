@@ -29,13 +29,8 @@ jobs:
     environment: { name: github-pages, url: "${{ steps.deploy.outputs.page_url }}" }
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with: { python-version: "3.12" }
-      - run: pip install numpy
-      - name: Build static data
-        run: |
-          python scripts/generate_snapshot.py
-          python scripts/build_app_data.py
+      # Tradar 플랫폼 정적 배포 — app/(원본 디자인 + data/tradar.js) 그대로 업로드.
+      # 관세청 실데이터 갱신은 로컬/배치에서 scripts/build_tradar_data.py 로 수행(DATA_GO_KR_KEY).
       - uses: actions/upload-pages-artifact@v3
         with: { path: app }
       - id: deploy
