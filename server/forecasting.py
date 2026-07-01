@@ -15,6 +15,8 @@ from dataclasses import dataclass
 import numpy as np
 
 PERIOD = 12  # 월별 계절성
+MIN_HORIZON = 1
+MAX_HORIZON = 12
 
 
 @dataclass
@@ -27,6 +29,11 @@ class ForecastResult:
     trend_pct: float     # 월 환산 추세(감쇠 후)
     season_strength: float
     level: float
+
+
+def clamp_horizon(value: int) -> int:
+    """Keep public forecast requests inside the supported monthly range."""
+    return min(max(int(value), MIN_HORIZON), MAX_HORIZON)
 
 
 def _seasonal_init(y: np.ndarray) -> np.ndarray:
@@ -63,13 +70,14 @@ def forecast(
 
     감쇠 로그선형은 설명 가능(explainable)하고 외산 모델 의존이 없다(국산 AI).
     """
+    safe_horizon = clamp_horizon(horizon)
     y = np.asarray(y, dtype=np.float64)
     y = np.maximum(y, 1.0)
     n = len(y)
     if n < PERIOD * 2:
         m = float(y[-min(6, n):].mean())
-        return ForecastResult(horizon, [m] * horizon, [m * 0.8] * horizon,
-                              [m * 1.2] * horizon, 0.0, 0.0, 0.0, m)
+        return ForecastResult(safe_horizon, [m] * safe_horizon, [m * 0.8] * safe_horizon,
+                              [m * 1.2] * safe_horizon, 0.0, 0.0, 0.0, m)
 
     seasonal = _seasonal_init(y)
     seas_full = seasonal[np.arange(n) % PERIOD]
@@ -91,7 +99,7 @@ def forecast(
     # 감쇠 외삽: 성장률을 phi^k 로 점차 축소
     mean, lo, hi = [], [], []
     cum = 1.0
-    for h in range(1, horizon + 1):
+    for h in range(1, safe_horizon + 1):
         cum *= (1.0 + g * (phi ** h))
         s = seasonal[(n + h - 1) % PERIOD]
         pt = max(last_level * cum * s, last_level * 0.03)
@@ -101,6 +109,6 @@ def forecast(
         hi.append(round(pt + band))
 
     season_strength = float(np.clip(seasonal.std() / 0.5, 0, 1))
-    return ForecastResult(horizon, mean, lo, hi, round(mape, 4),
+    return ForecastResult(safe_horizon, mean, lo, hi, round(mape, 4),
                           round(g, 4), round(season_strength, 3),
                           round(last_level))

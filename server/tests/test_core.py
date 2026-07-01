@@ -23,6 +23,15 @@ def test_forecast_shape_and_positive():
     assert 0 <= fc.mape < 1.0
 
 
+def test_forecast_horizon_is_bounded():
+    ds = get_dataset()
+    fc = forecast(ds.series("1902.30", "US"), 999)
+    assert fc.horizon == 12
+    assert len(fc.mean) == 12
+    assert len(fc.lo) == 12
+    assert len(fc.hi) == 12
+
+
 def test_forecast_tracks_trend():
     """상승 추세 시계열은 마지막 값 부근 이상으로 예측해야(평균회귀 아님)."""
     y = np.array([100 * (1.04 ** i) * (1.0 + 0.05 * np.sin(i)) for i in range(48)])
