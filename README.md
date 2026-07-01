@@ -76,6 +76,8 @@ python scripts/build_tradar_data.py     # 관세청 데이터 → app/data/trada
 python scripts/serve.py                 # 플랫폼: http://localhost:5183
 ```
 
+English documentation is available in [docs/ENGLISH.md](docs/ENGLISH.md).
+
 ## 참여와 피드백
 
 - 버그와 개선 제안은 [GitHub Issues](https://github.com/spcx0701/tradar/issues)로 남깁니다.
