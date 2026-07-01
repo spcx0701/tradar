@@ -1,2 +1,3 @@
 app/_ds/** linguist-generated=true
 app/vendor/** linguist-vendored=true
+app/support.js linguist-generated=true
