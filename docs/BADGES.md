@@ -9,10 +9,10 @@ Tradar badges follow the ForestMate rule: badges should point at live provider-b
 | Latest release | GitHub Releases | `https://github.com/spcx0701/tradar/releases/latest` becomes valid when a release tag is published. |
 | Build | GitHub Actions | `.github/workflows/ci.yml` runs on `main` and pull requests. |
 | CodeQL | GitHub code scanning | `.github/workflows/codeql.yml` runs on push, pull request, weekly schedule, and manual dispatch. |
-| CodeFactor code quality | CodeFactor | The public repository review was requested through CodeFactor and the live badge reports grade `B`. |
+| CodeFactor code quality | CodeFactor/Shields.io | The public repository review was requested through CodeFactor and the README uses a Shields badge labeled `code quality` for the live grade `B`. |
 | Codecov coverage | Codecov | `CI / test` uploads `coverage.xml` with GitHub OIDC after the repository was connected in Codecov. |
 | OpenSSF Scorecard | OpenSSF | `.github/workflows/scorecard.yml` publishes Scorecard results and uploads SARIF. |
-| OpenSSF Best Practices | OpenSSF | Tradar is registered as Best Practices project `13452`; the live badge reports `in progress 0%`. |
+| OpenSSF Best Practices | OpenSSF | Tradar is registered as Best Practices project `13452`; the live badge is updated from the provider edit form using repo-backed evidence. |
 | SonarCloud | SonarCloud | The GitHub repository is imported as project key `spcx0701_tradewind` and exposes Bugs, Security Rating, Maintainability Rating, and Technical Debt badges. |
 
 ## Not displayed until provider-backed
