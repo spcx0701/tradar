@@ -1,0 +1,5 @@
+[run]
+omit =
+    server/tests/*
+    scripts/capture_screens.py
+    scripts/serve.py
