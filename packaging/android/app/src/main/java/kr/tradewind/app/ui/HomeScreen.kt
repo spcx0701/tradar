@@ -37,7 +37,7 @@ fun HomeScreen(repo: Repository, onOpenWebApp: () -> Unit) {
         Button(
             onClick = onOpenWebApp,
             modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
-        ) { Text("전체 웹앱 열기 (예보·AI 참모·리포트)") }
+        ) { Text("전체 플랫폼 열기 (마켓맵·스코어·AI 참모)") }
         Spacer(Modifier.height(10.dp))
         Text(
             "🌊 지금 떠오르는 한류 수출 시장",
@@ -62,7 +62,7 @@ private fun HeroHeader() {
             .padding(20.dp),
     ) {
         Column {
-            Text("무역풍 · Tradewind", color = androidx.compose.ui.graphics.Color.White,
+            Text("Tradar · 수출 인텔리전스", color = androidx.compose.ui.graphics.Color.White,
                 fontWeight = FontWeight.ExtraBold, fontSize = 22.sp)
             Text("관세청 수출입통계 · 국산 AI 무역참모", color = androidx.compose.ui.graphics.Color(0xCCFFFFFF), fontSize = 13.sp)
         }

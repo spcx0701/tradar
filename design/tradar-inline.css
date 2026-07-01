@@ -1,0 +1,28 @@
+
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;height:100%}
+    body{background:var(--cm-bg-canvas);color:var(--cm-text-primary);font-family:var(--cm-font-sans);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+    .ms{font-family:'Material Symbols Rounded';font-weight:normal;font-style:normal;line-height:1;letter-spacing:normal;text-transform:none;display:inline-block;white-space:nowrap;word-wrap:normal;direction:ltr;-webkit-font-feature-settings:'liga';font-feature-settings:'liga';-webkit-font-smoothing:antialiased;font-variation-settings:'opsz' 24;vertical-align:middle;user-select:none}
+    ::-webkit-scrollbar{width:10px;height:10px}
+    ::-webkit-scrollbar-thumb{background:var(--cm-n-300);border-radius:6px;border:2px solid transparent;background-clip:padding-box}
+    ::-webkit-scrollbar-thumb:hover{background:var(--cm-n-400);background-clip:padding-box}
+    ::-webkit-scrollbar-track{background:transparent}
+    :root{
+      --tdr-side:#191c22; --tdr-side-2:#20242c; --tdr-side-line:rgba(255,255,255,.07);
+      --tdr-side-text:#9ba3af; --tdr-side-text-dim:#6b7280; --tdr-side-text-active:#f3f5f7; --tdr-side-icon:#767f8c;
+      --cm-shadow-card:0 1px 2px rgba(16,18,24,.035); --cm-shadow-xs:0 1px 1px rgba(16,18,24,.04);
+      --cm-shadow-md:0 4px 14px rgba(16,18,24,.07); --cm-shadow-lg:0 10px 30px rgba(16,18,24,.12);
+      --cm-shadow-xl:0 18px 48px rgba(16,18,24,.16);
+    }
+    .tdr-ring{display:inline-flex;vertical-align:middle}
+    .tdr-ring svg{display:block}
+    svg[style*="rotate(-90deg)"]{display:block}
+    .tdr-seg{display:flex;background:var(--cm-n-100);border-radius:8px;padding:3px;gap:2px}
+    .tdr-seg > button{height:30px;padding:0 13px;border:0;border-radius:6px;font-family:var(--cm-font-sans);font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;color:var(--cm-n-500);background:transparent;display:inline-flex;align-items:center;gap:5px;transition:background .12s,color .12s}
+    .tdr-seg > button[data-on="1"]{background:#fff;color:var(--cm-n-900);box-shadow:0 1px 2px rgba(16,18,24,.09)}
+    .tdr-seg > button:hover{color:var(--cm-n-800)}
+    @keyframes tdr-pulse{0%,100%{opacity:1}50%{opacity:.3}}
+    @keyframes tdr-slideup{from{transform:translateY(14px);opacity:0}to{transform:translateY(0);opacity:1}}
+    @keyframes tdr-fadein{from{opacity:0}to{opacity:1}}
+    @keyframes tdr-pop{from{transform:translateY(8px) scale(.98);opacity:0}to{transform:translateY(0) scale(1);opacity:1}}
+  

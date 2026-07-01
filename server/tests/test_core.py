@@ -66,3 +66,13 @@ def test_advisor_grounded_answer():
     assert "미국" in r["answer"] and "화장품" in r["answer"]
     assert len(r["evidence"]) > 0
     assert r["intent"]["country"] == "US"
+
+
+def test_tradar_score():
+    from server import scoring
+    ds = get_dataset()
+    sc = scoring.compute(market_signal(ds.series("1212.21", "US")))
+    assert 0 <= sc["score"] <= 100
+    assert sc["stage"] in scoring.STAGE
+    assert set(sc["sub"]) == {"demand", "growth", "stability", "potential"}
+    assert all(0 <= v <= 100 for v in sc["sub"].values())

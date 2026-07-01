@@ -14,6 +14,7 @@ import sys
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 from server.dataset import get_dataset           # noqa: E402
 from server.forecasting import forecast          # noqa: E402
+from server import scoring                        # noqa: E402
 from server.radar import (                        # noqa: E402
     market_signal, radar_for_product, risk_alerts, top_opportunities,
 )
@@ -52,29 +53,58 @@ def main() -> None:
                "categories": sorted({p["category"] for p in ds.products})}
     _dump("catalog.json", catalog)
 
-    # 2) forecast.json — 시계열 + 예측 + 신호(품목×국가)
+    # 2) forecast.json — 시계열 + 예측 + 신호 + Tradar Score(품목×국가)
     series = {}
+    treemap = []
+    cat_by_hs = {p["hs"]: p["category"] for p in ds.products}
     for p in ds.products:
         hs = p["hs"]
         for cc in ds.markets_of(hs):
             y = ds.series(hs, cc)
             fc = forecast(y, HORIZON)
             sig = market_signal(y)
+            sc = scoring.compute(sig)
             series[f"{hs}|{cc}"] = {
                 "hist": [round(v) for v in y.tolist()],
                 "mean": fc.mean, "lo": fc.lo, "hi": fc.hi,
                 "yoy": sig["yoy"], "growth3": sig["growth3"], "fc6": sig["fc_growth6"],
                 "status": sig["status"], "opportunity": sig["opportunity"],
                 "risk": sig["risk"], "mape": fc.mape, "trend": fc.trend_pct,
-                "cv": sig["cv"], "recent12_usd": sig["recent12_usd"],
+                "cv": sig["cv"], "recent12_usd": sig["recent12_usd"], "accel": sig["accel"],
+                "score": sc["score"], "sub": sc["sub"], "stage": sc["stage"],
             }
+            treemap.append({
+                "hs": hs, "product": p["name_ko"], "category": cat_by_hs[hs],
+                "country": cc, "country_name": ds.country_name(cc),
+                "value": sig["recent12_usd"], "yoy": sig["yoy"], "growth3": sig["growth3"],
+                "fc6": sig["fc_growth6"], "score": sc["score"], "momentum": sig["status"],
+                "stage": sc["stage"], "opportunity": sig["opportunity"],
+            })
     _dump("forecast.json", {"months": ds.months, "fc_months": fc_months, "series": series})
+    _dump("treemap.json", {"leaves": treemap,
+                           "stages": scoring.STAGE, "momentum": scoring.MOMENTUM})
 
-    # 3) radar.json — 기회·리스크·품목별 랭킹
-    by_product = {p["hs"]: radar_for_product(ds, p["hs"]) for p in ds.products}
+    # 3) radar.json — 기회·리스크·품목별 랭킹 (+ score 부여)
+    def _enrich(rows):
+        for r in rows:
+            key = f"{r['hs']}|{r['country']}" if "hs" in r else None
+            if key and key in series:
+                r["score"] = series[key]["score"]
+                r["stage"] = series[key]["stage"]
+        return rows
+    by_product = {}
+    for p in ds.products:
+        rows = radar_for_product(ds, p["hs"])
+        for r in rows:  # radar_for_product rows lack hs — add it
+            r["hs"] = p["hs"]
+            k = f"{p['hs']}|{r['country']}"
+            if k in series:
+                r["score"] = series[k]["score"]
+                r["stage"] = series[k]["stage"]
+        by_product[p["hs"]] = rows
     radar = {
-        "top": top_opportunities(ds, 24),
-        "risk": risk_alerts(ds, 12),
+        "top": _enrich(top_opportunities(ds, 30)),
+        "risk": _enrich(risk_alerts(ds, 12)),
         "by_product": by_product,
         "generated_period": ds.meta["period"],
     }

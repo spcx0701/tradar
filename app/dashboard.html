@@ -3,99 +3,78 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>무역풍 B2G 관제 콘솔 — 한류 수출 동향</title>
-<meta name="theme-color" content="#0a2540">
+<title>Tradar B2G 관제 콘솔 — 한류 수출 동향</title>
+<meta name="theme-color" content="#191c22">
 <link rel="icon" href="icons/logo.svg" type="image/svg+xml">
-<link rel="stylesheet" href="app.css">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=block">
+<link rel="stylesheet" href="tradar.css">
 <style>
-  body { padding-bottom: 0; background: #edf2f9; }
-  .dwrap { max-width: 1240px; margin: 0 auto; padding: 0 22px; }
-  .console-top { background: var(--grad); color: #fff; padding: 16px 0; }
-  .console-top .dwrap { display: flex; align-items: center; gap: 12px; }
-  .kpis { display: grid; grid-template-columns: repeat(4,1fr); gap: 14px; margin: 22px 0; }
-  .kpi { background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 16px 18px; box-shadow: var(--shadow); }
-  .kpi .v { font-size: 28px; font-weight: 800; letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
-  .kpi .l { font-size: 12.5px; color: var(--muted); margin-top: 2px; }
-  .kpi .v.up { color: var(--surge); } .kpi .v.down { color: var(--cooling); }
-  .cols { display: grid; grid-template-columns: 1.55fr 1fr; gap: 16px; align-items: start; }
-  .panel { background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 18px; box-shadow: var(--shadow); margin-bottom: 16px; }
-  .panel h3 { font-size: 15px; margin: 0 0 12px; }
-  table.heat { width: 100%; border-collapse: collapse; font-size: 11.5px; }
-  table.heat th { color: var(--muted); font-weight: 600; padding: 4px 3px; text-align: center; }
-  table.heat th.row { text-align: left; white-space: nowrap; }
-  table.heat td { text-align: center; padding: 3px 2px; }
-  .cell { display: block; border-radius: 6px; padding: 6px 0; font-weight: 700; color: #0f172a; font-variant-numeric: tabular-nums; }
-  .rank { display: flex; align-items: center; gap: 10px; padding: 9px 0; border-bottom: 1px solid var(--line); }
-  .rank:last-child { border-bottom: 0; }
-  .rank .n { width: 20px; font-weight: 800; color: var(--blue); }
-  .rank .nm { flex: 1; font-size: 13.5px; }
-  .rank .nm small { color: var(--muted); }
-  .rank .sc { font-weight: 800; font-variant-numeric: tabular-nums; }
-  .bar { height: 9px; border-radius: 5px; background: var(--blue); }
-  .barrow { display: grid; grid-template-columns: 120px 1fr 78px; align-items: center; gap: 10px; font-size: 12.5px; padding: 4px 0; }
-  .barrow .lab { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .barrow .val { text-align: right; font-variant-numeric: tabular-nums; color: var(--ink-2); }
-  @media (max-width: 880px){ .kpis{grid-template-columns:1fr 1fr} .cols{grid-template-columns:1fr} }
+  body{overflow-y:auto;height:auto}
+  .dw{max-width:1280px;margin:0 auto;padding:0 24px}
+  .dtop{background:var(--tdr-side);color:#fff;height:60px;display:flex;align-items:center}
+  .dtop .dw{display:flex;align-items:center;gap:12px;width:100%}
+  .dtop .mark{width:28px;height:28px;border-radius:8px;background:var(--cm-grad);display:grid;place-items:center;color:#fff}
+  .dtop b{font-size:16px;font-weight:800} .dtop small{color:#9ba3af;font-size:11px;display:block}
+  table.heat{width:100%;border-collapse:collapse;font-size:11.5px}
+  table.heat th{color:var(--cm-ink-3);font-weight:600;padding:5px 4px;text-align:center}
+  table.heat th.row{text-align:left;white-space:nowrap;color:var(--cm-ink-2)}
+  table.heat td{text-align:center;padding:3px}
+  .cell{display:block;border-radius:6px;padding:7px 0;font-weight:700;color:#0C0D11;font-variant-numeric:tabular-nums}
+  .barrow{display:grid;grid-template-columns:130px 1fr 92px;align-items:center;gap:10px;font-size:12.5px;padding:5px 0}
+  .barrow .bar{height:9px;border-radius:5px;background:var(--cm-accent)} .barrow .val{text-align:right;font-variant-numeric:tabular-nums;color:var(--cm-ink-2)}
+  @media(max-width:900px){.g-32{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
-<div class="console-top"><div class="dwrap">
-  <img src="icons/logo.svg" style="width:30px;height:30px" alt="무역풍">
-  <div><b style="font-size:18px">무역풍 B2G 관제 콘솔</b><br>
-    <small style="opacity:.85">관세청·KOTRA·지자체 수출지원 — 한류 수출 동향 관제(공공 환류)</small></div>
-  <div style="flex:1"></div>
-  <span class="databadge" id="period">관세청 수출입통계</span>
+<div class="dtop"><div class="dw">
+  <span class="mark"><span class="ms">radar</span></span>
+  <div><b>Tradar B2G 관제 콘솔</b><small>관세청·KOTRA·지자체 수출지원 — 한류 수출 동향 관제 (공공 환류)</small></div>
+  <div style="flex:1"></div><span class="tag" id="period">관세청 수출입통계</span>
 </div></div>
 
-<div class="dwrap">
-  <div class="kpis" id="kpis"></div>
-  <div class="cols">
+<div class="dw" style="padding-top:22px;padding-bottom:34px">
+  <div class="grid g-4" id="kpis" style="margin-bottom:16px"></div>
+  <div class="grid g-32">
     <div>
-      <div class="panel"><h3>📊 한류 품목 × 시장 기회 히트맵 <small class="muted">(AI 기회점수, 100점 만점)</small></h3>
-        <div id="heat"></div></div>
-      <div class="panel"><h3>🌍 국가별 최근 12개월 수출 비중 <small class="muted">(분석 품목 합계)</small></h3>
-        <div id="bars"></div></div>
+      <div class="card"><div class="card-h"><span class="overline">품목 × 시장 · Tradar Score 히트맵</span></div><div class="card-b" id="heat"></div></div>
+      <div class="card mt"><div class="card-h"><span class="overline">국가별 최근 12개월 수출 비중</span></div><div class="card-b" id="bars"></div></div>
     </div>
     <div>
-      <div class="panel"><h3>🚀 급등 시장 TOP 10</h3><div id="surge"></div></div>
-      <div class="panel" style="border-color:#fecaca"><h3>⚠️ 둔화 리스크 경보</h3><div id="risk"></div></div>
+      <div class="card"><div class="card-h"><span class="overline">급등 시장 TOP 10</span></div><div class="card-b" style="padding:8px" id="surge"></div></div>
+      <div class="card mt" style="border-color:#fecaca"><div class="card-h"><span class="overline">둔화 리스크 경보</span></div><div class="card-b" style="padding:8px" id="risk"></div></div>
     </div>
   </div>
-  <p class="src" style="margin:6px 0 30px">데이터 출처: 관세청 <b>품목별 국가별 수출입실적</b>(공공데이터포털) · 예측·기회점수는 무역풍 자체 국산 AI 산출 · 익명·집계 데이터만 표출(개인·기업 식별정보 없음).</p>
+  <p class="muted" style="font-size:11.5px;margin-top:12px">데이터 출처: 관세청 품목별 국가별 수출입실적(공공데이터포털) · Tradar Score·예측은 자체 국산 AI 산출 · 익명·집계 데이터만 표출(개인·기업 식별정보 없음).</p>
 </div>
 
 <script>
-const flag = cc => cc&&cc.length===2 ? String.fromCodePoint(...[...cc.toUpperCase()].map(c=>0x1f1e6+c.charCodeAt(0)-65)) : '🏳️';
-const usd = v => { v=+v||0; return v>=1e8?(v/1e8).toFixed(1)+'억$':v>=1e6?(v/1e6).toFixed(0)+'백만$':(v/1e3).toFixed(0)+'천$'; };
-const pct = v => (v*100>=0?'+':'')+(v*100).toFixed(0)+'%';
-const heatColor = s => { const t=Math.max(0,Math.min(1,(s-40)/45)); const r=Math.round(214+(18-214)*t),g=Math.round(229+(179-229)*t),b=Math.round(240+(166-240)*t); return `rgb(${r},${g},${b})`; };
+const flag=cc=>cc&&cc.length===2?String.fromCodePoint(...[...cc.toUpperCase()].map(c=>0x1f1e6+c.charCodeAt(0)-65)):'🏳️';
+const usd=v=>{v=+v||0;return v>=1e8?(v/1e8).toFixed(1)+'억$':v>=1e6?(v/1e6).toFixed(0)+'백만$':(v/1e3).toFixed(0)+'천$';};
+const pct=v=>(v*100>=0?'+':'')+(v*100).toFixed(0)+'%';
+const heat=s=>{const t=Math.max(0,Math.min(1,(s-45)/45));const r=Math.round(225+(29-225)*t),g=Math.round(233+(104-233)*t),b=Math.round(245+(240-245)*t);return `rgb(${r},${g},${b})`;};
 (async()=>{
-  const [cat,radar,countries,fc]=await Promise.all(['catalog','radar','countries','forecast'].map(n=>fetch('data/'+n+'.json').then(r=>r.json())));
-  const cname = cc => cat.countries[cc]||cc;
+  const [cat,radar,countries,tm]=await Promise.all(['catalog','radar','countries','treemap'].map(n=>fetch('data/'+n+'.json').then(r=>r.json())));
+  const cname=cc=>cat.countries[cc]||cc;
   document.getElementById('period').textContent='분석기간 '+cat.meta.period;
-  // KPI
-  const totals = countries.countries.reduce((a,c)=>a+c.latest12_usd,0);
-  const surgeN = radar.top.filter(t=>t.status==='surge').length;
-  const wYoy = cat.products.reduce((a,p)=>a+p.yoy*p.latest12_usd,0)/cat.products.reduce((a,p)=>a+p.latest12_usd,0);
-  const kpis=[['분석 수출액(최근12개월)',usd(totals),''],['전년 대비 가중 증감',pct(wYoy),wYoy>0?'up':'down'],
-    ['급등 시장',surgeN+'곳','up'],['둔화 경보',radar.risk.length+'곳','down']];
-  document.getElementById('kpis').innerHTML=kpis.map(k=>`<div class="kpi"><div class="v ${k[2]}">${k[1]}</div><div class="l">${k[0]}</div></div>`).join('');
-  // 히트맵: 품목 × 상위 국가(빈도)
-  const freq={}; cat.products.forEach(p=>radar.by_product[p.hs].forEach(m=>freq[m.country]=(freq[m.country]||0)+m.recent12_usd));
+  const total=countries.countries.reduce((a,c)=>a+c.latest12_usd,0);
+  const wYoy=cat.products.reduce((a,p)=>a+p.yoy*p.latest12_usd,0)/cat.products.reduce((a,p)=>a+p.latest12_usd,0);
+  const avg=Math.round(tm.leaves.reduce((a,l)=>a+l.score,0)/tm.leaves.length);
+  const kpi=[['database','분석 수출액(12M)',usd(total),''],['trending_up','전년 대비 가중',pct(wYoy),wYoy>0?'up':'down'],
+    ['speed','평균 Tradar Score',avg,''],['warning','둔화 경보',radar.risk.length+'곳','down']];
+  document.getElementById('kpis').innerHTML=kpi.map(k=>`<div class="stat"><div class="lbl"><span class="ms">${k[0]}</span>${k[1]}</div><div class="val num" style="color:${k[3]==='down'?'var(--cm-neg)':k[3]==='up'?'var(--cm-pos)':'inherit'}">${k[2]}</div></div>`).join('');
+  // heatmap 품목×상위국
+  const freq={}; tm.leaves.forEach(l=>freq[l.country]=(freq[l.country]||0)+l.value);
   const cols=Object.entries(freq).sort((a,b)=>b[1]-a[1]).slice(0,10).map(e=>e[0]);
-  let html='<table class="heat"><tr><th class="row">품목 \\ 시장</th>'+cols.map(c=>`<th>${flag(c)}<br>${cname(c)}</th>`).join('')+'</tr>';
-  cat.products.forEach(p=>{ const byc={}; radar.by_product[p.hs].forEach(m=>byc[m.country]=m);
-    html+=`<tr><th class="row">${p.name_ko}</th>`+cols.map(c=>{const m=byc[c];return m?`<td><span class="cell" style="background:${heatColor(m.opportunity)}">${Math.round(m.opportunity)}</span></td>`:'<td><span class="cell" style="background:#f1f5f9;color:#cbd5e1">·</span></td>';}).join('')+'</tr>';});
-  html+='</table>'; document.getElementById('heat').innerHTML=html;
-  // 국가별 바
+  const byc={}; tm.leaves.forEach(l=>{(byc[l.hs]??={})[l.country]=l;});
+  let h='<table class="heat"><tr><th class="row">품목 \\ 시장</th>'+cols.map(c=>`<th>${flag(c)}<br>${cname(c)}</th>`).join('')+'</tr>';
+  cat.products.forEach(p=>{h+=`<tr><th class="row">${p.name_ko}</th>`+cols.map(c=>{const m=byc[p.hs]&&byc[p.hs][c];return m?`<td><span class="cell" style="background:${heat(m.score)}">${Math.round(m.score)}</span></td>`:'<td><span class="cell" style="background:#F1F5F9;color:#CBD2DC">·</span></td>';}).join('')+'</tr>';});
+  document.getElementById('heat').innerHTML=h+'</table>';
   const mx=Math.max(...countries.countries.map(c=>c.latest12_usd));
-  document.getElementById('bars').innerHTML=countries.countries.slice(0,12).map(c=>
-    `<div class="barrow"><span class="lab">${flag(c.country)} ${c.country_name}</span><span class="bar" style="width:${(c.latest12_usd/mx*100).toFixed(0)}%"></span><span class="val">${usd(c.latest12_usd)} <b style="color:${c.yoy>0?'#16a34a':'#dc2626'}">${pct(c.yoy)}</b></span></div>`).join('');
-  // 랭킹
-  document.getElementById('surge').innerHTML=radar.top.slice(0,10).map((m,i)=>
-    `<div class="rank"><span class="n">${i+1}</span><span class="nm">${flag(m.country)} ${cname(m.country)} <small>· ${m.product}</small></span><span class="sc" style="color:#16a34a">${Math.round(m.opportunity)}</span></div>`).join('');
-  document.getElementById('risk').innerHTML=radar.risk.slice(0,8).map(m=>
-    `<div class="rank"><span class="nm">${flag(m.country)} ${cname(m.country)} <small>· ${m.product}</small></span><span class="sc" style="color:#dc2626">${pct(m.growth3)}</span></div>`).join('');
+  document.getElementById('bars').innerHTML=countries.countries.slice(0,12).map(c=>`<div class="barrow"><span>${flag(c.country)} ${c.country_name}</span><span class="bar" style="width:${(c.latest12_usd/mx*100).toFixed(0)}%"></span><span class="val">${usd(c.latest12_usd)} <b style="color:${c.yoy>0?'var(--cm-pos)':'var(--cm-neg)'}">${pct(c.yoy)}</b></span></div>`).join('');
+  document.getElementById('surge').innerHTML=radar.top.slice(0,10).map((m,i)=>`<div class="rrow"><span class="rank num">${i+1}</span><span class="flag">${flag(m.country)}</span><div class="body"><div class="t">${cname(m.country)} · ${m.product}</div></div><b class="num" style="color:var(--cm-pos)">${Math.round(m.score)}</b></div>`).join('');
+  document.getElementById('risk').innerHTML=radar.risk.slice(0,8).map(m=>`<div class="rrow"><span class="flag">${flag(m.country)}</span><div class="body"><div class="t">${cname(m.country)} · ${m.product}</div></div><b class="num" style="color:var(--cm-neg)">${pct(m.growth3)}</b></div>`).join('');
 })();
 </script>
 </body>

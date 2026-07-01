@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
 <meta charset="utf-8">
-<title>무역풍 제품·서비스 개발 기획서</title>
+<title>Tradar 제품·서비스 개발 기획서</title>
 <style>
   @page { size: A4; margin: 14mm 14mm 12mm; }
   * { box-sizing: border-box; }
@@ -58,8 +58,8 @@
 <div class="page"><div class="cover">
   <div class="top"><div class="glow"></div>
     <span class="tag">2026 관세청 공공데이터·AI 활용 창업경진대회 · 제품 및 서비스 개발 부문</span>
-    <h1>무역풍 <span style="font-size:22px">Tradewind</span></h1>
-    <div class="en">관세 무역데이터·국산 AI 기반 한류 수출 수요예측·조기경보 ‘AI 무역참모’</div>
+    <h1>Tradar <span style="font-size:22px">트레이더</span></h1>
+    <div class="en">관세 무역데이터·국산 AI 기반 한류 수출 인텔리전스 플랫폼</div>
     <div class="def">“수출의 바람을 먼저 읽다” — 관세청 수출입통계를 국산 AI로 해석해
       K-Food·K-뷰티·K-컬처 <b style="color:#fff">수출 소상공인·중소기업</b>에게
       <b style="color:#fff">어느 나라에, 언제, 무엇을</b> 팔지 데이터로 알려주는 모바일 앱·웹 서비스.</div>
@@ -76,7 +76,7 @@
     </div>
   </div>
   <div class="meta">
-    <div>제품·서비스명 : <b>무역풍 (Tradewind)</b></div><div>공모 분야 : <b>■ 모바일 앱 &nbsp; ■ 웹</b></div>
+    <div>제품·서비스명 : <b>Tradar (트레이더)</b></div><div>공모 분야 : <b>■ 웹 &nbsp; ■ 모바일 앱(PWA·Android)</b></div>
     <div>응모 부문 : <b>② 제품 및 서비스 개발</b></div><div>활용 AI : <b>자체 개발 국산 AI (수요예측·조기경보·상담)</b></div>
     <div>필수 데이터 : <b>관세청 품목별 국가별 수출입실적</b></div><div>팀명 : <b>【팀명 기재】</b></div>
     <div style="grid-column:1/3" class="small muted">2026. ___ . &nbsp; / &nbsp; 본 문서는 자유양식 기획서(붙임6)이며, 공통 양식(붙임1~4)은 자필 서명 스캔본으로 별도 제출합니다.</div>
@@ -87,9 +87,9 @@
 <div class="page">
 <section>
   <div class="sec-h"><span class="no">1</span><h2>제품 및 서비스 개요</h2></div>
-  <p class="lead"><b>무역풍</b>은 관세청 수출입무역통계를 국산 AI로 분석해 한류 품목(K-Food·뷰티·컬처)의
-    <b>국가별 수출 수요를 예측(6개월)</b>하고, 지금 <b>떠오르는 시장과 식어가는 시장을 먼저 신호</b>하며,
-    “라면 어디에 팔까?” 같은 질문에 <b>실제 수치를 근거로 답하는 AI 무역참모</b>를 제공하는 모바일 앱·웹 서비스입니다. (98자)</p>
+  <p class="lead"><b>Tradar</b>는 관세청 수출입무역통계를 국산 AI로 분석해 한류 품목(K-Food·뷰티·컬처)의
+    국가별 수출 시장을 <b>Tradar Score(시장 매력도 0~100)</b>로 스코어링하고, <b>국가별 수요를 6개월 예측</b>하며
+    떠오르는 시장을 먼저 포착하는 <b>수출 인텔리전스 플랫폼</b>(웹·PWA·Android)입니다. (96자)</p>
   <div class="kgrid">
     <div class="k"><b>12품목·22국</b><span>실시간 분석 대상</span></div>
     <div class="k"><b>6개월</b><span>국가별 수요예측</span></div>
@@ -99,7 +99,7 @@
   <p><b>개발 동기.</b> K-Food 수출은 2024년 약 100억 달러로 사상 최대를 기록했지만, 수출의 다수를 차지하는
     중소·소상공인은 “어느 나라부터 뚫어야 하나”를 <b>감(感)에 의존</b>합니다. 대기업은 시장조사팀이 있지만,
     관세청이 개방한 방대한 무역통계는 HS코드·표의 벽에 막혀 현장에서 읽히지 않습니다.
-    무역풍은 이 공공데이터를 <b>‘수출 일기예보’와 ‘AI 상담’</b>으로 번역해, 소상공인의 첫 해외시장 결정을 데이터로 바꿉니다.</p>
+    Tradar은 이 공공데이터를 <b>‘수출 일기예보’와 ‘AI 상담’</b>으로 번역해, 소상공인의 첫 해외시장 결정을 데이터로 바꿉니다.</p>
   <p><b>핵심 가치.</b> ① 사후 통계 조회가 아니라 <b>사전 예측·조기경보</b> ② 표가 아니라 <b>대화와 권고</b>
     ③ 소비형이 아니라 <b>공공데이터를 B2G로 환류</b>하는 양방향 구조.</p>
 </section>
@@ -108,10 +108,10 @@
 <section>
   <div class="sec-h"><span class="no">2</span><h2>제품 및 서비스의 기능 및 특징</h2><span class="crit">심사: 기술성</span></div>
   <div class="grid2" style="margin-bottom:6px">
-    <div class="card"><h3>🌤️ 수출 일기예보</h3><p class="small">품목·국가별 향후 6개월 수요를 예측해 ‘맑음/흐림’으로 표시. 관세청 시계열을 계절·추세로 분해, 95% 예측구간 제공.</p></div>
-    <div class="card"><h3>📡 급등시장 레이더 & 조기경보</h3><p class="small">모멘텀·가속도·변동성으로 떠오르는 시장(기회점수)과 식어가는 시장(리스크)을 신호. 의존 시장 둔화를 선제 경보.</p></div>
-    <div class="card"><h3>💬 AI 무역참모 ‘바람이’</h3><p class="small">한국어 질문→실제 수출 수치를 근거로 답변. 추천·예측·리스크 의도를 자동 인식, 근거 동반으로 환각 차단.</p></div>
-    <div class="card"><h3>📊 B2G 관제 콘솔 & 내 수출 리포트</h3><p class="small">기관용 한류 수출 히트맵(공공 환류) + 개인용 품목·시장 정밀 전망과 AI 권고.</p></div>
+    <div class="card"><h3>🗺️ 마켓맵 (FINVIZ 스타일)</h3><p class="small">전 품목×국가 시장을 트리맵 한 화면에. 타일 크기=수출액, 색=모멘텀으로 뜨는·식는 시장을 즉시 파악.</p></div>
+    <div class="card"><h3>📊 Tradar Score & 예측</h3><p class="small">수요·성장·안정성·잠재력 4축 종합 매력도 스코어(0~100) + 6개월 AI 수요예측·리스크 조기경보.</p></div>
+    <div class="card"><h3>💬 AI 무역참모 ‘바람이’</h3><p class="small">한국어 질문→실제 수출 수치·스코어를 근거로 답변. 추천·예측·리스크 의도 자동 인식, 근거 동반으로 환각 차단.</p></div>
+    <div class="card"><h3>🧭 디스커버리 & B2G 콘솔</h3><p class="small">156개 시장을 스코어로 정렬·필터 탐색 + 기관용 한류 수출 히트맵(공공 환류).</p></div>
   </div>
   <p><b>핵심 AI 엔진(자체 개발 · 국산).</b></p>
   <table>
@@ -152,7 +152,7 @@
 <section>
   <div class="sec-h"><span class="no">4</span><h2>제품 및 서비스의 사업(창업) 계획</h2><span class="crit">심사: 발전 가능성</span></div>
   <p><b>시장.</b> 수출 중소기업 약 9만 개사, K-Food 수출업체의 다수가 중소·소상공인. 한류 확산으로 신규 수출
-    수요는 계속 늘지만, 이들을 위한 <b>‘쉬운 수출 인텔리전스’ 도구는 공백</b> — 무역풍이 첫 주자입니다.</p>
+    수요는 계속 늘지만, 이들을 위한 <b>‘쉬운 수출 인텔리전스’ 도구는 공백</b> — Tradar이 첫 주자입니다.</p>
   <table>
     <tr><th style="width:26%">수익원</th><th style="width:42%">내용</th><th>가격(안)</th></tr>
     <tr><td>B2C 프리미엄 구독</td><td>전 품목·국가 예측 무제한, 둔화 경보 알림, AI 상담 무제한</td><td>월 9,900원</td></tr>
@@ -173,7 +173,7 @@
 <section>
   <div class="sec-h"><span class="no">5</span><h2>기존 서비스와 차별성 및 독창성</h2><span class="crit">심사: 차별성</span></div>
   <table>
-    <tr><th style="width:22%">구분</th><th>무역통계 누리집·K-stat</th><th>TRASS 등 유료 통계</th><th>관세청 빅데이터포털</th><th style="background:#e7f6f3">무역풍</th></tr>
+    <tr><th style="width:22%">구분</th><th>무역통계 누리집·K-stat</th><th>TRASS 등 유료 통계</th><th>관세청 빅데이터포털</th><th style="background:#e7f6f3">Tradar</th></tr>
     <tr><td>핵심 성격</td><td>통계 조회·다운로드</td><td>통계 조회·리포트</td><td>트렌드 열람</td><td><b>예측·조기경보·상담</b></td></tr>
     <tr><td>미래 전망</td><td class="pillno">—</td><td class="pillno">—</td><td class="pillno">—</td><td class="pillok">국가별 6개월 예측</td></tr>
     <tr><td>의사결정 지원</td><td class="pillno">표·그래프</td><td>리포트</td><td class="pillno">표·그래프</td><td class="pillok">기회점수·AI 권고</td></tr>
@@ -182,7 +182,7 @@
     <tr><td>공공 환류(B2G)</td><td class="pillno">—</td><td class="pillno">—</td><td class="pillno">—</td><td class="pillok">기관 관제 콘솔</td></tr>
   </table>
   <div class="grid3" style="margin-top:5px">
-    <div class="card"><h3>① 조회→예측</h3><p class="small">국내 무역통계 서비스 대부분이 ‘과거 조회’에 머무는 반면, 무역풍은 국가별 <b>미래 수요와 조기경보</b>를 제공.</p></div>
+    <div class="card"><h3>① 조회→예측</h3><p class="small">국내 무역통계 서비스 대부분이 ‘과거 조회’에 머무는 반면, Tradar은 국가별 <b>미래 수요와 조기경보</b>를 제공.</p></div>
     <div class="card"><h3>② 표→대화·권고</h3><p class="small">소상공인 눈높이의 <b>일기예보 UX와 AI 상담</b>으로 데이터 문해력 장벽을 제거.</p></div>
     <div class="card"><h3>③ 소비→환류</h3><p class="small">공공데이터를 소비만 하지 않고 <b>집계 인사이트를 B2G로 되돌리는</b> 양방향 모델.</p></div>
   </div>
@@ -206,7 +206,7 @@
         <li><b>국산 AI 자립</b> — 외산 의존 없는 예측·경보 + 국산 LLM 상담</li>
       </ul></div>
   </div>
-  <p class="small lead">요약 — 무역풍은 “글로벌 실물경제의 거울”인 관세 무역데이터를 <b>국산 AI</b>로 번역해,
+  <p class="small lead">요약 — Tradar은 “글로벌 실물경제의 거울”인 관세 무역데이터를 <b>국산 AI</b>로 번역해,
     한류 수출 소상공인의 의사결정을 돕고 공공데이터를 사회적 가치로 환원합니다.</p>
 </section>
 </div>
@@ -215,28 +215,28 @@
 <div class="page">
 <section>
   <div class="sec-h"><span class="no">부록 A</span><h2>실행 화면 (실제 구동 캡처)</h2></div>
-  <div class="shots3">
-    <figure style="margin:0"><img class="shot" src="../assets/screens/01-home.png"><figcaption>① 홈 · 수출 일기예보</figcaption></figure>
-    <figure style="margin:0"><img class="shot" src="../assets/screens/02-radar.png"><figcaption>② 급등시장 레이더·조기경보</figcaption></figure>
-    <figure style="margin:0"><img class="shot" src="../assets/screens/03-advisor.png"><figcaption>③ AI 무역참모 ‘바람이’</figcaption></figure>
+  <div class="grid2" style="align-items:start">
+    <figure style="margin:0"><img class="shot" src="../assets/screens/01-command.png"><figcaption class="small muted" style="text-align:center">① 커맨드센터 · 수출 기회 (KPI·Top Opportunities·급등·리스크)</figcaption></figure>
+    <figure style="margin:0"><img class="shot" src="../assets/screens/02-map.png"><figcaption class="small muted" style="text-align:center">② 마켓맵 · FINVIZ 스타일 트리맵</figcaption></figure>
   </div>
-  <div class="grid2" style="margin-top:8px; align-items:start">
-    <figure style="margin:0"><img class="shot" src="../assets/screens/04-report.png"><figcaption class="small muted" style="text-align:center">④ 내 수출 리포트(예측·AI 권고)</figcaption></figure>
-    <figure style="margin:0"><img class="shot" src="../assets/screens/05-dashboard.png"><figcaption class="small muted" style="text-align:center">⑤ B2G 관제 콘솔(공공 환류)</figcaption></figure>
+  <div class="grid2" style="align-items:start;margin-top:8px">
+    <figure style="margin:0"><img class="shot" src="../assets/screens/03-score.png"><figcaption class="small muted" style="text-align:center">③ 스코어 분석 · Tradar Score + AI 예측</figcaption></figure>
+    <figure style="margin:0"><img class="shot" src="../assets/screens/04-advisor.png"><figcaption class="small muted" style="text-align:center">④ AI 무역참모 ‘바람이’ (근거 기반)</figcaption></figure>
   </div>
+  <figure style="margin:8px 0 0"><img class="shot" src="../assets/screens/05-discovery.png"><figcaption class="small muted" style="text-align:center">⑤ 디스커버리 · 156개 시장 Tradar Score 정렬·필터</figcaption></figure>
 </section>
 <section>
   <div class="sec-h"><span class="no">부록 B</span><h2>발표 시연 시나리오</h2></div>
   <table>
     <tr><th style="width:16%">화면</th><th>시연 내용</th></tr>
-    <tr><td>홈</td><td>품목 ‘라면’ 선택 → ‘급등’ 날씨와 떠오르는 시장 자동 표출(관세청 데이터→AI 점수 변환 설명)</td></tr>
-    <tr><td>레이더</td><td>김치·김·라면의 미국·동남아 급등 + 화장품 對중국 둔화 조기경보 확인</td></tr>
-    <tr><td>AI 참모</td><td>“라면 어디에 수출하면 좋을까?” 입력 → 수치 근거와 예측 차트로 답변(환각 없음 강조)</td></tr>
-    <tr><td>리포트</td><td>김→미국 6개월 예측·AI 권고·유사 시장 추천</td></tr>
-    <tr><td>B2G 콘솔</td><td>품목×시장 기회 히트맵·급등 TOP10·둔화 경보 — 수출지원기관 활용(공공 환류)</td></tr>
+    <tr><td>커맨드센터</td><td>KPI·Top Opportunities·급등·리스크가 관세청 데이터→Tradar Score로 자동 집계되는 과정 설명</td></tr>
+    <tr><td>마켓맵</td><td>FINVIZ 트리맵에서 김치·김의 미국 급등(초록) + 화장품 對중국 둔화(빨강) 즉시 식별</td></tr>
+    <tr><td>스코어 분석</td><td>김→미국 Tradar Score 86·하위점수·6개월 AI 예측 차트·유사 시장 클러스터</td></tr>
+    <tr><td>AI 참모</td><td>“라면 어디에 수출하면 좋을까?” 입력 → 수치·스코어 근거와 예측 차트로 답변(환각 없음 강조)</td></tr>
+    <tr><td>B2G 콘솔</td><td>품목×시장 Tradar Score 히트맵·급등 TOP10·둔화 경보 — 수출지원기관 활용(공공 환류)</td></tr>
   </table>
   <p class="foot">데이터 출처: 관세청 품목별 국가별 수출입실적(공공데이터포털). 데모 데이터는 공개 통계에 앵커링한 대표 스냅샷으로 개인·기업 식별정보를 포함하지 않으며, 인증키 연동 시 실데이터로 대체됩니다.
-  예측·기회점수는 무역풍 자체 개발 국산 AI 산출. 실행 확인: https://spcx0701.github.io/tradewind/ · 소스: https://github.com/spcx0701/tradewind</p>
+  예측·기회점수는 Tradar 자체 개발 국산 AI 산출. 실행 확인: https://spcx0701.github.io/tradewind/ · 소스: https://github.com/spcx0701/tradewind</p>
 </section>
 </div>
 

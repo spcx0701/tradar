@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">무역풍</string>
+    <string name="app_name">Tradar</string>
     <!-- TWA Digital Asset Links: PWA 도메인 검증 -->
     <string name="asset_statements" translatable="false">
         [{ \"relation\": [\"delegate_permission/common.handle_all_urls\"],

@@ -1,9 +1,10 @@
 /* 무역풍 서비스워커 — 앱 셸·데이터 캐시(오프라인 동작). */
-const CACHE = 'tradewind-v1';
+const CACHE = 'tradar-v2';
 const ASSETS = [
-  'index.html', 'home.html', 'dashboard.html', 'app.css', 'app.js',
-  'manifest.json', 'icons/logo.svg',
-  'data/catalog.json', 'data/forecast.json', 'data/radar.json', 'data/countries.json',
+  'index.html', 'home.html', 'dashboard.html', 'tradar.css', 'app.js',
+  'vendor/echarts.min.js', 'manifest.json', 'icons/logo.svg',
+  'data/catalog.json', 'data/forecast.json', 'data/radar.json',
+  'data/treemap.json', 'data/countries.json',
 ];
 
 self.addEventListener('install', e => {
