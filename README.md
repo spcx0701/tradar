@@ -7,7 +7,7 @@
 <p align="center"><strong>관세청 수출입통계(HS코드)와 AI로 전 수출산업의 품목·국가별 시장을 스코어링·예측하는 수출 데이터 분석 플랫폼.</strong></p>
 
 <p align="center">
-  <a href="https://github.com/spcx0701/tradar/releases/latest"><img alt="Latest release" src="https://img.shields.io/github/v/release/spcx0701/tradar?sort=date&display_name=tag&color=1D68F0&logo=github"></a>
+  <a href="https://github.com/spcx0701/tradar/releases/latest"><img alt="Latest release" src="https://img.shields.io/github/v/release/spcx0701/tradar?display_name=tag&color=1D68F0&logo=github"></a>
   <a href="https://github.com/spcx0701/tradar/actions/workflows/ci.yml"><img alt="Build" src="https://img.shields.io/github/actions/workflow/status/spcx0701/tradar/ci.yml?branch=main&logo=github"></a>
   <a href="https://github.com/spcx0701/tradar/actions/workflows/codeql.yml"><img alt="CodeQL" src="https://github.com/spcx0701/tradar/actions/workflows/codeql.yml/badge.svg?branch=main"></a>
   <a href="https://codecov.io/gh/spcx0701/tradar"><img alt="Coverage" src="https://img.shields.io/codecov/c/github/spcx0701/tradar?label=coverage&logo=codecov"></a>

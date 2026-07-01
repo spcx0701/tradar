@@ -32,7 +32,7 @@ jobs:
       - name: Tests
         run: pytest -q --cov=server --cov=scripts --cov-report=xml
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@e53489f4d376d79066609109e7a95a29eb3740b1
+        uses: codecov/codecov-action@fb8b3582c8e4def4969c97caa2f19720cb33a72f
         with:
           slug: spcx0701/tradar
           files: ./coverage.xml
@@ -80,7 +80,7 @@ jobs:
           raise SystemExit(f"Target did not become ready: {url} ({last_error})")
           PY
       - name: ZAP baseline scan
-        uses: zaproxy/action-baseline@6c5a007541891231cd9e0ddec25d4f25c59c9874
+        uses: zaproxy/action-baseline@de8ad967d3548d44ef623df22cf95c3b0baf8b25
         with:
           target: http://127.0.0.1:5183/
           allow_issue_writing: false
