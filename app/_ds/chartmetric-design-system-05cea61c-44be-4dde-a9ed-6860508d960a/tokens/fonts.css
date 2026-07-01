@@ -1,0 +1,21 @@
+/* ============================================================
+   Fonts
+   ------------------------------------------------------------
+   NOTE / SUBSTITUTION: Chartmetric's authenticated app is
+   login-gated, so the exact production typeface could not be
+   confirmed. Inter is used as the closest faithful match for a
+   dense, numeric analytics UI (humanist grotesque, excellent
+   tabular figures). JetBrains Mono covers data / API / code
+   contexts. Swap the @import + --cm-font-* tokens if the real
+   brand fonts are provided.
+   ============================================================ */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap");
+
+:root {
+  --cm-font-sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --cm-font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+  /* Tabular, lined figures for metrics & tables — non-negotiable
+     in a data product where columns of numbers must align. */
+  --cm-numeric: "tnum" 1, "lnum" 1, "cv05" 1; /* @kind font */
+}

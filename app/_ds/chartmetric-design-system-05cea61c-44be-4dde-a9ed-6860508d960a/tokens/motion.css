@@ -1,0 +1,32 @@
+/* ============================================================
+   Motion — quick, functional, no bounce. Data UIs reward speed
+   and calm: short durations, a single standard ease, hovers
+   that shift background/border (never scale content), presses
+   that darken rather than shrink.
+   ============================================================ */
+:root {
+  --cm-dur-instant: 80ms;  /* @kind other */
+  --cm-dur-fast:    120ms; /* @kind other */
+  --cm-dur-base:    180ms; /* @kind other */
+  --cm-dur-slow:    240ms; /* @kind other */
+  --cm-dur-slower:  360ms; /* @kind other */
+
+  --cm-ease-standard: cubic-bezier(0.2, 0.6, 0.2, 1); /* @kind other */
+  --cm-ease-out:      cubic-bezier(0.16, 1, 0.3, 1);  /* @kind other */
+  --cm-ease-in:       cubic-bezier(0.4, 0, 1, 1);     /* @kind other */
+
+  --cm-transition-control: background-color var(--cm-dur-fast) var(--cm-ease-standard),
+                           border-color var(--cm-dur-fast) var(--cm-ease-standard),
+                           color var(--cm-dur-fast) var(--cm-ease-standard),
+                           box-shadow var(--cm-dur-fast) var(--cm-ease-standard); /* @kind other */
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --cm-dur-instant: 0ms; /* @kind other */
+    --cm-dur-fast: 0ms;    /* @kind other */
+    --cm-dur-base: 0ms;    /* @kind other */
+    --cm-dur-slow: 0ms;    /* @kind other */
+    --cm-dur-slower: 0ms;  /* @kind other */
+  }
+}

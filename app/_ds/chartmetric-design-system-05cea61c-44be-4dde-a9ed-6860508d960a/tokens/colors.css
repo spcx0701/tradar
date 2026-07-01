@@ -1,0 +1,114 @@
+/* ============================================================
+   Colors
+   ------------------------------------------------------------
+   Chartmetric's interface is "unified by shades of blue derived
+   from the logo, reserved for hover states and primary
+   interactions" (Chartmetric design team). The product is a
+   light, data-dense dashboard: near-white canvas, white cards,
+   one near-black ink, a deep navy-black sidebar, and a tightly
+   rationed blue accent. The signature brand gradient (cyan →
+   blue → violet) is taken from the logo mark and used sparingly
+   for hero / brand moments and score visualizations.
+   ============================================================ */
+:root {
+  /* ---- Brand blue scale (primary accent) ---- */
+  --cm-blue-50:  #EAF1FE;
+  --cm-blue-100: #D3E2FD;
+  --cm-blue-200: #A8C5FB;
+  --cm-blue-300: #7CA8F8;
+  --cm-blue-400: #4E84F4;
+  --cm-blue-500: #1D68F0; /* primary */
+  --cm-blue-600: #1553C8;
+  --cm-blue-700: #103F99;
+  --cm-blue-800: #0C2E70;
+  --cm-blue-900: #081E49;
+
+  /* ---- Signature gradient (from the logo mark) ---- */
+  --cm-grad-cyan:   #16C8F5;
+  --cm-grad-blue:   #2E6BFF;
+  --cm-grad-violet: #7A5BF0;
+  --cm-gradient-brand: linear-gradient(120deg, var(--cm-grad-cyan) 0%, var(--cm-grad-blue) 46%, var(--cm-grad-violet) 100%);
+  --cm-gradient-brand-soft: linear-gradient(120deg, #E9F8FE 0%, #EAF1FE 50%, #F1ECFD 100%); /* @kind color */
+
+  /* ---- Neutrals (cool slate) ---- */
+  --cm-n-0:   #FFFFFF;
+  --cm-n-25:  #FBFCFD;
+  --cm-n-50:  #F6F8FA; /* app canvas */
+  --cm-n-100: #EDF0F4;
+  --cm-n-200: #E1E6EC; /* hairline / borders */
+  --cm-n-300: #CBD2DC;
+  --cm-n-400: #9AA4B2;
+  --cm-n-500: #6B7585;
+  --cm-n-600: #4B5563;
+  --cm-n-700: #333B49;
+  --cm-n-800: #1E2230;
+  --cm-n-900: #0C0D11; /* primary ink */
+
+  /* Brand near-black (msapplication tile / dark surfaces) */
+  --cm-ink-black: #08080B;
+
+  /* ---- Semantic: data movement ---- */
+  --cm-positive:       #16B364; /* growth / up */
+  --cm-positive-700:   #0E8B4B;
+  --cm-positive-soft:  #E7F7EE;
+  --cm-negative:       #F0443B; /* decline / down */
+  --cm-negative-700:   #C5291F;
+  --cm-negative-soft:  #FDECEA;
+  --cm-warning:        #F2A20C;
+  --cm-warning-soft:   #FDF3E2;
+  --cm-info:           #1D68F0;
+  --cm-info-soft:      #EAF1FE;
+  --cm-neutral-flat:   #9AA4B2; /* steady / no change */
+
+  /* ---- Artist tier taxonomy (Chartmetric career stages) ---- */
+  --cm-stage-legendary:  #F5B301; /* gold — top of prestige */
+  --cm-stage-superstar:  #7A5BF0; /* violet */
+  --cm-stage-mainstream: #1D68F0; /* blue */
+  --cm-stage-midlevel:   #16A8C8; /* cyan */
+  --cm-stage-developing: #9AA4B2; /* slate */
+
+  /* ---- Platform brand colors (data sources) ---- */
+  --cm-platform-spotify:     #1DB954;
+  --cm-platform-applemusic:  #FA243C;
+  --cm-platform-youtube:     #FF0000;
+  --cm-platform-tiktok:      #010101;
+  --cm-platform-instagram:   #E1306C;
+  --cm-platform-soundcloud:  #FF5500;
+  --cm-platform-shazam:      #0088FF;
+  --cm-platform-deezer:      #A238FF;
+  --cm-platform-amazon:      #25D1DA;
+  --cm-platform-x:           #0F1419;
+  --cm-platform-twitch:      #9146FF;
+  --cm-platform-pandora:     #3668FF;
+
+  /* ============================================================
+     Semantic aliases — reference these in product UI, not the
+     raw scale tokens above.
+     ============================================================ */
+  --cm-bg-canvas:      var(--cm-n-50);
+  --cm-bg-surface:     var(--cm-n-0);
+  --cm-bg-raised:      var(--cm-n-0);
+  --cm-bg-sunken:      var(--cm-n-100);
+  --cm-bg-sidebar:     var(--cm-ink-black);
+  --cm-bg-hover:       var(--cm-n-100);
+  --cm-bg-active:      var(--cm-blue-50);
+
+  --cm-text-primary:   var(--cm-n-900);
+  --cm-text-secondary: var(--cm-n-600);
+  --cm-text-tertiary:  var(--cm-n-500);
+  --cm-text-disabled:  var(--cm-n-400);
+  --cm-text-inverse:   var(--cm-n-0);
+  --cm-text-link:      var(--cm-blue-500);
+  --cm-text-on-accent: #FFFFFF;
+
+  --cm-border:         var(--cm-n-200);
+  --cm-border-strong:  var(--cm-n-300);
+  --cm-border-focus:   var(--cm-blue-500);
+
+  --cm-accent:         var(--cm-blue-500);
+  --cm-accent-hover:   var(--cm-blue-600);
+  --cm-accent-press:   var(--cm-blue-700);
+  --cm-accent-soft:    var(--cm-blue-50);
+
+  --cm-focus-ring:     0 0 0 3px rgba(29, 104, 240, 0.30);
+}

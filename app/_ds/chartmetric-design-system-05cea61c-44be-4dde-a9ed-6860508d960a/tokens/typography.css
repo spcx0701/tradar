@@ -1,0 +1,70 @@
+/* ============================================================
+   Typography
+   ------------------------------------------------------------
+   Dense analytics product → compact base (14px body), tabular
+   numerals everywhere data appears, tight display sizes for
+   metric headlines. Scale is functional, not editorial.
+   ============================================================ */
+:root {
+  /* Font families (declared in fonts.css) */
+  --cm-font-sans: "Inter", system-ui, -apple-system, sans-serif;
+  --cm-font-mono: "JetBrains Mono", ui-monospace, monospace;
+
+  /* Weights */
+  --cm-fw-regular:  400; /* @kind font */
+  --cm-fw-medium:   500; /* @kind font */
+  --cm-fw-semibold: 600; /* @kind font */
+  --cm-fw-bold:     700; /* @kind font */
+  --cm-fw-black:    800; /* @kind font */
+
+  /* Type scale (px) */
+  --cm-fs-micro:   11px;  /* table sub-labels, deltas */
+  --cm-fs-caption: 12px;  /* captions, metadata */
+  --cm-fs-sm:      13px;  /* secondary body, table cells */
+  --cm-fs-body:    14px;  /* base body / UI */
+  --cm-fs-md:      16px;  /* emphasized body, card titles */
+  --cm-fs-lg:      20px;  /* h4 / section titles */
+  --cm-fs-xl:      24px;  /* h3 */
+  --cm-fs-2xl:     30px;  /* h2 */
+  --cm-fs-3xl:     38px;  /* h1 / page title */
+  --cm-fs-metric:  34px;  /* metric headline numerals */
+  --cm-fs-metric-lg: 48px;/* hero score / KPI numerals */
+
+  /* Line heights */
+  --cm-lh-tight:   1.15; /* @kind font */
+  --cm-lh-snug:    1.3;  /* @kind font */
+  --cm-lh-normal:  1.5;  /* @kind font */
+  --cm-lh-relaxed: 1.65; /* @kind font */
+
+  /* Letter spacing */
+  --cm-ls-tight:   -0.02em;  /* @kind font */
+  --cm-ls-snug:    -0.01em;  /* @kind font */
+  --cm-ls-normal:  0;        /* @kind font */
+  --cm-ls-wide:    0.04em;   /* @kind font */
+  --cm-ls-caps:    0.06em;   /* @kind font */
+
+  /* Semantic roles */
+  --cm-text-display:  var(--cm-fw-bold) var(--cm-fs-3xl)/var(--cm-lh-tight) var(--cm-font-sans); /* @kind font */
+  --cm-text-h1:       var(--cm-fw-bold) var(--cm-fs-2xl)/var(--cm-lh-tight) var(--cm-font-sans); /* @kind font */
+  --cm-text-h2:       var(--cm-fw-semibold) var(--cm-fs-xl)/var(--cm-lh-snug) var(--cm-font-sans); /* @kind font */
+  --cm-text-h3:       var(--cm-fw-semibold) var(--cm-fs-lg)/var(--cm-lh-snug) var(--cm-font-sans); /* @kind font */
+  --cm-text-h4:       var(--cm-fw-semibold) var(--cm-fs-md)/var(--cm-lh-snug) var(--cm-font-sans); /* @kind font */
+  --cm-text-body:     var(--cm-fw-regular) var(--cm-fs-body)/var(--cm-lh-normal) var(--cm-font-sans); /* @kind font */
+  --cm-text-body-sm:  var(--cm-fw-regular) var(--cm-fs-sm)/var(--cm-lh-normal) var(--cm-font-sans); /* @kind font */
+  --cm-text-caption:  var(--cm-fw-regular) var(--cm-fs-caption)/var(--cm-lh-snug) var(--cm-font-sans); /* @kind font */
+}
+
+/* Eyebrow / overline label — common above section titles & cards */
+.cm-overline {
+  font: var(--cm-fw-semibold) var(--cm-fs-micro)/1 var(--cm-font-sans);
+  letter-spacing: var(--cm-ls-caps);
+  text-transform: uppercase;
+  color: var(--cm-text-tertiary);
+}
+
+/* Metric numerals — tabular figures, tight tracking */
+.cm-numeric {
+  font-feature-settings: var(--cm-numeric);
+  font-variant-numeric: tabular-nums lining-nums;
+  letter-spacing: var(--cm-ls-tight);
+}

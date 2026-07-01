@@ -1,0 +1,14 @@
+/* ============================================================
+   Radius — Chartmetric cards & controls are gently rounded,
+   not pill-soft. Buttons/inputs ~6px, cards ~10px, avatars &
+   chips fully round.
+   ============================================================ */
+:root {
+  --cm-radius-xs:   3px;
+  --cm-radius-sm:   5px;   /* tags, small chips */
+  --cm-radius-md:   6px;   /* buttons, inputs, selects */
+  --cm-radius-lg:   8px;   /* nested panels */
+  --cm-radius-xl:   10px;  /* cards */
+  --cm-radius-2xl:  14px;  /* feature / hero cards */
+  --cm-radius-pill: 999px; /* badges, switches, avatars */
+}
