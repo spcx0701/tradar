@@ -11,13 +11,6 @@
   <a href="https://github.com/spcx0701/tradar/actions/workflows/ci.yml"><img alt="Build" src="https://img.shields.io/github/actions/workflow/status/spcx0701/tradar/ci.yml?branch=main&logo=github"></a>
   <a href="https://github.com/spcx0701/tradar/actions/workflows/codeql.yml"><img alt="CodeQL" src="https://github.com/spcx0701/tradar/actions/workflows/codeql.yml/badge.svg?branch=main"></a>
   <a href="https://scorecard.dev/viewer/?uri=github.com/spcx0701/tradar"><img alt="OpenSSF Scorecard" src="https://api.scorecard.dev/projects/github.com/spcx0701/tradar/badge"></a>
-  <img alt="Top language" src="https://img.shields.io/github/languages/top/spcx0701/tradar">
-  <a href="LICENSE"><img alt="License" src="https://img.shields.io/badge/license-MIT-blue"></a>
-  <a href="https://spcx0701.github.io/tradar/"><img alt="Service" src="https://img.shields.io/badge/service-live-1D68F0"></a>
-  <img alt="PWA ready" src="https://img.shields.io/badge/PWA-installable-5A0FC8?logo=pwa&logoColor=white">
-  <img alt="Data" src="https://img.shields.io/badge/data-관세청%20수출입통계-1D68F0">
-  <img alt="AI" src="https://img.shields.io/badge/AI-100%25%20국산-16B364">
-  <img alt="Charts" src="https://img.shields.io/badge/charts-ECharts-AA344D">
 </p>
 
 <p align="center">
