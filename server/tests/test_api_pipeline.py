@@ -81,7 +81,7 @@ def test_dataset_fallbacks_and_aggregates():
     assert ds.product_total("1902.30").shape == (24,)
     assert ds.product_total("missing").tolist() == [0] * 24
     assert ds.market_total("US").tolist() == list(range(1, 25))
-    assert ds.last_n_sum(np.array([1, 2, 3]), 2) == 5.0
+    assert ds.last_n_sum(np.array([1, 2, 3]), 2) == pytest.approx(5.0)
     assert ds.yoy(np.array([1, 2, 3])) == 0.0
     assert ds.yoy(np.array([0] * 12 + [1] * 12)) == 0.0
 
