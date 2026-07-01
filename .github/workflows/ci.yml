@@ -12,6 +12,9 @@ jobs:
   test:
     name: pytest, lint, coverage
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
     steps:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5
         with:
@@ -31,6 +34,13 @@ jobs:
           python scripts/build_app_data.py
       - name: Tests
         run: pytest -q --cov=server --cov=scripts --cov-report=xml
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@0fb7174895f61a3b6b78fc075e0cd60383518dac
+        with:
+          use_oidc: true
+          slug: spcx0701/tradar
+          files: ./coverage.xml
+          fail_ci_if_error: true
   zap-baseline:
     name: OWASP ZAP baseline
     runs-on: ubuntu-latest
