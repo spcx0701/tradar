@@ -125,8 +125,8 @@ jobs:
     needs: test
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
-    permissions: { pages: write, id-token: write, contents: read }
-    environment: { name: github-pages, url: "${{ steps.deploy.outputs.page_url }}" }
+    permissions: { contents: write }
+    environment: { name: github-pages, url: "https://spcx0701.github.io/tradar/" }
     steps:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5
         with:
@@ -146,7 +146,18 @@ jobs:
             echo "DATA_GO_KR_KEY secret is not set; using committed trade intelligence payload."
           fi
           python scripts/audit_trade_intel.py --max-age-hours 72
-      - uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa
-        with: { path: app }
-      - id: deploy
-        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e
+      - name: Publish static app to gh-pages
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          publish_dir="$(mktemp -d)"
+          cp -R app/. "$publish_dir"/
+          touch "$publish_dir/.nojekyll"
+          git -C "$publish_dir" init
+          git -C "$publish_dir" checkout -b gh-pages
+          git -C "$publish_dir" config user.name "github-actions[bot]"
+          git -C "$publish_dir" config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git -C "$publish_dir" add .
+          git -C "$publish_dir" commit -m "Deploy Tradar ${GITHUB_SHA}"
+          git -C "$publish_dir" remote add origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          git -C "$publish_dir" push --force origin gh-pages
