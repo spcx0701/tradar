@@ -25,6 +25,14 @@
   <a href="https://www.data.go.kr/data/15100475/openapi.do"><strong>관세청 데이터</strong></a>
 </p>
 
+<p align="center">
+  <a href="https://apps.obtainium.page/redirect?r=obtainium://add/https://github.com/spcx0701/tradar"><img alt="Get it on Obtainium" src="https://raw.githubusercontent.com/ImranR98/Obtainium/main/assets/graphics/badge_obtainium.png" align="center" height="64"></a>
+  <a href="https://github.com/spcx0701/tradar/releases/latest"><img alt="Get it on GitHub" src="https://tachibanagenerallaboratories.github.io/images/badges/GitHub/get-it-on-github.png" align="center" height="64"></a>
+</p>
+<p align="center">
+  <a href="https://play.google.com/store/apps/details?id=kr.tradewind.app"><strong>Google Play 링크: kr.tradewind.app (심사중)</strong></a>
+</p>
+
 > **2026 관세청 공공데이터·AI 활용 창업경진대회** 출품작 (제품 및 서비스 개발 부문).
 > 반도체·자동차·2차전지·조선부터 K-Food·K-뷰티까지 **전 수출산업 28개 품목 × 주요국**을 다룹니다.
 

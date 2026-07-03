@@ -14,6 +14,14 @@ Tradar badges follow the ForestMate rule: badges should point at live provider-b
 | OpenSSF Scorecard | OpenSSF | `.github/workflows/scorecard.yml` publishes Scorecard results and uploads SARIF. |
 | OpenSSF Best Practices | OpenSSF | Tradar is registered as Best Practices project `13452`; the live badge is updated from the provider edit form using repo-backed evidence. |
 | SonarCloud | SonarCloud | The GitHub repository is imported as project key `spcx0701_tradewind` and exposes Bugs, Security Rating, Maintainability Rating, and Technical Debt badges. |
+| Obtainium | Obtainium redirect | The README uses `https://apps.obtainium.page/redirect?r=obtainium://add/https://github.com/spcx0701/tradar`, which resolves and adds the GitHub repository as an Obtainium source. |
+| Android GitHub Releases | GitHub Releases | The README links to `https://github.com/spcx0701/tradar/releases/latest`, verified to resolve to the latest release page. APK release assets still need a future release workflow/run before this becomes complete Android distribution proof. |
+
+## Prepared but not provider-live
+
+| Surface | Current status |
+|---|---|
+| Google Play | The README includes the package URL `https://play.google.com/store/apps/details?id=kr.tradewind.app` as an app-under-review link. Current public verification returns `404`, so this must not be described as a live Play Store listing until Play Console publication makes the page reachable. |
 
 ## Not displayed until provider-backed
 
@@ -21,5 +29,5 @@ Tradar badges follow the ForestMate rule: badges should point at live provider-b
 |---|---|
 | GitHub Code Quality | GitHub's Code Quality setup API returned `Code quality is not available for this repository.` |
 | REUSE API | The `github.com/spcx0701/tradar` REUSE API project was not registered at setup time. |
-| Store badges | There was no verified Google Play, F-Droid, Obtainium, or other store listing for Tradar at setup time. |
+| F-Droid | There is no verified F-Droid package or metadata listing for Tradar yet. |
 | Product/static badges | Language, license, service, PWA, data, AI, and chart-library badges are intentionally omitted from the README badge row. |
