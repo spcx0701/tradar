@@ -41,6 +41,26 @@ jobs:
           slug: spcx0701/tradar
           files: ./coverage.xml
           fail_ci_if_error: true
+
+  android:
+    name: Android unit tests
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+          cache: gradle
+      - uses: android-actions/setup-android@v3
+      - name: Android unit tests
+        working-directory: packaging/android
+        run: ./gradlew :app:testDebugUnitTest
+
   zap-baseline:
     name: OWASP ZAP baseline
     runs-on: ubuntu-latest
