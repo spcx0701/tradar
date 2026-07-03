@@ -55,6 +55,20 @@ def test_web_chatbot_uses_deployed_advisor_api_with_local_fallback():
     assert "this.respond(v)" in html
 
 
+def test_web_chatbot_file_url_defaults_to_render_api():
+    html = APP_INDEX.read_text(encoding="utf-8")
+
+    assert "location.protocol === 'file:'" in html
+    assert "https://tradar.onrender.com/api" in html
+
+
+def test_web_chatbot_local_fallback_answers_greetings():
+    html = APP_INDEX.read_text(encoding="utf-8")
+
+    assert "isChatGreeting(t)" in html
+    assert "안녕하세요. Tradar AI 애널리스트입니다." in html
+
+
 def test_web_chatbot_does_not_submit_during_korean_ime_composition():
     html = APP_INDEX.read_text(encoding="utf-8")
 
