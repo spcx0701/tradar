@@ -21,7 +21,7 @@ Tradar badges follow the ForestMate rule: badges should point at live provider-b
 
 | Surface | Current status |
 |---|---|
-| Google Play | The README includes the package URL `https://play.google.com/store/apps/details?id=kr.tradewind.app` as an app-under-review link. Current public verification returns `404`, so this must not be described as a live Play Store listing until Play Console publication makes the page reachable. |
+| Google Play | The README displays the official Google Play badge linked to `https://play.google.com/store/apps/details?id=kr.tradewind.app` while the app is under review. Current public verification returns `404`, so this must not be described as a live Play Store listing until Play Console publication makes the page reachable. |
 
 ## Not displayed until provider-backed
 
