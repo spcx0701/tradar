@@ -30,7 +30,7 @@
   <a href="https://github.com/spcx0701/tradar/releases/latest"><img alt="Get it on GitHub" src="https://tachibanagenerallaboratories.github.io/images/badges/GitHub/get-it-on-github.png" align="center" height="64"></a>
 </p>
 <p align="center">
-  <a href="https://play.google.com/store/apps/details?id=kr.tradewind.app"><strong>Google Play 링크: kr.tradewind.app (스토어 공개 전)</strong></a>
+  <a href="https://play.google.com/store/apps/details?id=kr.tradewind.app"><strong>Google Play 링크: kr.tradewind.app (심사중)</strong></a>
 </p>
 
 > **2026 관세청 공공데이터·AI 활용 창업경진대회** 출품작 (제품 및 서비스 개발 부문).
