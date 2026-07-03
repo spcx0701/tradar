@@ -1,6 +1,5 @@
 plugins {
     id("com.android.application")
-    id("org.jetbrains.kotlin.android")
 }
 
 fun configString(propName: String, envName: String, defaultValue: String = ""): String =
