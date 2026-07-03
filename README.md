@@ -1,8 +1,8 @@
 <p align="center">
-  <img src="app/icons/logo.svg" width="84" alt="Tradar">
+  <img src="assets/readme/tradar-readme-banner.png" alt="Tradar README banner" width="100%">
 </p>
 
-<h1 align="center">Tradar · 트레이더</h1>
+# Tradar · 트레이더
 
 <p align="center"><strong>관세청 수출입통계(HS코드)와 AI로 전 수출산업의 품목·국가별 시장을 스코어링·예측하는 수출 데이터 분석 플랫폼.</strong></p>
 
