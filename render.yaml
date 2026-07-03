@@ -2,6 +2,7 @@ services:
   - type: web
     name: tradar
     runtime: python
+    repo: https://github.com/spcx0701/tradar
     plan: free
     region: singapore
     branch: main
