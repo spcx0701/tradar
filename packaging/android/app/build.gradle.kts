@@ -13,7 +13,7 @@ fun androidStringLiteral(value: String): String =
 
 android {
     namespace = "kr.tradewind.app"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "kr.tradewind.app"
