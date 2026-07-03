@@ -20,6 +20,7 @@ class AdvisorResponse(BaseModel):
     evidence: list[Evidence]
     suggestions: list[str]
     chart: dict | None = None
+    engine: str = "demo-grounded"
 
 
 class ForecastPoint(BaseModel):

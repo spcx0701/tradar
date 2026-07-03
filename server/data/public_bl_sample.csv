@@ -1,0 +1,10 @@
+product_id,seller,buyer,product,market,marketName,volume_kg,unit_price_usd,shipments,port,channel
+ramen,Samyang Foods,US Asian Grocery Network,Buldak-style hot chicken ramen,US,미국,1240000,3.18,42,Busan -> Los Angeles/Long Beach,아시안 그로서리·DTC
+ramen,Nongshim,Mass Retail Import Desk,Premium bowl noodle multipack,US,미국,1680000,2.74,57,Busan -> New York/Newark,대형마트·클럽스토어
+ramen,Ottogi,Japan Convenience Distributor,Cup noodle convenience pack,JP,일본,760000,2.52,29,Busan -> Osaka/Kobe,편의점·전문점
+ramen,CJ Foods,EU Korean Food Importer,K-food instant noodle bundle,NL,네덜란드,520000,3.46,18,Busan -> Rotterdam,EU 관문 수입상
+ramen,Private Label Foods,Mexico Foodservice Buyer,Private-label instant noodle cup,MX,멕시코,410000,2.31,14,Busan -> Manzanillo,푸드서비스·도매
+skincare,K-Beauty Lab,US Beauty Marketplace,Barrier cream set,US,미국,84000,18.4,23,Incheon/Busan -> LA,마켓플레이스·인디뷰티
+skincare,Derma Korea,Hong Kong Cross-border Retailer,Dermocosmetic serum,HK,홍콩,62000,21.7,17,Incheon -> Hong Kong,크로스보더 리테일
+battery,Cell Maker,US EV Assembly Plant,Li-ion battery module,US,미국,2360000,7.82,34,Busan -> Savannah,EV 조립공장
+battery,Materials Supplier,Germany Battery Integrator,Battery pack component,DE,독일,740000,8.36,19,Busan -> Hamburg,배터리 통합사

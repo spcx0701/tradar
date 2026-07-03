@@ -1,5 +1,5 @@
-/* Tradar 데이터 — 관세청 품목별 국가별 수출입실적(HS코드 기준) 연동.
-   생성: 2026-07-01T15:46:53 · scripts/build_tradar_data.py 로 재생성. */
+/* Tradar 데이터 — 관세청 품목별 국가별 수출입실적 + 거래 인텔리전스 자동수집.
+   생성: 2026-07-03T15:50:52 · scripts/sync_trade_intel.py 로 재생성. */
 window.TRADAR_DATA = {
  "P": [
   {
@@ -1566,4 +1566,323 @@ window.TRADAR_DATA = {
    "mv": "집중도 리스크"
   }
  ]
+};
+
+window.TRADAR_TRADE_INTEL = {
+ "version": 1,
+ "generated": "2026-07-03T15:50:52",
+ "note": "자동수집 커넥터가 공식 HS 통계와 공개 B/L/CSV 흐름을 결합해 생성.",
+ "sources": [
+  {
+   "tier": "official",
+   "label": "공식 HS 통계",
+   "detail": "관세청/Comtrade/Census 금액·중량",
+   "use": "시장 평균단가"
+  },
+  {
+   "tier": "public_bl",
+   "label": "공개 B/L",
+   "detail": "공개 선하증권/CSV 회사 흐름",
+   "use": "기업·바이어·선적 흐름"
+  },
+  {
+   "tier": "estimate",
+   "label": "추정",
+   "detail": "공식 평균단가 x 공개 물량",
+   "use": "회사별 단가/거래액 추정"
+  },
+  {
+   "tier": "upload",
+   "label": "업로드",
+   "detail": "사용자 내부 CSV",
+   "use": "확정 단가/바이어 보강"
+  }
+ ],
+ "products": {
+  "ramen": {
+   "productId": "ramen",
+   "product": "라면",
+   "hs": "1902.30",
+   "coverage": [
+    "어떤 기업이 어떤 상품을 팔고 있는가",
+    "어디에 얼마로 팔고 있는가",
+    "얼마나 팔고 어떤 바이어 후보가 있는가",
+    "공식/공개 B/L/추정/업로드 값이 어떻게 구분되는가"
+   ],
+   "flows": [
+    {
+     "id": "ramen-auto-1",
+     "seller": "Samyang Foods",
+     "buyer": "US Asian Grocery Network",
+     "product": "Buldak-style hot chicken ramen",
+     "market": "US",
+     "marketName": "미국",
+     "port": "Busan -> Los Angeles/Long Beach",
+     "channel": "아시안 그로서리·DTC",
+     "unitPriceUsd": 3.18,
+     "unit": "kg",
+     "volume": 1240.0,
+     "volumeUnit": "t",
+     "valueUsd": 3943200,
+     "shipments": 42,
+     "share": 30,
+     "growth": 0,
+     "sourceTier": "public_bl",
+     "priceStatus": "estimated",
+     "confidence": 72,
+     "evidence": "공개 B/L/CSV 자동수집",
+     "action": "가격/물량/바이어 후보를 검토하고 내부 견적·ERP 업로드로 확정값 보강"
+    },
+    {
+     "id": "ramen-auto-2",
+     "seller": "Nongshim",
+     "buyer": "Mass Retail Import Desk",
+     "product": "Premium bowl noodle multipack",
+     "market": "US",
+     "marketName": "미국",
+     "port": "Busan -> New York/Newark",
+     "channel": "대형마트·클럽스토어",
+     "unitPriceUsd": 2.74,
+     "unit": "kg",
+     "volume": 1680.0,
+     "volumeUnit": "t",
+     "valueUsd": 4603200,
+     "shipments": 57,
+     "share": 35,
+     "growth": 0,
+     "sourceTier": "public_bl",
+     "priceStatus": "estimated",
+     "confidence": 72,
+     "evidence": "공개 B/L/CSV 자동수집",
+     "action": "가격/물량/바이어 후보를 검토하고 내부 견적·ERP 업로드로 확정값 보강"
+    },
+    {
+     "id": "ramen-auto-3",
+     "seller": "Ottogi",
+     "buyer": "Japan Convenience Distributor",
+     "product": "Cup noodle convenience pack",
+     "market": "JP",
+     "marketName": "일본",
+     "port": "Busan -> Osaka/Kobe",
+     "channel": "편의점·전문점",
+     "unitPriceUsd": 2.52,
+     "unit": "kg",
+     "volume": 760.0,
+     "volumeUnit": "t",
+     "valueUsd": 1915200,
+     "shipments": 29,
+     "share": 15,
+     "growth": 0,
+     "sourceTier": "public_bl",
+     "priceStatus": "estimated",
+     "confidence": 72,
+     "evidence": "공개 B/L/CSV 자동수집",
+     "action": "가격/물량/바이어 후보를 검토하고 내부 견적·ERP 업로드로 확정값 보강"
+    },
+    {
+     "id": "ramen-auto-4",
+     "seller": "CJ Foods",
+     "buyer": "EU Korean Food Importer",
+     "product": "K-food instant noodle bundle",
+     "market": "NL",
+     "marketName": "네덜란드",
+     "port": "Busan -> Rotterdam",
+     "channel": "EU 관문 수입상",
+     "unitPriceUsd": 3.46,
+     "unit": "kg",
+     "volume": 520.0,
+     "volumeUnit": "t",
+     "valueUsd": 1799200,
+     "shipments": 18,
+     "share": 14,
+     "growth": 0,
+     "sourceTier": "public_bl",
+     "priceStatus": "estimated",
+     "confidence": 72,
+     "evidence": "공개 B/L/CSV 자동수집",
+     "action": "가격/물량/바이어 후보를 검토하고 내부 견적·ERP 업로드로 확정값 보강"
+    },
+    {
+     "id": "ramen-auto-5",
+     "seller": "Private Label Foods",
+     "buyer": "Mexico Foodservice Buyer",
+     "product": "Private-label instant noodle cup",
+     "market": "MX",
+     "marketName": "멕시코",
+     "port": "Busan -> Manzanillo",
+     "channel": "푸드서비스·도매",
+     "unitPriceUsd": 2.31,
+     "unit": "kg",
+     "volume": 410.0,
+     "volumeUnit": "t",
+     "valueUsd": 947100,
+     "shipments": 14,
+     "share": 7,
+     "growth": 0,
+     "sourceTier": "public_bl",
+     "priceStatus": "estimated",
+     "confidence": 72,
+     "evidence": "공개 B/L/CSV 자동수집",
+     "action": "가격/물량/바이어 후보를 검토하고 내부 견적·ERP 업로드로 확정값 보강"
+    }
+   ]
+  },
+  "skincare": {
+   "productId": "skincare",
+   "product": "기초화장품",
+   "hs": "3304.99",
+   "coverage": [
+    "어떤 기업이 어떤 상품을 팔고 있는가",
+    "어디에 얼마로 팔고 있는가",
+    "얼마나 팔고 어떤 바이어 후보가 있는가",
+    "공식/공개 B/L/추정/업로드 값이 어떻게 구분되는가"
+   ],
+   "flows": [
+    {
+     "id": "skincare-auto-6",
+     "seller": "K-Beauty Lab",
+     "buyer": "US Beauty Marketplace",
+     "product": "Barrier cream set",
+     "market": "US",
+     "marketName": "미국",
+     "port": "Incheon/Busan -> LA",
+     "channel": "마켓플레이스·인디뷰티",
+     "unitPriceUsd": 18.4,
+     "unit": "kg",
+     "volume": 84.0,
+     "volumeUnit": "t",
+     "valueUsd": 1545600,
+     "shipments": 23,
+     "share": 53,
+     "growth": 0,
+     "sourceTier": "public_bl",
+     "priceStatus": "estimated",
+     "confidence": 72,
+     "evidence": "공개 B/L/CSV 자동수집",
+     "action": "가격/물량/바이어 후보를 검토하고 내부 견적·ERP 업로드로 확정값 보강"
+    },
+    {
+     "id": "skincare-auto-7",
+     "seller": "Derma Korea",
+     "buyer": "Hong Kong Cross-border Retailer",
+     "product": "Dermocosmetic serum",
+     "market": "HK",
+     "marketName": "홍콩",
+     "port": "Incheon -> Hong Kong",
+     "channel": "크로스보더 리테일",
+     "unitPriceUsd": 21.7,
+     "unit": "kg",
+     "volume": 62.0,
+     "volumeUnit": "t",
+     "valueUsd": 1345400,
+     "shipments": 17,
+     "share": 47,
+     "growth": 0,
+     "sourceTier": "public_bl",
+     "priceStatus": "estimated",
+     "confidence": 72,
+     "evidence": "공개 B/L/CSV 자동수집",
+     "action": "가격/물량/바이어 후보를 검토하고 내부 견적·ERP 업로드로 확정값 보강"
+    }
+   ]
+  },
+  "battery": {
+   "productId": "battery",
+   "product": "2차전지",
+   "hs": "8507.60",
+   "coverage": [
+    "어떤 기업이 어떤 상품을 팔고 있는가",
+    "어디에 얼마로 팔고 있는가",
+    "얼마나 팔고 어떤 바이어 후보가 있는가",
+    "공식/공개 B/L/추정/업로드 값이 어떻게 구분되는가"
+   ],
+   "flows": [
+    {
+     "id": "battery-auto-8",
+     "seller": "Cell Maker",
+     "buyer": "US EV Assembly Plant",
+     "product": "Li-ion battery module",
+     "market": "US",
+     "marketName": "미국",
+     "port": "Busan -> Savannah",
+     "channel": "EV 조립공장",
+     "unitPriceUsd": 7.82,
+     "unit": "kg",
+     "volume": 2360.0,
+     "volumeUnit": "t",
+     "valueUsd": 18455200,
+     "shipments": 34,
+     "share": 75,
+     "growth": 0,
+     "sourceTier": "public_bl",
+     "priceStatus": "estimated",
+     "confidence": 72,
+     "evidence": "공개 B/L/CSV 자동수집",
+     "action": "가격/물량/바이어 후보를 검토하고 내부 견적·ERP 업로드로 확정값 보강"
+    },
+    {
+     "id": "battery-auto-9",
+     "seller": "Materials Supplier",
+     "buyer": "Germany Battery Integrator",
+     "product": "Battery pack component",
+     "market": "DE",
+     "marketName": "독일",
+     "port": "Busan -> Hamburg",
+     "channel": "배터리 통합사",
+     "unitPriceUsd": 8.36,
+     "unit": "kg",
+     "volume": 740.0,
+     "volumeUnit": "t",
+     "valueUsd": 6186400,
+     "shipments": 19,
+     "share": 25,
+     "growth": 0,
+     "sourceTier": "public_bl",
+     "priceStatus": "estimated",
+     "confidence": 72,
+     "evidence": "공개 B/L/CSV 자동수집",
+     "action": "가격/물량/바이어 후보를 검토하고 내부 견적·ERP 업로드로 확정값 보강"
+    }
+   ]
+  }
+ },
+ "updated": 3,
+ "quality": {
+  "status": "operational",
+  "coverageScore": 94,
+  "generatedAt": "2026-07-03T15:50:52",
+  "staleAfterHours": 48,
+  "productCount": 3,
+  "flowCount": 9,
+  "sellerCount": 9,
+  "buyerCount": 9,
+  "marketCount": 6,
+  "averageConfidence": 72,
+  "exactPriceShare": 0,
+  "estimatedPriceShare": 100,
+  "missingPriceShare": 0,
+  "warnings": [
+   "실거래 업로드 단가가 없어 단가는 공식 평균단가 또는 공개 입력값 기반 추정입니다."
+  ],
+  "connectors": [
+   {
+    "id": "public_bl_csv",
+    "label": "공개 B/L CSV",
+    "status": "success",
+    "records": 9,
+    "message": "server/data/public_bl_sample.csv",
+    "error": "",
+    "source_tier": "public_bl"
+   },
+   {
+    "id": "official_customs",
+    "label": "관세청 공식 HS 통계",
+    "status": "success",
+    "records": 540,
+    "message": "202407-202607 · products=3 · skipped=25 · marketLimit=3",
+    "error": "",
+    "source_tier": "official"
+   }
+  ]
+ }
 };

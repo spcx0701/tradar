@@ -35,6 +35,15 @@ def load_data() -> dict:
     return json.loads(out.stdout)
 
 
+def load_trade_intel() -> dict | None:
+    """기존 거래 인텔리전스 섹션을 읽어 관세청 통계 빌드 때 보존한다."""
+    js = ("globalThis.window=globalThis.window||{};"
+          f"require({json.dumps(os.path.abspath(TRADAR_JS))});"
+          "process.stdout.write(JSON.stringify(window.TRADAR_TRADE_INTEL||null));")
+    out = subprocess.run(["node", "-e", js], capture_output=True, text=True, check=True)
+    return json.loads(out.stdout)
+
+
 def _ym(dt: datetime) -> str:
     return f"{dt.year:04d}{dt.month:02d}"
 
@@ -97,10 +106,13 @@ def _country_code(name: str) -> str:
 
 
 def emit(data: dict) -> None:
+    trade_intel = load_trade_intel()
     header = ("/* Tradar 데이터 — 관세청 품목별 국가별 수출입실적(HS코드 기준) 연동.\n"
               f"   생성: {datetime.now().isoformat(timespec='seconds')} · "
               "scripts/build_tradar_data.py 로 재생성. */\n")
     body = "window.TRADAR_DATA = " + json.dumps(data, ensure_ascii=False, indent=1) + ";\n"
+    if trade_intel:
+        body += "\nwindow.TRADAR_TRADE_INTEL = " + json.dumps(trade_intel, ensure_ascii=False, indent=1) + ";\n"
     with open(TRADAR_JS, "w", encoding="utf-8") as f:
         f.write(header + body)
 

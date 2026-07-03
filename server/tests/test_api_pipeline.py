@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import json
+import os
 import shutil
 from datetime import datetime
 
@@ -11,7 +12,8 @@ from fastapi.testclient import TestClient
 from pydantic import ValidationError
 
 from scripts import build_app_data, build_tradar_data, generate_snapshot
-from server.advisor import KoreanLLMAdapter, answer
+from server.advisor import KoreanLLMAdapter, answer, build_llm_adapter
+from server.env import load_env_file
 from server.config import Settings
 from server.customs_client import CustomsClient, _to_int
 from server.dataset import Dataset, get_dataset
@@ -34,6 +36,31 @@ def test_settings_reads_environment(monkeypatch):
     assert settings.cors_origins == "https://example.test"
 
 
+def test_load_env_file_reads_dotenv_without_overriding_existing_values(tmp_path, monkeypatch):
+    env_file = tmp_path / ".env"
+    env_file.write_text(
+        "\n".join([
+            "DATA_GO_KR_KEY=decoded-key",
+            "TRADE_INTEL_PUBLIC_BL_CSV=server/data/public_bl_sample.csv",
+            "IMPORTYETI_API_KEY='iy-key'",
+            "TW_CORS=https://from-file.example",
+        ]),
+        encoding="utf-8",
+    )
+    monkeypatch.delenv("DATA_GO_KR_KEY", raising=False)
+    monkeypatch.delenv("TRADE_INTEL_PUBLIC_BL_CSV", raising=False)
+    monkeypatch.delenv("IMPORTYETI_API_KEY", raising=False)
+    monkeypatch.setenv("TW_CORS", "https://already-set.example")
+
+    loaded = load_env_file(env_file)
+
+    assert loaded["DATA_GO_KR_KEY"] == "decoded-key"
+    assert loaded["IMPORTYETI_API_KEY"] == "iy-key"
+    assert os.environ["DATA_GO_KR_KEY"] == "decoded-key"
+    assert os.environ["TRADE_INTEL_PUBLIC_BL_CSV"] == "server/data/public_bl_sample.csv"
+    assert os.environ["TW_CORS"] == "https://already-set.example"
+
+
 def test_customs_client_parses_xml_and_requires_key():
     xml = """
     <response><body><items>
@@ -47,17 +74,53 @@ def test_customs_client_parses_xml_and_requires_key():
 
     row = CustomsClient._parse(xml)[0]
 
-    assert row == {
-        "year": "2025",
-        "country_name": "미국",
-        "exp_usd": 1234,
-        "exp_kg": 5678,
-        "imp_usd": 0,
-        "imp_kg": 0,
-    }
+    assert row["year"] == "2025"
+    assert row["country_name"] == "미국"
+    assert row["exp_usd"] == 1234
+    assert row["exp_kg"] == 5678
+    assert row["imp_usd"] == 0
+    assert row["imp_kg"] == 0
     assert _to_int("1,000.9") == 1000
     with pytest.raises(RuntimeError):
         CustomsClient(service_key="").fetch_item_country("1902.30", "202401", "202412")
+
+
+def test_customs_client_builds_country_scoped_url_and_parses_current_schema():
+    url = CustomsClient(service_key="demo")._build_url("1902.30", "202501", "202512", "US")
+
+    assert "hsSgn=190230" in url
+    assert "strtYymm=202501" in url
+    assert "endYymm=202512" in url
+    assert "cntyCd=US" in url
+
+    xml = """
+    <response><body><items>
+      <item>
+        <year>2025.01</year><statCdCntnKor1>미국</statCdCntnKor1><statCd>US</statCd>
+        <statKor>라면</statKor><hsCd>190230</hsCd>
+        <expDlr>100</expDlr><expWgt>20</expWgt>
+        <impDlr>7</impDlr><impWgt>3</impWgt>
+      </item>
+    </items></body></response>
+    """
+
+    row = CustomsClient._parse(xml)[0]
+
+    assert row["year"] == "2025"
+    assert row["month"] == "01"
+    assert row["country_name"] == "미국"
+    assert row["country"] == "US"
+    assert row["hs"] == "190230"
+    assert row["exp_usd"] == 100
+    assert row["exp_kg"] == 20
+
+
+def test_customs_client_splits_long_ranges_into_one_year_windows():
+    assert CustomsClient._month_windows("202407", "202607") == [
+        ("202407", "202506"),
+        ("202507", "202606"),
+        ("202607", "202607"),
+    ]
 
 
 def test_dataset_fallbacks_and_aggregates():
@@ -128,8 +191,59 @@ def test_advisor_llm_fallback_and_refine():
 
     assert answer(ds, "전체 현황 알려줘", llm=Refiner())["answer"] == "다듬은 답변"
     assert "무역풍은" in answer(ds, "전체 현황 알려줘", llm=BrokenRefiner())["answer"]
-    with pytest.raises(NotImplementedError):
+    with pytest.raises(RuntimeError):
         KoreanLLMAdapter().refine("q", {"evidence": []}, "draft")
+
+
+def test_korean_llm_adapter_posts_grounded_chat_completion_payload():
+    captured = {}
+
+    def fake_transport(url, headers, payload, timeout):
+        captured["url"] = url
+        captured["headers"] = headers
+        captured["payload"] = payload
+        captured["timeout"] = timeout
+        return {
+            "choices": [
+                {
+                    "message": {
+                        "content": "국산 LLM이 근거 수치를 유지해 다듬은 답변"
+                    }
+                }
+            ]
+        }
+
+    adapter = KoreanLLMAdapter(
+        provider="solar",
+        api_key="test-key",
+        model="solar-pro3",
+        transport=fake_transport,
+    )
+
+    refined = adapter.refine(
+        "라면 어디에 수출하면 좋을까?",
+        {"headline": "초안", "evidence": [{"label": "미국 라면", "value": "YoY +65%"}]},
+        "초안 답변",
+    )
+
+    assert refined == "국산 LLM이 근거 수치를 유지해 다듬은 답변"
+    assert captured["url"] == "https://api.upstage.ai/v1/chat/completions"
+    assert captured["headers"]["Authorization"] == "Bearer test-key"
+    assert captured["payload"]["model"] == "solar-pro3"
+    assert captured["payload"]["temperature"] == 0.2
+    assert "YoY +65%" in captured["payload"]["messages"][1]["content"]
+
+
+def test_build_llm_adapter_uses_configured_solar_defaults():
+    settings = Settings()
+    settings.llm_provider = "solar"
+    settings.llm_api_key = "test-key"
+
+    adapter = build_llm_adapter(settings)
+
+    assert adapter is not None
+    assert adapter.provider == "solar"
+    assert adapter.model == "solar-pro3"
 
 
 def test_schema_validation_rejects_blank_question():

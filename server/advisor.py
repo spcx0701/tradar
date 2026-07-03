@@ -11,6 +11,11 @@
 """
 from __future__ import annotations
 
+import json
+from typing import Any, Callable
+from urllib.request import Request, urlopen
+
+from .config import Settings, settings
 from .dataset import Dataset
 from .forecasting import forecast
 from .radar import market_signal, radar_for_product, risk_alerts, top_opportunities
@@ -86,14 +91,17 @@ def answer(ds: Dataset, question: str, llm=None) -> dict:
     intent = extract_intent(question, ds)
     pack = build_evidence(ds, intent)
     text = compose(pack)
+    engine = "demo-grounded"
     if llm is not None:
         try:
             text = llm.refine(question, pack, text)
+            engine = getattr(llm, "engine_name", getattr(llm, "provider", "korean-llm"))
         except Exception:  # noqa: BLE001 — LLM 실패 시 데모 NLG로 폴백
-            pass
+            engine = "demo-grounded-fallback"
     return {"question": question, "intent": intent,
             "answer": text, "evidence": pack["evidence"],
-            "suggestions": pack["suggestions"], "chart": pack.get("chart")}
+            "suggestions": pack["suggestions"], "chart": pack.get("chart"),
+            "engine": engine}
 
 
 def build_evidence(ds: Dataset, intent: dict) -> dict:
@@ -184,17 +192,119 @@ def compose(pack: dict) -> str:
     return "\n".join(lines)
 
 
-class KoreanLLMAdapter:
-    """국산 LLM 어댑터 인터페이스(운영용).
+ChatTransport = Callable[[str, dict[str, str], dict[str, Any], float], dict[str, Any]]
 
-    Solar(업스테이지)·HyperCLOVA X(네이버) 등의 한국어 모델을 연결한다.
-    evidence 팩을 시스템 프롬프트의 '근거'로 고정해 환각 없이 문체만 다듬는다.
-    데모에서는 사용하지 않으며, 키 설정 시 server/config.py 에서 주입한다.
+
+PROVIDER_DEFAULTS = {
+    "solar": {"base_url": "https://api.upstage.ai/v1", "model": "solar-pro3"},
+    "upstage": {"base_url": "https://api.upstage.ai/v1", "model": "solar-pro3"},
+}
+
+
+def _join_chat_completions_url(base_url: str) -> str:
+    base = base_url.rstrip("/")
+    if base.endswith("/chat/completions"):
+        return base
+    return f"{base}/chat/completions"
+
+
+def _default_chat_transport(
+    url: str,
+    headers: dict[str, str],
+    payload: dict[str, Any],
+    timeout: float,
+) -> dict[str, Any]:
+    body = json.dumps(payload, ensure_ascii=False).encode("utf-8")
+    req = Request(url, data=body, headers=headers, method="POST")
+    with urlopen(req, timeout=timeout) as res:  # noqa: S310 - operator-configured LLM endpoint
+        return json.loads(res.read().decode("utf-8"))
+
+
+class KoreanLLMAdapter:
+    """국산 LLM 어댑터.
+
+    기본 운영 모드는 업스테이지 Solar의 OpenAI-compatible Chat Completions API다.
+    다른 국산/온프레미스 모델도 `TW_LLM_BASE_URL`과 `TW_LLM_MODEL`로 같은 형식이면 연결된다.
     """
 
-    def __init__(self, provider: str = "solar", api_key: str | None = None):
-        self.provider = provider
-        self.api_key = api_key
+    def __init__(
+        self,
+        provider: str = "solar",
+        api_key: str | None = None,
+        base_url: str | None = None,
+        model: str | None = None,
+        timeout: float = 12,
+        transport: ChatTransport | None = None,
+    ):
+        defaults = PROVIDER_DEFAULTS.get(provider.lower(), {})
+        self.provider = provider.lower()
+        self.api_key = api_key or ""
+        self.base_url = base_url or defaults.get("base_url", "")
+        self.model = model or defaults.get("model", "")
+        self.timeout = timeout
+        self.transport = transport or _default_chat_transport
+        self.engine_name = f"{self.provider}:{self.model}" if self.model else self.provider
 
-    def refine(self, question: str, pack: dict, draft: str) -> str:  # pragma: no cover
-        raise NotImplementedError("운영 환경에서 국산 LLM provider를 구현해 주입")
+    def refine(self, question: str, pack: dict, draft: str) -> str:
+        if not self.api_key:
+            raise RuntimeError("TW_LLM_KEY is required for Korean LLM mode")
+        if not self.base_url or not self.model:
+            raise RuntimeError("TW_LLM_BASE_URL and TW_LLM_MODEL are required for this LLM provider")
+
+        payload = {
+            "model": self.model,
+            "messages": [
+                {
+                    "role": "system",
+                    "content": (
+                        "너는 한국 수출 데이터를 분석하는 Tradar AI 무역참모다. "
+                        "제공된 근거 수치와 초안 안에서만 한국어 답변을 자연스럽게 다듬어라. "
+                        "근거에 없는 회사명, 국가, 금액, 인증, 출처를 새로 만들지 마라. "
+                        "수치가 부족한 부분은 추정하지 말고 확인 필요라고 말하라."
+                    ),
+                },
+                {
+                    "role": "user",
+                    "content": json.dumps(
+                        {
+                            "question": question,
+                            "draft_answer": draft,
+                            "headline": pack.get("headline", ""),
+                            "evidence": pack.get("evidence", []),
+                            "suggestions": pack.get("suggestions", []),
+                        },
+                        ensure_ascii=False,
+                    ),
+                },
+            ],
+            "temperature": 0.2,
+            "max_tokens": 700,
+            "stream": False,
+        }
+        headers = {
+            "Authorization": f"Bearer {self.api_key}",
+            "Content-Type": "application/json",
+        }
+        response = self.transport(_join_chat_completions_url(self.base_url), headers, payload, self.timeout)
+        text = response["choices"][0]["message"]["content"].strip()
+        if not text:
+            raise RuntimeError("LLM returned an empty answer")
+        return text
+
+
+def build_llm_adapter(config: Settings = settings) -> KoreanLLMAdapter | None:
+    if not config.llm_provider or not config.llm_api_key:
+        return None
+    provider = config.llm_provider.lower()
+    defaults = PROVIDER_DEFAULTS.get(provider, {})
+    base_url = config.llm_base_url or defaults.get("base_url", "")
+    model = config.llm_model or defaults.get("model", "")
+    if not base_url or not model:
+        return None
+    return KoreanLLMAdapter(
+        provider=provider,
+        api_key=config.llm_api_key,
+        base_url=base_url,
+        model=model,
+        timeout=config.llm_timeout,
+    )

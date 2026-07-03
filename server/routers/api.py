@@ -3,7 +3,7 @@ from __future__ import annotations
 
 from fastapi import APIRouter, HTTPException, Query
 
-from ..advisor import answer as advisor_answer
+from ..advisor import answer as advisor_answer, build_llm_adapter
 from ..dataset import get_dataset
 from ..forecasting import MAX_HORIZON, clamp_horizon, forecast
 from ..radar import market_signal, radar_for_product, risk_alerts, top_opportunities
@@ -85,4 +85,4 @@ def radar_product(hs: str):
 @router.post("/advisor", response_model=AdvisorResponse)
 def advisor(req: AdvisorRequest):
     ds = get_dataset()
-    return advisor_answer(ds, req.question)
+    return advisor_answer(ds, req.question, llm=build_llm_adapter())

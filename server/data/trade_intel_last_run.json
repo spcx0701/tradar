@@ -1,0 +1,68 @@
+{
+  "updated": 3,
+  "products": [
+    "battery",
+    "ramen",
+    "skincare"
+  ],
+  "status": "operational",
+  "quality": {
+    "status": "operational",
+    "coverageScore": 94,
+    "generatedAt": "2026-07-03T15:50:52",
+    "staleAfterHours": 48,
+    "productCount": 3,
+    "flowCount": 9,
+    "sellerCount": 9,
+    "buyerCount": 9,
+    "marketCount": 6,
+    "averageConfidence": 72,
+    "exactPriceShare": 0,
+    "estimatedPriceShare": 100,
+    "missingPriceShare": 0,
+    "warnings": [
+      "실거래 업로드 단가가 없어 단가는 공식 평균단가 또는 공개 입력값 기반 추정입니다."
+    ],
+    "connectors": [
+      {
+        "id": "public_bl_csv",
+        "label": "공개 B/L CSV",
+        "status": "success",
+        "records": 9,
+        "message": "server/data/public_bl_sample.csv",
+        "error": "",
+        "source_tier": "public_bl"
+      },
+      {
+        "id": "official_customs",
+        "label": "관세청 공식 HS 통계",
+        "status": "success",
+        "records": 540,
+        "message": "202407-202607 · products=3 · skipped=25 · marketLimit=3",
+        "error": "",
+        "source_tier": "official"
+      }
+    ]
+  },
+  "connectors": [
+    {
+      "id": "public_bl_csv",
+      "label": "공개 B/L CSV",
+      "status": "success",
+      "records": 9,
+      "message": "server/data/public_bl_sample.csv",
+      "error": "",
+      "source_tier": "public_bl"
+    },
+    {
+      "id": "official_customs",
+      "label": "관세청 공식 HS 통계",
+      "status": "success",
+      "records": 540,
+      "message": "202407-202607 · products=3 · skipped=25 · marketLimit=3",
+      "error": "",
+      "source_tier": "official"
+    }
+  ],
+  "generated": "2026-07-03T15:50:52"
+}

@@ -132,7 +132,20 @@ jobs:
         with:
           persist-credentials: false
       # Tradar 플랫폼 정적 배포 — app/(원본 디자인 + data/tradar.js) 그대로 업로드.
-      # 관세청 실데이터 갱신은 로컬/배치에서 scripts/build_tradar_data.py 로 수행(DATA_GO_KR_KEY).
+      # DATA_GO_KR_KEY secret이 있으면 배포 직전에 공식 HS 통계 + 공개 B/L 흐름을 다시 굽는다.
+      - name: Refresh trade intelligence payload
+        env:
+          DATA_GO_KR_KEY: ${{ secrets.DATA_GO_KR_KEY }}
+          TRADE_INTEL_PUBLIC_BL_CSV: server/data/public_bl_sample.csv
+          TRADE_INTEL_CUSTOMS_TIMEOUT: "8"
+          TRADE_INTEL_CUSTOMS_MARKET_LIMIT: "3"
+        run: |
+          if [ -n "$DATA_GO_KR_KEY" ]; then
+            python scripts/sync_trade_intel.py
+          else
+            echo "DATA_GO_KR_KEY secret is not set; using committed trade intelligence payload."
+          fi
+          python scripts/audit_trade_intel.py --max-age-hours 72
       - uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa
         with: { path: app }
       - id: deploy
