@@ -4,6 +4,7 @@ from __future__ import annotations
 import json
 import os
 import shutil
+from pathlib import Path
 from datetime import datetime
 
 import numpy as np
@@ -20,6 +21,8 @@ from server.dataset import Dataset, get_dataset
 from server.main import app
 from server.schemas import AdvisorRequest
 
+ROOT = Path(__file__).resolve().parents[2]
+
 
 def test_settings_reads_environment(monkeypatch):
     monkeypatch.setenv("DATA_GO_KR_KEY", "demo-key")
@@ -34,6 +37,62 @@ def test_settings_reads_environment(monkeypatch):
     assert settings.llm_provider == "solar"
     assert settings.llm_api_key == "llm-key"
     assert settings.cors_origins == "https://example.test"
+
+
+def test_render_blueprint_deploys_fastapi_server_and_pages_can_receive_api_base():
+    render_yaml = (ROOT / "render.yaml").read_text(encoding="utf-8")
+    workflow = (ROOT / ".github" / "workflows" / "ci.yml").read_text(encoding="utf-8")
+
+    assert "name: tradar" in render_yaml
+    assert "region: singapore" in render_yaml
+    assert "runtime: python" in render_yaml
+    assert "pip install -r requirements.txt" in render_yaml
+    assert "uvicorn server.main:app --host 0.0.0.0 --port $PORT" in render_yaml
+    assert "https://spcx0701.github.io,https://tradar.onrender.com" in render_yaml
+    assert "TW_LLM_PROVIDER" in render_yaml
+    assert "sync: false" in render_yaml
+    assert "TRADEWIND_API_BASE" in workflow
+    assert "app/data/api-config.js" in workflow
+    assert "window.TRADAR_API_BASE" in workflow
+
+
+def test_public_app_surfaces_default_to_render_single_origin():
+    expected_web = "https://tradar.onrender.com/"
+    expected_api = "https://tradar.onrender.com/api"
+    expected_data = "https://tradar.onrender.com/data"
+
+    surfaces = {
+        "README.md": ROOT / "README.md",
+        "README.en.md": ROOT / "README.en.md",
+        "docs/ARCHITECTURE.md": ROOT / "docs" / "ARCHITECTURE.md",
+        "packaging/android/README.md": ROOT / "packaging" / "android" / "README.md",
+        "packaging/android/app/build.gradle.kts": ROOT / "packaging" / "android" / "app" / "build.gradle.kts",
+        "packaging/android/app/src/main/res/values/strings.xml": (
+            ROOT / "packaging" / "android" / "app" / "src" / "main" / "res" / "values" / "strings.xml"
+        ),
+        "packaging/android/app/src/main/java/kr/tradewind/app/MainActivity.kt": (
+            ROOT / "packaging" / "android" / "app" / "src" / "main" / "java" / "kr" / "tradewind" / "app" / "MainActivity.kt"
+        ),
+        "packaging/android/app/src/main/java/kr/tradewind/app/data/Repository.kt": (
+            ROOT / "packaging" / "android" / "app" / "src" / "main" / "java" / "kr" / "tradewind" / "app" / "data" / "Repository.kt"
+        ),
+        ".env.example": ROOT / ".env.example",
+    }
+
+    text_by_name = {name: path.read_text(encoding="utf-8") for name, path in surfaces.items()}
+    for name, text in text_by_name.items():
+        assert "tradar-api.onrender.com" not in text, name
+
+    assert expected_web in text_by_name["README.md"]
+    assert expected_web in text_by_name["README.en.md"]
+    assert expected_web in text_by_name["packaging/android/app/src/main/java/kr/tradewind/app/MainActivity.kt"]
+    assert "site\\\": \\\"https://tradar.onrender.com\\\"" in text_by_name[
+        "packaging/android/app/src/main/res/values/strings.xml"
+    ]
+    assert expected_api in text_by_name["packaging/android/README.md"]
+    assert expected_api in text_by_name[".env.example"]
+    assert expected_data in text_by_name["packaging/android/app/build.gradle.kts"]
+    assert expected_data in text_by_name["packaging/android/app/src/main/java/kr/tradewind/app/data/Repository.kt"]
 
 
 def test_load_env_file_reads_dotenv_without_overriding_existing_values(tmp_path, monkeypatch):

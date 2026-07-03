@@ -4,6 +4,6 @@
     <!-- TWA Digital Asset Links: PWA 도메인 검증 -->
     <string name="asset_statements" translatable="false">
         [{ \"relation\": [\"delegate_permission/common.handle_all_urls\"],
-           \"target\": { \"namespace\": \"web\", \"site\": \"https://spcx0701.github.io\" } }]
+           \"target\": { \"namespace\": \"web\", \"site\": \"https://tradar.onrender.com\" } }]
     </string>
 </resources>

@@ -8,25 +8,27 @@
 - **검색** — HS코드, 품목명, 카테고리, 국가명, 급등/상승/둔화 상태 검색.
 - **관심목록** — 저장한 품목과 해당 품목의 최고 기회 시장.
 - **알림센터** — 리스크 상위 시장과 급성장 기회 시장을 로컬 데이터에서 생성.
-- **AI 무역참모** — 로컬 수치에 근거한 결정적 한국어 요약.
+- **AI 무역참모** — 서버 `/api/advisor` 국산 LLM 프록시를 호출하고, 실패 시 로컬 수치에 근거한 결정적 한국어 요약으로 폴백.
 - **상세 화면** — 품목 상세와 국가×품목 시장 상세.
 
 ## 데이터 동작
 
 앱은 `catalog.json`과 `radar.json` 두 파일을 사용합니다.
 
-1. `https://spcx0701.github.io/tradewind/data/catalog.json`
-2. `https://spcx0701.github.io/tradewind/data/radar.json`
+1. `https://tradar.onrender.com/data/catalog.json`
+2. `https://tradar.onrender.com/data/radar.json`
 3. 실패 시 앱 번들 `assets/catalog.json`, `assets/radar.json`
 
 따라서 네트워크가 없거나 원격 JSON이 아직 배포되지 않아도 번들 스냅샷으로 실행됩니다.
+
+전체 웹앱은 PWA를 TWA/Custom Tabs로 열어 예보·AI 참모·리포트·대시보드까지 같은 Render 단일 오리진에서 사용합니다.
 
 ## 구조
 ```
 app/src/main/
   java/kr/tradewind/app/
     MainActivity.kt        Compose 진입 + Custom Tabs 실행
-    data/                  원격/번들 데이터 로딩, 관심목록 저장소
+    data/                  원격/번들 데이터 로딩, LLM 클라이언트, 관심목록 저장소
     domain/                모델, JSON 파서, 검색/알림/요약 로직
     ui/                    앱 라우팅, 화면, 컴포넌트, 테마
   assets/                  오프라인용 catalog/radar 번들 데이터
@@ -42,6 +44,17 @@ cd packaging/android
 ./gradlew :app:bundleRelease      # Play Store AAB
 ```
 요구: JDK 17, Android SDK 34. `applicationId = kr.tradewind.app`.
+
+국산 LLM 연결 빌드:
+```bash
+# 서버는 TW_LLM_PROVIDER/TW_LLM_KEY/TW_LLM_MODEL/TW_LLM_BASE_URL 을 환경변수로 가진 FastAPI 배포본
+./gradlew :app:assembleDebug -PtradewindApiBase=https://tradar.onrender.com/api
+
+# 또는 advisor 엔드포인트를 직접 지정
+./gradlew :app:assembleDebug -PkoreanLlmEndpoint=https://tradar.onrender.com/api/advisor
+```
+
+앱 APK에 LLM 제공자 키를 넣지 않습니다. 키는 서버 환경변수에만 있고 Android는 `/api/advisor`만 호출합니다.
 
 ## TWA 도메인 검증
 배포 도메인 루트에 `/.well-known/assetlinks.json` 을 올리면 TWA가 전체화면(주소창 제거)으로 동작합니다.

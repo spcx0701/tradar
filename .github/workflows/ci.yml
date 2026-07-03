@@ -146,6 +146,22 @@ jobs:
             echo "DATA_GO_KR_KEY secret is not set; using committed trade intelligence payload."
           fi
           python scripts/audit_trade_intel.py --max-age-hours 72
+      - name: Write static API config
+        env:
+          TRADEWIND_API_BASE: ${{ vars.TRADEWIND_API_BASE }}
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          api_base = os.environ.get("TRADEWIND_API_BASE", "").rstrip("/")
+          Path("app/data/api-config.js").write_text(
+              "window.TRADAR_API_BASE = " + json.dumps(api_base, ensure_ascii=False) + ";\n",
+              encoding="utf-8",
+          )
+          print(f"wrote app/data/api-config.js for {api_base or 'local fallback'}")
+          PY
       - name: Publish static app to gh-pages
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

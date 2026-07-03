@@ -1,9 +1,11 @@
 package kr.tradewind.app.data
 
 import android.content.Context
+import kr.tradewind.app.BuildConfig
 import kr.tradewind.app.domain.DataSource
 import kr.tradewind.app.domain.TradarData
 import kr.tradewind.app.domain.TradarParser
+import kr.tradewind.app.domain.TradarQueries
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.net.HttpURLConnection
@@ -23,7 +25,10 @@ sealed interface TradarLoadResult {
 
 class TradarRepository(
     private val context: Context,
-    private val remoteBaseUrl: String = "https://spcx0701.github.io/tradewind/data",
+    private val remoteBaseUrl: String = BuildConfig.TRADAR_DATA_BASE.ifBlank {
+        "https://tradar.onrender.com/data"
+    },
+    private val llmClient: KoreanLlmClient = KoreanLlmClient(BuildConfig.KOREAN_LLM_ENDPOINT),
 ) {
     suspend fun load(): TradarLoadResult = withContext(Dispatchers.IO) {
         val remote = runCatching {
@@ -63,6 +68,11 @@ class TradarRepository(
                 )
             },
         )
+    }
+
+    suspend fun askAssistant(question: String, data: TradarData): AssistantAnswer {
+        val remote = llmClient.ask(question)
+        return remote ?: LocalAssistant.answer(question, TradarQueries.allMarkets(data))
     }
 
     private fun readAsset(name: String): String =

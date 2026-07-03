@@ -55,7 +55,7 @@
 - 백엔드/AI: Python · FastAPI · numpy
 - 프런트: 정적 PWA(Vanilla JS · 인라인 SVG 차트, 무프레임워크 → 경량·오프라인)
 - 앱: PWA(TWA) + Jetpack Compose(Kotlin)
-- 배포: GitHub Pages(정적) 또는 Render/Docker(FastAPI)
+- 배포: Render 단일 오리진(FastAPI + 정적 PWA, `https://tradar.onrender.com/`)을 기본 운영면으로 사용하고, GitHub Pages는 정적 fallback으로 유지
 
 ## 확장 로드맵
 - 실데이터 일배치 동기화(Airflow/cron) + HS 10단위 세분화

@@ -42,6 +42,19 @@ def test_trade_intelligence_screen_exposes_commercial_workflow():
         assert question in html
 
 
+def test_web_chatbot_uses_deployed_advisor_api_with_local_fallback():
+    html = APP_INDEX.read_text(encoding="utf-8")
+
+    assert "TRADAR_API_BASE" in html
+    assert "callAdvisorApi" in html
+    assert "fetch(base+'/advisor'" in html
+    assert "location.hostname.indexOf('github.io') === -1" in html
+    assert "location.origin + '/api'" in html
+    assert "advisorSource" in html
+    assert "api-fallback" in html
+    assert "this.respond(v)" in html
+
+
 def _load_tradar_payload() -> dict:
     if shutil.which("node") is None:
         pytest.skip("node is required to evaluate tradar.js")

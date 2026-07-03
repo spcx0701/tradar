@@ -40,7 +40,7 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-private const val WEB_APP_URL = "https://spcx0701.github.io/tradewind/"
+private const val WEB_APP_URL = "https://tradar.onrender.com/"
 
 @Composable
 private fun App(repository: TradarRepository, watchlistStore: WatchlistStore) {

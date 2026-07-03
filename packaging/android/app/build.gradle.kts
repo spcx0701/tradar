@@ -3,6 +3,14 @@ plugins {
     id("org.jetbrains.kotlin.android")
 }
 
+fun configString(propName: String, envName: String, defaultValue: String = ""): String =
+    providers.gradleProperty(propName)
+        .orElse(providers.environmentVariable(envName))
+        .getOrElse(defaultValue)
+
+fun androidStringLiteral(value: String): String =
+    "\"" + value.replace("\\", "\\\\").replace("\"", "\\\"") + "\""
+
 android {
     namespace = "kr.tradewind.app"
     compileSdk = 34
@@ -13,9 +21,15 @@ android {
         targetSdk = 34
         versionCode = 1
         versionName = "1.0.0"
+        val dataBase = configString("tradarDataBase", "TRADAR_DATA_BASE", "https://tradar.onrender.com/data")
+        val apiBase = configString("tradewindApiBase", "TRADEWIND_API_BASE", "https://tradar.onrender.com/api")
+        val llmEndpointDefault = if (apiBase.isBlank()) "" else "${apiBase.trimEnd('/')}/advisor"
+        val llmEndpoint = configString("koreanLlmEndpoint", "KOREAN_LLM_ENDPOINT", llmEndpointDefault)
+        buildConfigField("String", "TRADAR_DATA_BASE", androidStringLiteral(dataBase))
+        buildConfigField("String", "KOREAN_LLM_ENDPOINT", androidStringLiteral(llmEndpoint))
         // TWA가 띄울 PWA 주소(라이브 배포 URL). assetlinks.json 으로 도메인 검증.
-        manifestPlaceholders["twaUrl"] = "https://spcx0701.github.io/tradewind/"
-        manifestPlaceholders["twaHost"] = "spcx0701.github.io"
+        manifestPlaceholders["twaUrl"] = "https://tradar.onrender.com/"
+        manifestPlaceholders["twaHost"] = "tradar.onrender.com"
     }
     buildTypes {
         release {
@@ -28,7 +42,10 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions { jvmTarget = "17" }
-    buildFeatures { compose = true }
+    buildFeatures {
+        compose = true
+        buildConfig = true
+    }
     composeOptions { kotlinCompilerExtensionVersion = "1.5.14" }
 }
 
@@ -45,6 +62,7 @@ dependencies {
     implementation("com.google.androidbrowserhelper:androidbrowserhelper:2.5.0")
     implementation("androidx.browser:browser:1.8.0")
     testImplementation("junit:junit:4.13.2")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.8.1")
     testImplementation("org.json:json:20240303")
     debugImplementation("androidx.compose.ui:ui-tooling")
 }
