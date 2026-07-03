@@ -1285,37 +1285,27 @@ class Component extends DCLogic {
   acts(){ return [{label:'리포트에 추가',icon:'add_chart',onClick:()=>this.toastMsg('리포트에 차트를 추가했습니다.')},{label:'알림 생성',icon:'notifications_active',onClick:()=>this.toastMsg('이 지표로 알림 규칙을 만듭니다.')},{label:'비교 추가',icon:'compare_arrows',onClick:()=>this.toastMsg('비교 트레이에 담았습니다.')}]; }
   findProduct(t){ const low=t.toLowerCase(); return this.products.find(p=>t.indexOf(p.ko)>=0||(p.en&&low.indexOf(p.en.toLowerCase())>=0)); }
   advisorApiBase(){ return String(window.TRADAR_API_BASE||'').replace(/\/+$/,''); }
-  isChatGreeting(t){ const q=String(t||'').toLowerCase().replace(/\s+/g,'').replace(/[!?.,。~…]+$/g,''); return ['안녕','안녕하세요','녕','하이','ㅎㅇ','헬로','반가워','hi','hello','hey'].indexOf(q)>=0; }
   callAdvisorApi(question){
     const base=this.advisorApiBase();
     if(!base||typeof fetch!=='function') return Promise.resolve(null);
     return fetch(base+'/advisor',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({question:question})})
       .then(res=>{ if(!res.ok) throw new Error('advisor HTTP '+res.status); return res.json(); })
-      .then(data=>({text:data.answer||'',citations:(data.evidence||[]).map(e=>(e.label||'근거')+' — '+(e.value||'')),suggestions:data.suggestions||[],advisorSource:data.engine||'api'}));
+      .then(data=>({text:data.answer||'',citations:(data.evidence||[]).map(e=>(e.label||'근거')+' — '+(e.value||'')),suggestions:data.suggestions||[],advisorSource:data.engine||'api',llmError:data.llm_error||''}));
   }
   updateChatMessage(id,patch){ this.setState(s=>({msgs:s.msgs.map(m=>m.id===id?Object.assign({},m,patch):m)}),()=>this.scrollChat()); }
-  respond(t){ const low=t.toLowerCase(); const p=this.findProduct(t);
-    if(this.isChatGreeting(t)){ return {text:'안녕하세요. Tradar AI 애널리스트입니다. 품목, 국가, 수출 추세, 리스크, 시장 비교를 물어보면 관세청 수출입통계 기반으로 답변합니다.',chart:null,citations:[]}; }
-    if(/히트맵|heatmap|트리맵|treemap|지도|map|카테고리/.test(t)){ const agg={}; this.products.forEach(x=>{ const c=x.cat; if(!agg[c])agg[c]={value:0,w:0,ch:0}; agg[c].value+=x.ann; agg[c].ch+=x.ytd*x.ann; agg[c].w+=x.ann; }); const items=Object.keys(agg).map(c=>({label:this.CATS[c].label,value:agg[c].value,change:+(agg[c].ch/agg[c].w).toFixed(1)})); return {text:'카테고리별 수출 규모(면적)와 YTD 성장률(색)을 Finviz 스타일 트리맵으로 구성했습니다. 반도체가 규모를 압도하지만, K-Food·K-Beauty·로봇이 가장 뜨겁게 성장 중입니다.',chart:this.treemap(items,{h:300}),chartTitle:'카테고리별 수출 히트맵 · 규모 × 성장률',chartIcon:'grid_view',citations:['관세청 수출입무역통계','KITA K-stat'],actions:this.acts()}; }
-    if(/리스크|위험|risk|매트릭스|matrix|기회/.test(t)){ const sel=['ramen','skincare','laver','tteok','sauce','robot','battery','ev','solar','bio','album','colorcos']; const rv={low:18,med:48,high:72,crit:88}; const pts=sel.map(id=>{ const x=this.byId[id]; return {x:rv[x.risk],y:Math.max(8,Math.min(96,50+x.mom*4+(x.score-72)*0.6)),r:Math.max(8,Math.min(30,Math.sqrt(x.ann)/2.2)),color:this.CATS[x.cat].color,label:x.ko,short:x.ko.slice(0,2)}; }); return {text:'주요 품목을 리스크(가로) 대비 모멘텀(세로)으로 매핑했습니다. 좌상단 \u2018기회 우위\u2019 구역의 떡볶이·라면·소스·로봇이 저위험·고성장 조합으로 가장 매력적입니다. 버블 크기는 수출 규모입니다.',chart:this.bubble(pts,{h:300,xLabel:'리스크 (낮음 → 높음)',yLabel:'모멘텀 (낮음 → 높음)'}),chartTitle:'기회 vs 리스크 매트릭스',chartIcon:'bubble_chart',citations:['관세청 수출입무역통계','뉴스 시그널 NLP','환율·정책 지표'],actions:this.acts()}; }
-    if(p&&/구성|비중|점유|share|donut|시장 구성/.test(t)){ const parts=p.mk.map((m,i)=>({label:this.CO[m[0]]||m[0],value:m[1],color:['#1D68F0','#16A8C8','#7A5BF0','#E8590C','#16B364'][i%5]})); const others=Math.max(0,100-parts.reduce((s,x)=>s+x.value,0)); if(others>0)parts.push({label:'기타',value:others,color:'#CBD2DC'}); return {text:p.ko+'(HS '+p.hs+')의 수출 시장 구성입니다. 상위 시장 집중도와 다변화 정도를 함께 확인하세요.',chart:this.donut(parts,{size:180,centerValue:this.fmtUSD(p.ann),centerLabel:'2025 수출'}),chartTitle:p.ko+' 국가별 수출 비중',chartIcon:'donut_large',citations:['관세청 수출입무역통계 (HS '+p.hs+')'],actions:this.acts()}; }
-    if(/비교|compare|vs|뷰티|화장품|국가별/.test(t)){ const x=p||this.byId['skincare']; const groups=x.mk.map(m=>({label:this.CO[m[0]]||m[0],bars:[{name:'비중%',value:m[1],color:this.CATS[x.cat].color},{name:'성장%',value:Math.max(0,m[2]),color:'#16B364'}]})); return {text:x.ko+'의 핵심 시장별 \u2018비중(파랑 계열)\u2019과 \u2018성장률(초록)\u2019을 함께 비교했습니다. 비중은 크지만 성장이 둔화된 시장과, 작지만 급성장하는 신흥시장을 구분해 보세요.',chart:this.groupedBar(groups,{h:230}),chartTitle:x.ko+' 핵심 시장: 비중 vs 성장률',chartIcon:'bar_chart',citations:['관세청 수출입무역통계','식약처 화장품 통계'],actions:this.acts()}; }
-    if(p){ const W=12; const data=p.series.slice(-W); const fc=/전망|예측|forecast|미래/.test(t); let series=[{name:p.ko,color:this.CATS[p.cat].color,data:data,area:true}]; let extra=''; if(fc){ const g=Math.pow(1+p.yoy/100,1/12)-1; let last=data[data.length-1]; const f=[]; for(let i=0;i<W-1;i++)f.push(null); f.push(last); for(let i=0;i<6;i++){ last=last*(1+g); f.push(+last.toFixed(1)); } const padded=data.concat([null,null,null,null,null,null]); series=[{name:p.ko,color:this.CATS[p.cat].color,data:padded,area:true},{name:p.ko+' 전망',color:'#9AA4B2',data:f,dash:'5 4'}]; extra=' 향후 6개월 전망(점선)은 최근 추세 기반 추정치입니다.'; } const top=p.mk[0]; return {text:p.ko+'(HS '+p.hs+') 월별 수출 추세입니다. 2025년 '+this.fmtUSD(p.ann)+' 규모로 전년比 '+(p.yoy>0?'+':'')+p.yoy+'%, 핵심 시장은 '+(this.CO[top[0]]||top[0])+'(비중 '+top[1]+'%, '+(top[2]>0?'+':'')+top[2]+'%)입니다.'+extra,chart:this.lineChart(series,{h:220,labels:this.monthsLabels(fc?18:W)}),chartTitle:p.ko+' 월별 수출 추세'+(fc?' + 6개월 전망':''),chartIcon:'show_chart',citations:['관세청 수출입무역통계 (HS '+p.hs+')','뉴스 '+(this.news.filter(n=>(n.related||[]).indexOf(p.id)>=0).length)+'건 연동'],actions:this.acts()}; }
-    return {text:'아래처럼 물어봐 주세요:\n· \u201c라면 수출 추세 보여줘\u201d — 품목 추세 라인차트\n· \u201cK-뷰티 핵심 시장 비교\u201d — 국가별 비중·성장 막대\n· \u201c리스크 대비 기회 매트릭스\u201d — 버블차트\n· \u201c카테고리별 수출 히트맵\u201d — Finviz 스타일 트리맵\n· \u201c라면 6개월 전망\u201d — 추세+전망',chart:null};
-  }
   ask(text){
     const v=(text||'').trim(); if(!v)return;
     const um={id:this._mid++,role:'user',text:v};
-    const local=Object.assign({advisorSource:'api-fallback'},this.respond(v));
     const aiId=this._mid++;
-    const am=Object.assign({id:aiId,role:'ai'},local);
+    const am={id:aiId,role:'ai',text:'서버의 한국 LLM 응답을 기다리는 중입니다.',citations:[],advisorSource:'api-pending'};
     const base=this.advisorApiBase();
     this.setState(s=>({chatOpen:true,input:'',msgs:s.msgs.concat([um,am])}),()=>this.scrollChat());
-    if(!base) return;
+    if(!base){ this.updateChatMessage(aiId,{text:'서버 API 주소가 설정되지 않아 답변을 생성할 수 없습니다.',citations:[],advisorSource:'api-error'}); return; }
     this.callAdvisorApi(v).then(remote=>{
-      if(!remote||!remote.text)return;
-      this.updateChatMessage(aiId,Object.assign({},remote,{chart:local.chart||null,chartTitle:local.chartTitle||'',chartIcon:local.chartIcon||'insights',actions:local.actions||[]}));
-    }).catch(()=>this.updateChatMessage(aiId,Object.assign({},local,{advisorSource:'api-fallback'})));
+      if(!remote||!remote.text) throw new Error('empty advisor response');
+      const citations=remote.llmError?(remote.citations||[]).concat(['LLM 오류 — '+remote.llmError]):(remote.citations||[]);
+      this.updateChatMessage(aiId,Object.assign({},remote,{citations:citations}));
+    }).catch(err=>this.updateChatMessage(aiId,{text:'서버/API 연결에 실패했습니다. Render API 또는 한국 LLM 설정을 확인해야 합니다. ('+((err&&err.message)||'unknown error')+')',citations:[],advisorSource:'api-error'}));
   }
   scrollChat(){ setTimeout(()=>{ const el=document.getElementById('tdr-chat-msgs'); if(el)el.scrollTop=el.scrollHeight; },60); }
   toastMsg(m){ if(m&&m.indexOf('거래 인텔리전스 CSV를 준비했습니다.')>=0){ var id=this.state.tradeFocus||this.state.journeyFocus||'ramen'; var pack=(this.tradeIntel.products||{})[id]; if(pack&&pack.flows){ this.downloadTradeCsv(pack,pack.flows.slice()); return; } } this.setState({toast:m}); clearTimeout(this._t); this._t=setTimeout(()=>this.setState({toast:null}),2600); }

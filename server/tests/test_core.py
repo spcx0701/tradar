@@ -79,13 +79,16 @@ def test_advisor_grounded_answer():
     assert r["intent"]["country"] == "US"
 
 
-def test_advisor_greeting_answers_without_default_market_overview():
+def test_advisor_greeting_requires_llm_instead_of_hardcoded_answer():
     ds = get_dataset()
     r = answer(ds, "안녕")
 
     assert r["intent"]["intent"] == "smalltalk"
-    assert "안녕하세요" in r["answer"]
+    assert "한국 LLM이 설정되지 않아" in r["answer"]
+    assert "하드코딩으로 대신하지 않습니다" in r["answer"]
     assert "최근 12개월 분석 대상 수출 합계" not in r["answer"]
+    assert r["engine"] == "llm-not-configured"
+    assert r["llm_error"] == "Korean LLM is not configured"
     assert r["evidence"] == []
     assert r["suggestions"]
 

@@ -249,9 +249,29 @@ def test_advisor_llm_fallback_and_refine():
             raise RuntimeError("provider down")
 
     assert answer(ds, "전체 현황 알려줘", llm=Refiner())["answer"] == "다듬은 답변"
-    assert "무역풍은" in answer(ds, "전체 현황 알려줘", llm=BrokenRefiner())["answer"]
+    failed = answer(ds, "전체 현황 알려줘", llm=BrokenRefiner())
+    assert failed["engine"] == "demo-grounded-fallback"
+    assert failed["llm_error"] == "provider down"
+    assert "한국 LLM 연결에 실패했습니다" in failed["answer"]
+    assert "무역풍은" in failed["answer"]
     with pytest.raises(RuntimeError):
         KoreanLLMAdapter().refine("q", {"evidence": []}, "draft")
+
+
+def test_advisor_greeting_does_not_mask_llm_failure_with_hardcoded_answer():
+    ds = get_dataset()
+
+    class BrokenRefiner:
+        def refine(self, question, pack, draft):
+            raise RuntimeError("provider suspended")
+
+    failed = answer(ds, "안녕", llm=BrokenRefiner())
+
+    assert failed["intent"]["intent"] == "smalltalk"
+    assert failed["engine"] == "demo-grounded-fallback"
+    assert failed["llm_error"] == "provider suspended"
+    assert "한국 LLM 연결에 실패했습니다" in failed["answer"]
+    assert "안녕하세요. Tradar AI 애널리스트입니다." not in failed["answer"]
 
 
 def test_korean_llm_adapter_posts_grounded_chat_completion_payload():

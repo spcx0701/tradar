@@ -13,6 +13,7 @@ from __future__ import annotations
 
 import json
 from typing import Any, Callable
+from urllib.error import HTTPError, URLError
 from urllib.request import Request, urlopen
 
 from .config import Settings, settings
@@ -99,16 +100,49 @@ def answer(ds: Dataset, question: str, llm=None) -> dict:
     pack = build_evidence(ds, intent)
     text = compose(pack)
     engine = "demo-grounded"
+    llm_error = None
+    if intent["intent"] == "smalltalk" and llm is None:
+        return {
+            "question": question,
+            "intent": intent,
+            "answer": (
+                "한국 LLM이 설정되지 않아 일반 대화 응답을 생성할 수 없습니다. "
+                "인사 응답을 하드코딩으로 대신하지 않습니다. TW_LLM_PROVIDER와 TW_LLM_KEY를 확인해 주세요."
+            ),
+            "evidence": pack["evidence"],
+            "suggestions": pack["suggestions"],
+            "chart": pack.get("chart"),
+            "engine": "llm-not-configured",
+            "llm_error": "Korean LLM is not configured",
+        }
     if llm is not None:
         try:
             text = llm.refine(question, pack, text)
             engine = getattr(llm, "engine_name", getattr(llm, "provider", "korean-llm"))
-        except Exception:  # noqa: BLE001 — LLM 실패 시 데모 NLG로 폴백
+        except Exception as exc:  # noqa: BLE001 — 운영 상태를 응답에 드러낸다
             engine = "demo-grounded-fallback"
+            llm_error = _public_llm_error(exc)
+            if intent["intent"] == "smalltalk":
+                text = (
+                    f"한국 LLM 연결에 실패했습니다: {llm_error}\n\n"
+                    "인사나 일반 대화 응답을 하드코딩으로 대신하지 않습니다. "
+                    "TW_LLM_KEY, provider 크레딧, 모델 설정을 확인해 주세요."
+                )
+            else:
+                text = (
+                    f"한국 LLM 연결에 실패했습니다: {llm_error}\n\n"
+                    "아래는 LLM이 아니라 관세청 데이터 기반 규칙 초안입니다.\n\n"
+                    f"{text}"
+                )
     return {"question": question, "intent": intent,
             "answer": text, "evidence": pack["evidence"],
             "suggestions": pack["suggestions"], "chart": pack.get("chart"),
-            "engine": engine}
+            "engine": engine, "llm_error": llm_error}
+
+
+def _public_llm_error(exc: Exception) -> str:
+    msg = str(exc).strip() or exc.__class__.__name__
+    return " ".join(msg.split())[:280]
 
 
 def build_evidence(ds: Dataset, intent: dict) -> dict:
@@ -177,8 +211,8 @@ def build_evidence(ds: Dataset, intent: dict) -> dict:
 
     elif kind == "smalltalk":
         headline = (
-            "안녕하세요. Tradar AI 애널리스트입니다. "
-            "품목, 국가, 수출 추세, 리스크, 시장 비교를 물어보면 관세청 수출입통계 기반으로 답변합니다."
+            "사용자가 인사했습니다. Tradar의 역할을 짧게 소개하고 "
+            "품목, 국가, 수출 추세, 리스크, 시장 비교 질문을 자연스럽게 유도하세요."
         )
         sug = ["라면 수출 추세 보여줘", "K-뷰티 핵심 시장 비교", "리스크 대비 기회 매트릭스"]
 
@@ -230,8 +264,14 @@ def _default_chat_transport(
 ) -> dict[str, Any]:
     body = json.dumps(payload, ensure_ascii=False).encode("utf-8")
     req = Request(url, data=body, headers=headers, method="POST")
-    with urlopen(req, timeout=timeout) as res:  # noqa: S310 - operator-configured LLM endpoint
-        return json.loads(res.read().decode("utf-8"))
+    try:
+        with urlopen(req, timeout=timeout) as res:  # noqa: S310 - operator-configured LLM endpoint
+            return json.loads(res.read().decode("utf-8"))
+    except HTTPError as exc:
+        detail = exc.read().decode("utf-8", errors="replace")[:400]
+        raise RuntimeError(f"LLM HTTP {exc.code}: {detail}") from exc
+    except URLError as exc:
+        raise RuntimeError(f"LLM connection error: {exc.reason}") from exc
 
 
 class KoreanLLMAdapter:

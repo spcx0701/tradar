@@ -42,7 +42,7 @@ def test_trade_intelligence_screen_exposes_commercial_workflow():
         assert question in html
 
 
-def test_web_chatbot_uses_deployed_advisor_api_with_local_fallback():
+def test_web_chatbot_uses_deployed_advisor_api_without_local_answer_fallback():
     html = APP_INDEX.read_text(encoding="utf-8")
 
     assert "TRADAR_API_BASE" in html
@@ -51,8 +51,9 @@ def test_web_chatbot_uses_deployed_advisor_api_with_local_fallback():
     assert "location.hostname.indexOf('github.io') === -1" in html
     assert "location.origin + '/api'" in html
     assert "advisorSource" in html
-    assert "api-fallback" in html
-    assert "this.respond(v)" in html
+    assert "api-fallback" not in html
+    assert "this.respond(v)" not in html
+    assert "서버의 한국 LLM 응답을 기다리는 중입니다." in html
 
 
 def test_web_chatbot_file_url_defaults_to_render_api():
@@ -62,11 +63,11 @@ def test_web_chatbot_file_url_defaults_to_render_api():
     assert "https://tradar.onrender.com/api" in html
 
 
-def test_web_chatbot_local_fallback_answers_greetings():
+def test_web_chatbot_does_not_hardcode_greeting_fallback():
     html = APP_INDEX.read_text(encoding="utf-8")
 
-    assert "isChatGreeting(t)" in html
-    assert "안녕하세요. Tradar AI 애널리스트입니다." in html
+    assert "isChatGreeting(t)" not in html
+    assert "안녕하세요. Tradar AI 애널리스트입니다." not in html
 
 
 def test_web_chatbot_does_not_submit_during_korean_ime_composition():

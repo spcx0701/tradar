@@ -21,6 +21,7 @@ class AdvisorResponse(BaseModel):
     suggestions: list[str]
     chart: dict | None = None
     engine: str = "demo-grounded"
+    llm_error: str | None = None
 
 
 class ForecastPoint(BaseModel):
