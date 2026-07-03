@@ -1504,7 +1504,7 @@ class Component extends DCLogic {
       showChatDock:!isMobile, chatOpen:st.chatOpen, chatMode:st.chatMode||'auto', onChatMode:(e)=>this.setState({chatMode:e.target.value}), onChatFocus:()=>{ if(!this.state.chatOpen) this.setState({chatOpen:true},()=>this.scrollChat()); }, onChatToggle:()=>this.setState(s=>({chatOpen:!s.chatOpen}),()=>this.scrollChat()),
       chatContext, chatMsgs:msgs, chatSuggestions:sugg, chatInput:st.input,
       onChatInput:(e)=>this.setState({input:e.target.value}),
-      onChatKey:(e)=>{ if(e.key==='Enter'){e.preventDefault();this.ask(this.state.input);} },
+      onChatKey:(e)=>{ if(e.isComposing||(e.nativeEvent&&e.nativeEvent.isComposing)||e.keyCode===229)return; if(e.key==='Enter'){e.preventDefault();this.ask(this.state.input);} },
       onChatSendClick:()=>this.ask(this.state.input),
       paletteOpen:st.paletteOpen, onPaletteClose:()=>this.setState({paletteOpen:false}), stop:(e)=>e.stopPropagation(),
       paletteQuery:st.pq, onPaletteInput:(e)=>this.setState({pq:e.target.value}), paletteResults, paletteEmpty,

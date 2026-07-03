@@ -67,6 +67,8 @@ def test_advisor_intents():
     assert extract_intent("라면 어디에 수출할까?", ds)["intent"] == "recommend"
     assert extract_intent("화장품 미국 예측", ds)["intent"] == "forecast"
     assert extract_intent("위험한 시장 알려줘", ds)["intent"] == "risk"
+    assert extract_intent("안녕", ds)["intent"] == "smalltalk"
+    assert extract_intent("녕", ds)["intent"] == "smalltalk"
 
 
 def test_advisor_grounded_answer():
@@ -75,6 +77,17 @@ def test_advisor_grounded_answer():
     assert "미국" in r["answer"] and "화장품" in r["answer"]
     assert len(r["evidence"]) > 0
     assert r["intent"]["country"] == "US"
+
+
+def test_advisor_greeting_answers_without_default_market_overview():
+    ds = get_dataset()
+    r = answer(ds, "안녕")
+
+    assert r["intent"]["intent"] == "smalltalk"
+    assert "안녕하세요" in r["answer"]
+    assert "최근 12개월 분석 대상 수출 합계" not in r["answer"]
+    assert r["evidence"] == []
+    assert r["suggestions"]
 
 
 def test_tradar_score():

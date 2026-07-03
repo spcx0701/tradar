@@ -55,6 +55,13 @@ def test_web_chatbot_uses_deployed_advisor_api_with_local_fallback():
     assert "this.respond(v)" in html
 
 
+def test_web_chatbot_does_not_submit_during_korean_ime_composition():
+    html = APP_INDEX.read_text(encoding="utf-8")
+
+    assert "e.isComposing" in html
+    assert "keyCode===229" in html
+
+
 def _load_tradar_payload() -> dict:
     if shutil.which("node") is None:
         pytest.skip("node is required to evaluate tradar.js")

@@ -51,6 +51,10 @@ COUNTRY_ALIASES = {
 
 STATUS_LABEL = {"surge": "급등", "rising": "상승", "stable": "안정",
                 "cooling": "둔화", "volatile": "변동성 높음"}
+SMALLTALK_INPUTS = {
+    "안녕", "안녕하세요", "녕", "하이", "ㅎㅇ", "헬로", "반가워",
+    "hi", "hello", "hey",
+}
 
 
 def _won(usd: float) -> str:
@@ -64,6 +68,9 @@ def _won(usd: float) -> str:
 
 def extract_intent(question: str, ds: Dataset) -> dict:
     q = question.lower().replace(" ", "")
+    compact = q.strip("!?.,。~…")
+    if compact in SMALLTALK_INPUTS:
+        return {"hs": None, "country": None, "intent": "smalltalk"}
     hs = None
     for code, kws in PRODUCT_KEYWORDS.items():
         if any(kw.replace(" ", "") in q for kw in kws):
@@ -167,6 +174,13 @@ def build_evidence(ds: Dataset, intent: dict) -> dict:
         else:
             headline = "현재 규모 있는 시장 중 둔화 경보 신호는 없습니다."
         sug = ["떠오르는 시장 추천해줘", "화장품 중국 수요 예측"]
+
+    elif kind == "smalltalk":
+        headline = (
+            "안녕하세요. Tradar AI 애널리스트입니다. "
+            "품목, 국가, 수출 추세, 리스크, 시장 비교를 물어보면 관세청 수출입통계 기반으로 답변합니다."
+        )
+        sug = ["라면 수출 추세 보여줘", "K-뷰티 핵심 시장 비교", "리스크 대비 기회 매트릭스"]
 
     else:  # overview
         total = ds.grand_total()
