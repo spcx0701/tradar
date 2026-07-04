@@ -14,7 +14,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 from server.trade_intelligence import validate_trade_intel_payload  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[1]
-TRADAR_JS = ROOT / "app" / "data" / "tradar.js"
+TRADAR_JS = ROOT / "app" / "app" / "data" / "tradar.js"
 
 
 def load_trade_intel(tradar_js: str) -> dict:
@@ -29,7 +29,7 @@ def load_trade_intel(tradar_js: str) -> dict:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description="Audit generated TRADAR_TRADE_INTEL before PR/deploy")
-    parser.add_argument("--tradar-js", default=str(TRADAR_JS), help="app/data/tradar.js path")
+    parser.add_argument("--tradar-js", default=str(TRADAR_JS), help="app/app/data/tradar.js path")
     parser.add_argument("--now", default=None, help="ISO timestamp used for deterministic stale checks")
     parser.add_argument("--max-age-hours", type=int, default=72)
     parser.add_argument("--min-products", type=int, default=1)

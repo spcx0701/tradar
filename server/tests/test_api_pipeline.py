@@ -52,7 +52,7 @@ def test_render_blueprint_deploys_fastapi_server_and_pages_can_receive_api_base(
     assert "TW_LLM_PROVIDER" in render_yaml
     assert "sync: false" in render_yaml
     assert "TRADEWIND_API_BASE" in workflow
-    assert "app/data/api-config.js" in workflow
+    assert "app/app/data/api-config.js" in workflow
     assert "window.TRADAR_API_BASE" in workflow
 
 

@@ -19,7 +19,7 @@ from server.radar import (                        # noqa: E402
     market_signal, radar_for_product, risk_alerts, top_opportunities,
 )
 
-OUT = os.path.join(os.path.dirname(__file__), "..", "app", "data")
+OUT = os.path.join(os.path.dirname(__file__), "..", "app", "app", "data")
 HORIZON = 6
 
 
@@ -124,7 +124,7 @@ def main() -> None:
     country_totals.sort(key=lambda r: r["latest12_usd"], reverse=True)
     _dump("countries.json", {"countries": country_totals})
 
-    print(f"✓ app/data: catalog({len(products)} 품목) · forecast({len(series)} 시계열) · "
+    print(f"✓ app/app/data: catalog({len(products)} 품목) · forecast({len(series)} 시계열) · "
           f"radar(top {len(radar['top'])}/risk {len(radar['risk'])}) · countries({len(country_totals)})")
 
 

@@ -34,7 +34,7 @@ from server.trade_intelligence import (  # noqa: E402
 )
 
 ROOT = Path(__file__).resolve().parents[1]
-TRADAR_JS = str(ROOT / "app" / "data" / "tradar.js")
+TRADAR_JS = str(ROOT / "app" / "app" / "data" / "tradar.js")
 RUN_REPORT_JSON = str(ROOT / "server" / "data" / "trade_intel_last_run.json")
 
 

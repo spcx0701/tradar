@@ -23,7 +23,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 from server.customs_client import CustomsClient  # noqa: E402
 
 ROOT = os.path.join(os.path.dirname(__file__), "..")
-TRADAR_JS = os.path.join(ROOT, "app", "data", "tradar.js")
+TRADAR_JS = os.path.join(ROOT, "app", "app", "data", "tradar.js")
 
 
 def load_data() -> dict:

@@ -4,7 +4,7 @@ from __future__ import annotations
 from pathlib import Path
 
 
-APP_HTML = Path(__file__).resolve().parents[2] / "app" / "index.html"
+APP_HTML = Path(__file__).resolve().parents[2] / "app" / "app" / "index.html"
 
 
 def test_report_builder_sections_use_rich_section_models():

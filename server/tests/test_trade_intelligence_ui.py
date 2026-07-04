@@ -10,8 +10,8 @@ import pytest
 
 
 ROOT = Path(__file__).resolve().parents[2]
-APP_INDEX = ROOT / "app" / "index.html"
-APP_DATA = ROOT / "app" / "data" / "tradar.js"
+APP_INDEX = ROOT / "app" / "app" / "index.html"
+APP_DATA = ROOT / "app" / "app" / "data" / "tradar.js"
 
 
 def test_trade_intelligence_screen_exposes_commercial_workflow():

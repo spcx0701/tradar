@@ -156,11 +156,11 @@ jobs:
           from pathlib import Path
 
           api_base = os.environ.get("TRADEWIND_API_BASE", "").rstrip("/")
-          Path("app/data/api-config.js").write_text(
+          Path("app/app/data/api-config.js").write_text(
               "window.TRADAR_API_BASE = " + json.dumps(api_base, ensure_ascii=False) + ";\n",
               encoding="utf-8",
           )
-          print(f"wrote app/data/api-config.js for {api_base or 'local fallback'}")
+          print(f"wrote app/app/data/api-config.js for {api_base or 'local fallback'}")
           PY
       - name: Publish static app to gh-pages
         env:
