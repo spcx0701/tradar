@@ -19,11 +19,11 @@ CHROME = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
 Q = urllib.parse.quote("라면 어디에 수출하면 좋을까?")
 DESK = (1440, 940)
 SHOTS = [
-    ("01-command.png",   f"{BASE}/index.html#command",                     DESK),
-    ("02-map.png",       f"{BASE}/index.html#map",                         DESK),
-    ("03-score.png",     f"{BASE}/index.html#score?hs=1212.21&cc=US",      DESK),
-    ("04-advisor.png",   f"{BASE}/index.html#advisor?q={Q}",               DESK),
-    ("05-discovery.png", f"{BASE}/index.html#discovery",                   DESK),
+    ("01-command.png",   f"{BASE}/app/index.html#command",                     DESK),
+    ("02-map.png",       f"{BASE}/app/index.html#map",                         DESK),
+    ("03-score.png",     f"{BASE}/app/index.html#score?hs=1212.21&cc=US",      DESK),
+    ("04-advisor.png",   f"{BASE}/app/index.html#advisor?q={Q}",               DESK),
+    ("05-discovery.png", f"{BASE}/app/index.html#discovery",                   DESK),
     ("06-dashboard.png", f"{BASE}/dashboard.html",                         (1280, 900)),
     ("07-landing.png",   f"{BASE}/home.html",                              (1280, 940)),
 ]
