@@ -125,4 +125,10 @@ Tradar follows a light, data-dense Chartmetric-style interface in [app/_ds](app/
 
 ## License
 
-[MIT](LICENSE). Demo data is anchored to public Korea Customs statistics and does not include personally identifiable or company-identifiable information.
+Unless otherwise noted, project code, docs, Android resources, and project-owned image assets are
+distributed under the [GNU Affero General Public License v3.0 or later](LICENSE) (AGPL-3.0-or-later).
+If you modify this software and serve it over a network, you must offer that software's source code
+to those users. The Android mobile client carries an additional AGPL section 7 permission for app-store
+distribution; the server and web/PWA client are not covered by that exception. See [LICENSE](LICENSE) and
+[NOTICE](NOTICE) for details. Demo data is anchored to public Korea Customs statistics and does not
+include personally identifiable or company-identifiable information.
