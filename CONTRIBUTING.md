@@ -36,6 +36,7 @@ ruff check server scripts
 - API 계약이 바뀌면 `README.md`의 API 인터페이스 표와 테스트를 함께 갱신합니다.
 - 보안 관련 변경은 `SECURITY.md`의 비공개 신고 절차와 충돌하지 않아야 합니다.
 - 새 기능에는 가능하면 회귀 테스트를 추가하고, 테스트를 추가하지 못한 경우 PR에 이유를 남깁니다.
+- 기여는 아래 라이선스 및 CLA 조건에 동의한 것으로 처리됩니다.
 
 ## 원칙
 - **데모는 항상 동작해야 한다.** 외부 키 없이도 스냅샷·자체 NLG로 완결되게 유지.
@@ -44,3 +45,12 @@ ruff check server scripts
 
 ## 실데이터 연동
 `DATA_GO_KR_KEY` 발급 후 `server/customs_client.py`로 스냅샷을 실데이터로 교체할 수 있습니다.
+
+## 라이선스
+
+이 저장소에 기여하면, 별도 파일에 다른 라이선스가 명시되지 않는 한 해당 기여가 저장소의
+[GNU Affero General Public License v3.0 or later](LICENSE) (AGPL-3.0-or-later)로 배포되는 데 동의합니다.
+
+기여는 [Contributor License Agreement](CLA.md)의 적용도 받습니다. 이 CLA는 기여자의 저작권 보유를
+전제로 하되, 유지관리자가 저장소 전체와 같은 라이선스 유연성(예: [LICENSE](LICENSE)의 앱스토어 배포
+예외)을 적용할 수 있게 합니다. pull request 제출은 현재 CLA 동의로 간주합니다.

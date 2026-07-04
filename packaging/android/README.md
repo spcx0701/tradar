@@ -35,3 +35,10 @@ gradle wrapper --gradle-version 8.9
 
 > 참고: 본 저장소의 **실행 확인용 핵심 산출물은 웹 PWA**(설치 없이 URL·QR로 즉시 실행)이며,
 > 안드로이드 앱은 이를 네이티브로 감싼 병행 산출물입니다.
+
+## 라이선스
+
+Android 모바일 클라이언트는 저장소 본문과 같이 [AGPL-3.0-or-later](../../LICENSE)로 배포되며,
+앱스토어 배포를 위한 AGPL 7조 추가 허가가 적용됩니다. 이 추가 허가는 `packaging/android` 아래의
+모바일 클라이언트에만 적용되고, `server/`의 FastAPI 백엔드와 `app/`의 웹/PWA 클라이언트에는 적용되지
+않습니다. 정확한 범위는 [LICENSE](../../LICENSE)와 [NOTICE](../../NOTICE)를 확인하세요.

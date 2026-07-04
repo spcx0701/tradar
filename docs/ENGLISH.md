@@ -40,3 +40,15 @@ English bug reports, pull request comments, and code comments are welcome.
 Please do not report exploitable vulnerabilities, credential leaks, authentication bypasses, or data exposure details in public issues. Use GitHub Security Advisories instead:
 
 https://github.com/spcx0701/tradar/security/advisories/new
+
+## License
+
+Unless otherwise noted, project code, documentation, Android resources, and
+project-owned image assets in this repository are distributed under the GNU
+Affero General Public License v3.0 or later (AGPL-3.0-or-later). If you modify
+this software and let users interact with it over a network, the AGPL requires
+you to make the corresponding source of your modified version available to
+those users. The Android mobile client carries a separate section 7 additional
+permission for app-store distribution; the server and web/PWA client are not
+covered by that permission. See [LICENSE](../LICENSE) and [NOTICE](../NOTICE)
+for details.
