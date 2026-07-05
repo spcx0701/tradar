@@ -19,8 +19,8 @@ android {
         applicationId = "kr.tradewind.app"
         minSdk = 24
         targetSdk = 34
-        versionCode = 1
-        versionName = "1.0.0"
+        versionCode = 2
+        versionName = "1.1.0"
         val dataBase = configString("tradarDataBase", "TRADAR_DATA_BASE", "https://tradar.onrender.com/data")
         val apiBase = configString("tradewindApiBase", "TRADEWIND_API_BASE", "https://tradar.onrender.com/api")
         val llmEndpointDefault = if (apiBase.isBlank()) "" else "${apiBase.trimEnd('/')}/advisor"
