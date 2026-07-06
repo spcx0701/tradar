@@ -18,10 +18,24 @@ services:
       - key: DATA_GO_KR_KEY
         sync: false
       - key: TW_LLM_PROVIDER
-        value: solar
+        value: openrouter-solar-free
       - key: TW_LLM_MODEL
         value: solar-pro3
       - key: TW_LLM_BASE_URL
         value: https://api.upstage.ai/v1
       - key: TW_LLM_KEY
+        sync: false
+      - key: TW_OPENROUTER_MODEL
+        value: upstage/solar-pro-3:free
+      - key: TW_OPENROUTER_BASE_URL
+        value: https://openrouter.ai/api/v1
+      - key: TW_OPENROUTER_KEY
+        sync: false
+      - key: TW_GEMINI_MODEL
+        value: gemini-3.5-flash
+      - key: TW_GEMINI_BASE_URL
+        value: https://generativelanguage.googleapis.com/v1beta/openai
+      - key: TW_GEMINI_KEY
+        sync: false
+      - key: TW_ADMIN_TOKEN
         sync: false

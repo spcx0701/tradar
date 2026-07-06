@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>Tradar — 제14회 산업통상부 공공데이터 활용 아이디어 공모전 기획서 (제품 및 서비스)</title>
+<style>
+  @page { size: A4; margin: 14mm 14mm 12mm; }
+  * { box-sizing: border-box; }
+  :root{ --navy:#0a2540; --blue:#0b5fa5; --teal:#12b3a6; --ink:#16233a; --muted:#5b6b82; --line:#d9e2ee; --soft:#f1f7fd; --amber:#d97706; --surge:#16a34a; --cool:#dc2626; }
+  body{ font-family:"Apple SD Gothic Neo","Pretendard","Noto Sans KR",sans-serif; color:var(--ink); font-size:10.3px; line-height:1.55; margin:0; word-break:keep-all; }
+  h1,h2,h3,h4{ margin:0; letter-spacing:-.02em; }
+  .page{ page-break-after:always; }
+  .page:last-child{ page-break-after:auto; }
+  section{ page-break-inside:avoid; margin-bottom:11px; }
+  .sec-h{ display:flex; align-items:center; gap:8px; border-left:4px solid var(--blue); padding:3px 0 3px 9px; margin:0 0 7px; }
+  .sec-h .no{ background:var(--blue); color:#fff; font-weight:800; font-size:10px; border-radius:5px; padding:1px 7px; }
+  .sec-h h2{ font-size:14px; color:var(--navy); }
+  .sec-h .crit{ margin-left:auto; font-size:8.5px; color:var(--teal); font-weight:700; border:1px solid var(--teal); border-radius:999px; padding:1px 8px; }
+  .sub-h{ font-size:11.4px; color:var(--navy); margin:9px 0 4px; padding-bottom:2px; border-bottom:2px solid var(--soft); }
+  p{ margin:4px 0; } b{ color:var(--navy); }
+  ul{ margin:4px 0; padding-left:16px; } li{ margin:2px 0; }
+  table{ width:100%; border-collapse:collapse; margin:5px 0; font-size:9.3px; }
+  th,td{ border:1px solid var(--line); padding:4px 6px; text-align:left; vertical-align:top; }
+  th{ background:var(--soft); color:var(--navy); font-weight:700; }
+  .lead{ background:var(--soft); border:1px solid var(--line); border-radius:8px; padding:9px 11px; }
+  .grid2{ display:grid; grid-template-columns:1fr 1fr; gap:9px; }
+  .grid3{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; }
+  .card{ border:1px solid var(--line); border-radius:8px; padding:8px 10px; }
+  .card h3{ font-size:10.6px; color:var(--blue); margin-bottom:3px; }
+  .pillok{ color:var(--surge); font-weight:700; } .pillno{ color:var(--cool); font-weight:700; }
+  .muted{ color:var(--muted); } .small{ font-size:8.8px; }
+  .shot{ border:1px solid var(--line); border-radius:9px; width:100%; }
+  .cover{ height:268mm; display:flex; flex-direction:column; }
+  .cover .top{ background:linear-gradient(135deg,#0a2540,#0b5fa5 60%,#12b3a6 130%); color:#fff; border-radius:14px; padding:26px 28px; position:relative; overflow:hidden; }
+  .cover .top .glow{ position:absolute; right:-60px; top:-70px; width:240px; height:240px; background:radial-gradient(circle,rgba(245,158,11,.35),transparent 68%); }
+  .cover .tag{ display:inline-block; background:rgba(255,255,255,.18); padding:4px 12px; border-radius:999px; font-size:10.5px; font-weight:700; }
+  .cover h1{ font-size:40px; margin:14px 0 2px; font-weight:800; }
+  .cover .en{ font-size:15px; opacity:.85; font-weight:600; }
+  .cover .def{ font-size:13.5px; margin-top:14px; opacity:.96; line-height:1.6; max-width:150mm; }
+  .cover .mid{ display:flex; gap:14px; margin-top:18px; align-items:stretch; }
+  .cover .qr{ background:#fff; color:var(--ink); border-radius:12px; padding:12px; text-align:center; width:46mm; }
+  .cover .qr img{ width:34mm; height:34mm; } .cover .qr .t{ font-weight:700; font-size:10px; margin-top:5px; } .cover .qr .u{ font-size:8.6px; color:var(--muted); }
+  .cover .run{ flex:1; border:1px solid rgba(255,255,255,.35); border-radius:12px; padding:12px 14px; background:rgba(255,255,255,.06); }
+  .cover .run h3{ font-size:12px; color:#fff; margin-bottom:5px; }
+  .cover .run p{ color:rgba(255,255,255,.92); }
+  .cover .meta{ margin-top:auto; border-top:2px solid var(--line); padding-top:10px; display:grid; grid-template-columns:1fr 1fr; gap:4px 16px; font-size:10.5px; }
+  .cover .meta b{ color:var(--navy); }
+  .kgrid{ display:grid; grid-template-columns:repeat(4,1fr); gap:7px; margin:6px 0; }
+  .kgrid .k{ background:var(--soft); border:1px solid var(--line); border-radius:8px; padding:7px 8px; text-align:center; }
+  .kgrid .k b{ font-size:16px; color:var(--blue); display:block; } .kgrid .k span{ font-size:8.6px; color:var(--muted); }
+  .kgrid .k .src{ display:block; font-size:7.6px; color:var(--muted); margin-top:1px; }
+  .shots2{ display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+  .shots2 figure,.shots1 figure{ margin:0; page-break-inside:avoid; break-inside:avoid; }
+  figure{ page-break-inside:avoid; break-inside:avoid; }
+  .shots2 figcaption,.shots1 figcaption{ text-align:center; font-size:8.8px; color:var(--muted); margin-top:3px; }
+  .foot{ font-size:8.4px; color:var(--muted); border-top:1px solid var(--line); padding-top:5px; margin-top:6px; }
+  .flow{ display:flex; align-items:stretch; gap:6px; margin:6px 0; }
+  .flow .node{ flex:1; border:1px solid var(--line); border-radius:8px; padding:7px 9px; background:#fff; }
+  .flow .node h4{ margin:0 0 3px; font-size:9.6px; color:var(--navy); }
+  .flow .node.motie{ border-color:var(--teal); background:#f0fbfa; }
+  .flow .node.hl{ border-color:var(--blue); background:var(--soft); }
+  .flow .arr{ align-self:center; color:var(--blue); font-weight:800; font-size:14px; }
+  .evalmap{ display:grid; grid-template-columns:repeat(5,1fr); gap:6px; margin-top:8px; }
+  .evalmap .e{ border:1px solid var(--line); border-radius:8px; padding:6px 8px; text-align:center; background:#fff; }
+  .evalmap .e b{ display:block; font-size:10px; color:var(--navy); }
+  .evalmap .e span{ font-size:8.2px; color:var(--muted); }
+  .badge-must{ display:inline-block; background:var(--teal); color:#fff; font-size:8px; font-weight:800; border-radius:4px; padding:1px 5px; margin-right:3px; }
+  .badge-opt{ display:inline-block; background:#8aa0bd; color:#fff; font-size:8px; font-weight:800; border-radius:4px; padding:1px 5px; margin-right:3px; }
+  .quote{ border-left:3px solid var(--amber); background:#fffbeb; padding:6px 10px; border-radius:0 8px 8px 0; margin:6px 0; }
+  /* 다이어그램 공통 */
+  .dgm{ border:1px solid var(--line); border-radius:10px; padding:9px 11px; background:#fbfdff; margin:6px 0; }
+  .dgm .t{ font-size:9px; font-weight:800; color:var(--blue); text-transform:uppercase; letter-spacing:.05em; margin-bottom:5px; }
+  .split4{ display:grid; grid-template-columns:repeat(4,1fr); gap:6px; }
+  .mini{ border:1px solid var(--line); border-radius:7px; background:#fff; padding:5px 7px; font-size:8.6px; }
+  .mini b{ display:block; font-size:9.2px; }
+  .mini.bad{ border-color:#f3c9c4; background:#fdf6f5; }
+  .mini.good{ border-color:var(--teal); background:#f0fbfa; }
+  .downarr{ text-align:center; color:var(--blue); font-weight:800; font-size:13px; line-height:1.2; margin:2px 0; }
+  .steps{ display:flex; gap:6px; }
+  .steps .s{ flex:1; border:1px solid var(--line); border-radius:7px; background:#fff; padding:6px 8px; }
+  .steps .s .n{ display:inline-block; background:var(--blue); color:#fff; font-size:8px; font-weight:800; border-radius:999px; padding:0 6px; margin-bottom:2px; }
+  .steps .s h5{ margin:0 0 2px; font-size:9.2px; color:var(--navy); }
+  .steps .s p{ font-size:8.4px; margin:0; color:var(--muted); }
+  .timeline{ display:flex; gap:0; margin:6px 0; }
+  .timeline .tl{ flex:1; position:relative; padding:0 6px 0 10px; border-left:2px solid var(--line); }
+  .timeline .tl::before{ content:""; position:absolute; left:-5px; top:2px; width:8px; height:8px; border-radius:50%; background:var(--blue); }
+  .timeline .tl .d{ font-size:8.4px; font-weight:800; color:var(--blue); }
+  .timeline .tl p{ font-size:8.6px; margin:1px 0 0; }
+  .scorebox{ display:flex; align-items:center; gap:6px; }
+  .scorebox .ax{ flex:1; border:1px solid var(--line); border-radius:7px; padding:5px 7px; background:#fff; text-align:center; font-size:8.6px; }
+  .scorebox .ax b{ display:block; font-size:9.4px; color:var(--navy); }
+  .scorebox .op{ font-size:14px; font-weight:800; color:var(--blue); }
+  .scorebox .res{ border:2px solid var(--blue); border-radius:8px; padding:6px 10px; background:var(--soft); text-align:center; }
+  .scorebox .res b{ font-size:13px; color:var(--blue); display:block; }
+</style>
+</head>
+<body>
+
+<!-- ═════════ 표지 ═════════ -->
+<div class="page"><div class="cover">
+  <div class="top"><div class="glow"></div>
+    <span class="tag">제14회 산업통상부 공공데이터 활용 아이디어 공모전 · 제품 및 서비스 개발 부문</span>
+    <h1>Tradar <span style="font-size:22px">트레이더</span></h1>
+    <div class="en">산업부 무역데이터 × 국산 AI — 수출 인텔리전스 플랫폼</div>
+    <div class="def">산업통상부 산하기관 공공데이터(<b style="color:#fff">한국무역보험공사 국별신용등급·위험지수, KOTRA 해외시장뉴스·수입규제</b>)와
+      관세청 수출입통계(HS코드)를 국산 AI로 융합해, 전 수출산업 <b style="color:#fff">28개 품목 × 16개 시장</b>을
+      <b style="color:#fff">Tradar Score(0~100)</b>로 스코어링하고 <b style="color:#fff">6개월 수요예측·리스크 조기경보·AI 상담</b>을 제공하는
+      수출 인텔리전스 플랫폼입니다. 수출 중소기업의 "어느 나라에, 무엇을, 언제, 얼마나 안전하게"를 데이터로 바꿉니다.</div>
+    <div class="mid">
+      <div class="run">
+        <h3>▶ 실행 확인 — 설치 없이 즉시 실행되는 완성 서비스 (시제품 요건 충족)</h3>
+        <p class="small">· 웹앱 : <b style="color:#fff">https://spcx0701.github.io/tradar/</b> &nbsp;·&nbsp; 라이브 API : <b style="color:#fff">https://tradar.onrender.com/</b><br>
+        · 커맨드센터 · 마켓맵(K-SURE 리스크 레이어) · 무역상대국 · 디스커버리 · 뉴스 · AI 애널리스트 — 한 앱에 통합<br>
+        · 소스·재현 : https://github.com/spcx0701/tradar &nbsp;·&nbsp; Android : Google Play "Tradar"</p>
+        <p class="small" style="opacity:.85">QR 또는 위 URL로 모바일·PC에서 즉시 동작. 본 기획서 §3에 전 화면 설명과 실행 캡처 수록.</p>
+      </div>
+      <div class="qr"><img src="../assets/brand/qr-demo.png" alt="웹앱 QR"><div class="t">📱 웹앱 바로 실행</div><div class="u">spcx0701.github.io/tradar</div></div>
+    </div>
+  </div>
+
+  <div style="margin-top:10px" class="lead">
+    <b>[신청서 기재용] 산업통상부 활용 데이터 (필수)</b><br>
+    <span class="small">
+    ① 산업통상부(한국무역보험공사) <b>한국무역보험공사_국별신용등급</b> &nbsp;
+    ② 산업통상부(한국무역보험공사) <b>한국무역보험공사_국가별 업종별 위험지수</b><br>
+    ③ 산업통상부(대한무역투자진흥공사) <b>대한무역투자진흥공사_해외시장뉴스</b> &nbsp;
+    ④ 산업통상부(대한무역투자진흥공사) <b>대한무역투자진흥공사_수입규제품목(지역본부별) 정보</b><br>
+    <span class="muted">기타 활용 데이터(선택): 관세청_품목별 국가별 수출입실적(GW) 외 관세청 통계 API — 공공데이터포털</span></span>
+  </div>
+
+  <div class="evalmap">
+    <div class="e"><b>창의성 25</b><span>§3-5 독창성<br>공공 AI×국산 AI 이중융합</span></div>
+    <div class="e"><b>구체성 25</b><span>§1·§3 완성 서비스<br>라이브 배포·테스트 55건</span></div>
+    <div class="e"><b>발전가능성 30</b><span>§4 사업화<br>시장규모·수익모델·로드맵</span></div>
+    <div class="e"><b>문제해결 20</b><span>§2·§4 기대효과<br>정량 근거·정책 정렬</span></div>
+    <div class="e"><b>AI 확산성 +5</b><span>§3-6 API·에이전트<br>멀티플랫폼 확장</span></div>
+  </div>
+
+  <div class="meta">
+    <div>제품·서비스명 : <b>Tradar (트레이더)</b></div><div>응모 부문 : <b>② 제품 및 서비스 개발</b> (상용 수준 시제품 완성)</div>
+    <div>활용 AI : <b>자체 개발 국산 AI (수요예측·조기경보·상담) + K-SURE AI 위험지수</b></div><div>팀명 : <b>【팀명 기재】</b></div>
+    <div>플랫폼 : <b>웹(PWA) · Android · B2G 관제 콘솔 · OpenAPI</b></div><div>2026. 7. &nbsp;/&nbsp; 첨부3 자유양식 기획서</div>
+  </div>
+</div></div>
+
+<!-- ═════════ 1. 핵심내용 ═════════ -->
+<div class="page">
+<section>
+  <div class="sec-h"><span class="no">1</span><h2>제품 및 서비스 핵심내용</h2><span class="crit">심사: 구체성 · 우수성</span></div>
+  <p><b>Tradar</b>는 여러 기관에 흩어져 있는 무역 공공데이터를 <b>한 화면의 의사결정 도구</b>로 바꾼 수출 인텔리전스 플랫폼입니다.
+  수출 통계는 "얼마나 팔리는가", 무역보험공사 신용등급은 "돈을 떼일 위험은 없는가", KOTRA 현장 뉴스와 수입규제는
+  "지금 그 시장에 무슨 일이 벌어지고 있는가"를 알려줍니다. 지금까지는 이 세 가지를 각각 다른 사이트에서 찾아 엑셀로
+  조합해야 했지만, Tradar에서는 산업부 데이터가 <b>화면의 색·점수·경보를 직접 구동하는 신호</b>로 작동합니다.</p>
+  <div class="kgrid">
+    <div class="k"><b>16개국</b><span>K-SURE 국별신용등급 연동</span></div>
+    <div class="k"><b>28품목</b><span>전 수출산업 HS코드 분석</span></div>
+    <div class="k"><b>0~100</b><span>Tradar Score 시장 매력도</span></div>
+    <div class="k"><b>설치 0초</b><span>웹·PWA·Android 즉시 실행</span></div>
+  </div>
+  <div class="grid3">
+    <div class="card"><h3>🗺️ 마켓맵 — K-SURE 리스크 레이어</h3>
+      전 품목×국가를 <b>타일형 히트맵</b>으로: 타일 크기 = 수출 규모, 색 = 신호. 성장률 레이어와
+      <b>K-SURE 국별신용등급 레이어</b>를 버튼 하나로 전환 — 무역보험공사 등급(1~7)이 국가 타일 색을 직접 결정해
+      "지금 안전한 시장"이 지도처럼 보입니다.</div>
+    <div class="card"><h3>🌐 무역상대국 리스크 보드</h3>
+      국가별 수출액·전년비·Tradar Score에 <b>K-SURE 등급 배지</b>와 <b>對韓 수입규제 건수(KOTRA)</b>를 한 표로 결합.
+      "수출액은 크지만 규제가 53건인 미국 vs 규제는 적지만 신용등급이 낮은 베트남" 같은 기회·위험의 비대칭을 즉시 판독.</div>
+    <div class="card"><h3>📊 Tradar Score & 6개월 수요예측</h3>
+      모멘텀·규모·다변화·안정성 4축 종합 점수(0~100) + 계절성을 반영한 6개월 수요예측(95% 예측구간),
+      급등/상승/안정/둔화/변동 5단계 조기경보. 품목 리스크 탭에 <b>K-SURE 국가등급 팩터</b> 반영.</div>
+    <div class="card"><h3>📰 뉴스 인텔리전스</h3>
+      <b>KOTRA 해외시장뉴스</b>(전 세계 해외무역관 현장 리포트)를 수집해 감성(긍정/부정)·심각도(기회/주의/리스크)·관련
+      품목을 자동 태깅하고 시장 데이터 변동과 연결. "미국 화장품 규제 강화" 뉴스가 K-뷰티 품목 경보로 이어집니다.</div>
+    <div class="card"><h3>💬 AI 무역참모 '바람이'</h3>
+      "라면 어디에 수출하면 좋을까?"라고 한국어로 물으면 실제 수출 수치·스코어·K-SURE 등급을 근거로 답하고
+      차트를 즉석 생성. 근거 수치를 항상 함께 제시해 AI가 숫자를 지어내는 일(환각)을 차단.</div>
+    <div class="card"><h3>📄 리포트 스튜디오 & 거래 인텔리전스</h3>
+      자연어 한 줄로 컨설팅형 인터랙티브 리포트 자동 조립. 품목을 고르면 기업→상품→시장→바이어 흐름과
+      실거래 단가대를 공식 통계·공개 선하증권 기준으로 탐색.</div>
+  </div>
+</section>
+
+<section>
+  <div class="sub-h">핵심 AI 엔진 (자체 개발 · 국산 — 외산 모델·API 미사용)</div>
+  <table>
+    <tr><th style="width:17%">엔진</th><th>방법</th><th style="width:34%">입력 → 출력</th></tr>
+    <tr><td><b>수요예측</b></td><td>승법 계절분해 + 감쇠 로그선형 추세 외삽 (numpy 자체구현 — §3-4 상세)</td><td>HS×국가 월 수출 시계열 → 6개월 예측·95% 예측구간·적합도(MAPE)</td></tr>
+    <tr><td><b>급등·조기경보</b></td><td>단기성장·전년동월비·로그추세·가속도·변동계수 결합 스코어</td><td>시계열 → 기회점수(0~100)·리스크점수·상태 5단계</td></tr>
+    <tr><td><b>리스크 융합</b></td><td><b>K-SURE 국별신용등급·AI 위험지수(RI1~RI5)</b>를 스코어·경보·지도 레이어에 결합</td><td>국가·업종 → 신용등급 배지·리스크 레이어·결제위험 경보</td></tr>
+    <tr><td><b>AI 상담·리포트</b></td><td>의도추출 + 근거검색 문장생성 + 국산 LLM(Solar·HyperCLOVA X) 어댑터, Report Spec(리포트 설계 규격)</td><td>한국어 질문 → 수치 근거 답변 / 자연어 → 인터랙티브 리포트</td></tr>
+  </table>
+</section>
+
+<section>
+  <div class="sub-h">시스템 구성 — 데이터 → AI 엔진 → 멀티플랫폼</div>
+  <div class="flow">
+    <div class="node motie"><h4>① 산업부 공공데이터 (필수)</h4><span class="small">K-SURE 국별신용등급·국가별 업종별 위험지수<br>KOTRA 해외시장뉴스·수입규제품목<br><b>data.go.kr OpenAPI · 일별 동기화</b></span></div>
+    <div class="arr">→</div>
+    <div class="node"><h4>② 융합 파이프라인 + AI 엔진</h4><span class="small">관세청 HS×국가 시계열과 국가·업종 코드로 결합<br>예측·조기경보·스코어링(순수 numpy)<br>오프라인 폴백: 공표치 앵커(데모 항상 동작)</span></div>
+    <div class="arr">→</div>
+    <div class="node"><h4>③ 멀티플랫폼 프레젠테이션</h4><span class="small">웹 PWA(오프라인 동작)·Android 앱(출시)<br>FastAPI OpenAPI(/api/*)·B2G 관제 콘솔<br>React+ECharts, 빌드 도구 없는 경량 설계</span></div>
+  </div>
+  <p class="small muted">완성도: 라이브 배포(GitHub Pages·Render·Google Play) · 자동화 테스트 55건 통과 · CI/CD(린트·재현 빌드·보안 스캔) · OpenSSF Best Practices 등록 · AGPL 오픈소스.</p>
+</section>
+</div>
+
+<!-- ═════════ 2. 제안배경 (1/2) ═════════ -->
+<div class="page">
+<section>
+  <div class="sec-h"><span class="no">2</span><h2>제품 및 서비스 제안배경</h2><span class="crit">심사: 활용적정성 · 문제해결</span></div>
+
+  <div class="sub-h">2-1. 현황 — 수출 중소기업은 역대 최대, 그러나 의사결정 인프라는 대기업의 것</div>
+  <div class="kgrid">
+    <div class="k"><b>1,186억$</b><span>2025 중소기업 수출 (+6.9%, 역대 최대)</span><span class="src">중소벤처기업부</span></div>
+    <div class="k"><b>78,655개사</b><span>2025 상반기 수출 중소기업 수 (역대 최고)</span><span class="src">중소벤처기업부</span></div>
+    <div class="k"><b>약 17%</b><span>총수출 중 중소기업 비중 — 정보 격차의 결과</span><span class="src">중기부·관세청 통계 재구성</span></div>
+    <div class="k"><b>77.1%</b><span>온라인 수출액 중 중소기업 비중</span><span class="src">중소벤처기업부</span></div>
+  </div>
+  <p>한국 수출은 2024년 6,838억 달러로 세계 6위권이며, 수출에 뛰어드는 중소기업은 매년 늘고 있습니다.
+  2025년 중소기업 수출은 <b>1,186억 달러(+6.9%)로 역대 최대</b>, 상반기 수출 중소기업 수도 <b>78,655개사로 역대 최고</b>를
+  기록했습니다. 특히 화장품(39.4억 달러, +19.7%)·식품 등 소비재와 온라인 수출(중소기업 비중 77.1%)이 성장을 이끌며,
+  <b>수출의 주체가 대기업에서 중소기업·소상공인으로 넓어지는 구조 전환</b>이 진행 중입니다.</p>
+  <p>그러나 총수출에서 중소기업이 차지하는 비중은 여전히 <b>약 17%</b>에 머뭅니다. 격차의 본질은 제품력이 아니라
+  <b>의사결정 인프라</b>입니다. 대기업은 시장조사팀·통상팀·리스크관리팀이 "어느 시장이 크는지, 어떤 규제가 생겼는지,
+  대금은 안전한지"를 상시 모니터링하지만, 중소기업 사장님의 시장 선택은 여전히 감(感), 지인 소개, 단발성 검색에
+  의존합니다. 중소기업 해외진출 실태조사에서 <b>'해외시장 정보 부족'이 항상 최상위 애로</b>로 꼽히는 이유입니다.</p>
+
+  <div class="sub-h">2-2. 세 가지 문제 — 왜 지금 이 서비스인가</div>
+  <div class="dgm"><div class="t">배경 타임라인 — 통상 환경의 급변 (2025~2026)</div>
+    <div class="timeline">
+      <div class="tl"><span class="d">2025.4~</span><p>미국 상호관세 부과 개시 — 한국 15% 합의, 품목별 관세 병행</p></div>
+      <div class="tl"><span class="d">2025 연중</span><p>對韓 수입규제 누적 <b>30여 개국 200여 건</b> — 반덤핑 중심(KOTRA 집계)</p></div>
+      <div class="tl"><span class="d">2026.2</span><p>미 연방대법원, 상호관세 근거법(IEEPA) 위법 판결 — 관세 체계 재편</p></div>
+      <div class="tl"><span class="d">2026 현재</span><p>10~15% 관세·품목관세 혼재 — "숫자보다 <b>예측 불가능성</b>이 리스크"</p></div>
+    </div>
+  </div>
+  <div class="grid3">
+    <div class="card"><h3>문제 ① 통상 불확실성의 상시화</h3>
+      관세율이 분기마다 바뀌고 품목관세가 언제 추가될지 모르는 환경에서는, 연 1회 시장조사 보고서가 아니라
+      <b>상시 모니터링</b>이 필요합니다. 대기업은 전담 조직으로 대응하지만 중소기업에는 이를 대신할 도구가 없습니다.
+      뉴스가 나온 뒤에야 아는 것과, 내 품목·내 시장에 연결된 경보로 받는 것의 차이가 곧 손익입니다.</div>
+    <div class="card"><h3>문제 ② 정보의 4중 분산</h3>
+      수출 통계·국가 신용등급·현장 시장정보·수입규제는 <b>각각 다른 기관의 다른 사이트</b>에 있습니다(다음 쪽 표).
+      하나의 시장 판단에 필요한 정보를 모으려면 네 곳을 오가며 수작업으로 조합해야 하고, 각 사이트는 전문가용
+      용어(HS코드·업종분류·보험 용어)를 전제합니다. 결과적으로 정보가 개방되어 있어도 <b>중소기업은 쓰지 못합니다</b>.</div>
+    <div class="card"><h3>문제 ③ 리스크의 사후 인지</h3>
+      수입규제(반덤핑 관세)나 수출대금 미회수 위험은 대부분 <b>계약·선적 이후</b>에 알게 됩니다.
+      무역보험공사는 국가별 신용등급(1~7)과 AI 위험지수를, KOTRA는 국가별 규제 목록을 이미 개방하고 있지만,
+      이 데이터가 중소기업의 <b>시장 선택 단계의 체크리스트</b>로 들어가는 접점이 없습니다.</div>
+  </div>
+  <div class="quote"><b>"정보는 이미 개방되어 있다 — 문제는 연결이다."</b>
+  산업통상부와 산하기관은 국가위험(K-SURE), 현장 시장정보·규제(KOTRA)를 모두 개방했지만, 이를 수출 실적 통계와
+  융합해 '의사결정 화면'으로 만든 서비스는 공백입니다. Tradar는 새 데이터를 만드는 것이 아니라,
+  <b>이미 있는 산업부 데이터를 중소기업이 매일 쓰는 형태로 연결</b>합니다.</div>
+</section>
+</div>
+
+<!-- ═════════ 2. 제안배경 (2/2) ═════════ -->
+<div class="page">
+<section>
+  <div class="sub-h">2-3. 정보 분산의 실태와 Tradar의 해법</div>
+  <table>
+    <tr><th style="width:17%">정보</th><th style="width:22%">현재 제공처</th><th style="width:31%">제공 내용</th><th>중소기업 입장의 한계</th></tr>
+    <tr><td><b>수출입 통계</b></td><td>관세청 무역통계 포털, 무역협회 통계</td><td>HS코드×국가×월 수출입 실적 조회·다운로드</td><td>HS코드를 알아야 검색 가능, 표만 제공 — 해석·전망 없음</td></tr>
+    <tr><td><b>국가 신용위험</b></td><td>무역보험공사 K-SIGHT</td><td>국별신용등급(1~7), 국가별 업종별 위험지수(RI1~RI5)</td><td>존재 자체를 모르는 기업이 다수, 등급 숫자의 의미 해석 필요</td></tr>
+    <tr><td><b>현장 시장정보</b></td><td>KOTRA 해외경제정보드림</td><td>전 세계 해외무역관의 시장 뉴스·진출전략 리포트</td><td>기사량이 방대해 내 품목·내 시장 관련 정보 선별이 어려움</td></tr>
+    <tr><td><b>수입규제</b></td><td>무역협회 수입규제 통합지원센터, KOTRA</td><td>국가별 對韓 반덤핑·세이프가드 목록</td><td>시장을 정한 뒤에야 찾아보게 됨 — 선택 단계에 없음</td></tr>
+  </table>
+  <div class="dgm"><div class="t">분산 → 융합 — Tradar가 바꾸는 정보 흐름</div>
+    <div class="split4">
+      <div class="mini bad"><b>관세청 통계 포털</b>실적 조회 (표)</div>
+      <div class="mini bad"><b>K-SURE K-SIGHT</b>신용등급 열람</div>
+      <div class="mini bad"><b>KOTRA 드림</b>뉴스 검색</div>
+      <div class="mini bad"><b>무역협회</b>규제 조회</div>
+    </div>
+    <div class="downarr">4개 사이트 · 수작업 조합 · 전문용어 장벽 &nbsp;▼&nbsp; 국가·품목·업종 코드로 자동 결합</div>
+    <div class="mini good" style="text-align:center"><b>Tradar — 하나의 화면</b>
+    같은 국가 코드 위에서 통계(얼마나)×등급(안전한가)×뉴스(무슨 일이)×규제(장벽은)를 겹쳐 스코어·색·경보로 번역</div>
+    <div class="downarr">▼</div>
+    <div class="split4">
+      <div class="mini good"><b>마켓맵</b>색으로 보는 기회·위험</div>
+      <div class="mini good"><b>스코어·예측</b>0~100점 + 6개월 전망</div>
+      <div class="mini good"><b>조기경보</b>등급 하락·규제·뉴스 알림</div>
+      <div class="mini good"><b>AI 상담</b>근거 있는 한국어 답변</div>
+    </div>
+  </div>
+
+  <div class="sub-h">2-4. 활용분야 · 활용빈도 · 활용범위 · 중요성</div>
+  <table>
+    <tr><th style="width:20%">사용자</th><th style="width:30%">활용분야</th><th style="width:13%">빈도</th><th>중요성</th></tr>
+    <tr><td><b>수출 중소기업·소상공인</b> (약 9.5만사)</td><td>신규 시장 선정 · 진입 시점 판단 · 결제조건(신용장 여부) 결정 · 수입규제 사전 확인</td><td>주간~월간</td><td>시장 선택 실패는 곧 재고와 미수금 — 기업 생존과 직결</td></tr>
+    <tr><td><b>예비 수출기업·창업자</b></td><td>아이템·타깃국 검증, 첫 수출국 선정</td><td>수시</td><td>수출 시작의 최대 장벽인 정보 비용을 제거</td></tr>
+    <tr><td><b>수출지원기관·지자체</b> (테크노파크·상공회의소 등)</td><td>관내 기업 수출 관제 · 상담 근거 · 산업단지 수출 동향(지역활력)</td><td>일간</td><td>지원사업 매칭·조기경보 행정의 데이터 기반</td></tr>
+    <tr><td><b>정책 담당자</b></td><td>품목·시장 조기경보, 통상 이슈 영향 모니터링</td><td>일간</td><td>공공데이터의 B2G 환류 — 개방 데이터가 정책으로 회귀</td></tr>
+  </table>
+
+  <div class="sub-h">2-5. 사용 시나리오 — 서비스가 실제로 해결하는 하루</div>
+  <div class="grid3">
+    <div class="card"><h3>🍜 라면 수출 준비 중인 식품기업 대표</h3>
+      아침에 커맨드센터를 열면 "라면 대미 수출 +28%" 기회 신호와 "미국 관세 검토" 리스크 경보가 함께 보인다.
+      마켓맵을 K-SURE 레이어로 전환해 후보국의 신용등급을 확인하고, AI 참모에게 "라면 어디에 수출하면 좋을까?"를
+      물어 수치 근거 답변과 예측 차트를 받는다. <b>수일 걸리던 검토가 출근길 10분으로.</b></div>
+    <div class="card"><h3>🏢 지자체 수출지원센터 담당자</h3>
+      무역상대국 보드에서 관내 기업들의 주력 시장을 점검한다. 베트남이 K-SURE 4등급인 것을 확인하고
+      해당 시장 거래 기업에 수출보험 가입을 안내, 수입규제 19건인 인도 진출 기업에는 사전 컨설팅을 연결한다.
+      <b>감이 아니라 데이터로 하는 지원 행정.</b></div>
+    <div class="card"><h3>🚀 수출을 처음 검토하는 화장품 브랜드</h3>
+      디스커버리에서 K-뷰티 카테고리를 필터링해 기초화장품의 Tradar Score와 상승세를 확인하고,
+      품목 프로필에서 국가별 비중·규제·전망을 본 뒤 일본(1등급·규제 0건)을 첫 시장으로 정한다.
+      <b>첫 수출국 선정을 근거 있는 결정으로.</b></div>
+  </div>
+
+  <div class="lead"><b>공모전 주제와의 정합 — "공공데이터로 견인하는 지역활력, AI 데이터로 도약하는 기업성장"</b><br>
+  <span class="small">· <b>기업성장</b>: 수출 중소기업의 시장 결정·리스크 관리를 AI 데이터로 지원(본 서비스의 핵심). ·
+  <b>지역활력</b>: 산업단지·지자체 수출지원기관 관제 콘솔(B2G)로 지역 수출기업 육성 인프라 제공 — 한국산업단지공단
+  수출실적 데이터 연계 확장(§4 로드맵). · <b>AI·LLM 활용</b>: 국산 AI 엔진 + K-SURE AI 위험지수 + 국산 LLM 어댑터.</span></div>
+</section>
+</div>
+
+<!-- ═════════ 3. 세부내용 (1) 데이터 ═════════ -->
+<div class="page">
+<section>
+  <div class="sec-h"><span class="no">3</span><h2>제품 및 서비스 세부내용</h2><span class="crit">심사: 창의성 · 구체성 · AI 확산성</span></div>
+
+  <div class="sub-h">3-1. 활용 산업통상부 공공데이터 (공공데이터포털 등록명 기준)</div>
+  <table>
+    <tr><th style="width:26%">데이터셋 (기관명_데이터셋명)</th><th style="width:15%">형태 · 주요 항목</th><th style="width:12%">갱신</th><th>서비스 내 활용 (연결 화면)</th></tr>
+    <tr><td><span class="badge-must">필수</span><b>한국무역보험공사_국별신용등급</b></td><td>OpenAPI·JSON<br><span class="small muted">국가명·국가등급(1~7)·등급평가일</span></td><td>수시(등급 변경 시)</td><td>국가 위험의 기준 신호 — <b>마켓맵</b> K-SURE 레이어 색상, <b>무역상대국</b> 등급 배지, <b>커맨드센터·알림</b> 4등급 이상 자동 경보(결제조건·수출보험 점검 권고), <b>품목 프로필</b> 리스크 팩터</td></tr>
+    <tr><td><span class="badge-must">필수</span><b>한국무역보험공사_국가별 업종별 위험지수</b></td><td>OpenAPI·JSON<br><span class="small muted">국가×업종(표준산업분류 중분류)×위험등급 RI1~RI5</span></td><td>일별</td><td>공사가 내부 사고 데이터+정치·경제·환율 데이터를 <b>AI로 분석해 산출</b>한 지수 — 국가×업종 단위의 결제위험 신호를 품목 카테고리에 매핑해 <b>품목 프로필 리스크 탭</b>과 경보 정밀도 보강</td></tr>
+    <tr><td><span class="badge-must">필수</span><b>대한무역투자진흥공사_해외시장뉴스</b></td><td>OpenAPI·JSON<br><span class="small muted">뉴스제목·본문요약·국가·산업분류·무역관·게시일</span></td><td>수시(무역관 게시)</td><td>전 세계 해외무역관 현장 리포트 — <b>뉴스 인텔리전스</b> 카드의 원천, 감성·심각도·관련 품목 자동 태깅(§3-3 뉴스 파이프라인), <b>커맨드센터</b> 뉴스 시그널 상단 노출</td></tr>
+    <tr><td><span class="badge-must">필수</span><b>대한무역투자진흥공사_수입규제품목(지역본부별) 정보</b></td><td>OpenAPI<br><span class="small muted">국가·규제유형(반덤핑 등)·품목·상태</span></td><td>수시</td><td>국가별 對韓 수입규제 건수·유형 — <b>무역상대국</b> '對韓 수입규제' 컬럼(마우스오버 시 규제 성격 표시), 시장 진입 전 체크 신호</td></tr>
+    <tr><td><span class="badge-opt">확장</span>대한무역투자진흥공사_수출유망추천정보 · 해외인증정보 · 무역사기사례 · 진출전략, 한국무역보험공사_바이어 검색 · 수출결제정보, 한국산업단지공단_국가산업단지 산업동향정보_수출실적</td><td>OpenAPI·파일</td><td>수시~분기</td><td>Tradar Score와 KOTRA 유망품목 추천의 교차검증 · 국가별 인증(할랄·FDA 등)/사기 사례 체크리스트 · 바이어 신용 조회 · 결제조건 벤치마크 · 지역(산업단지) 수출 관제(§4 로드맵)</td></tr>
+  </table>
+
+  <div class="sub-h">3-2. 타 기관 · 민간 데이터 (연계)</div>
+  <table>
+    <tr><td style="width:26%"><b>관세청_품목별 국가별 수출입실적(GW)</b> 외 관세청 통계 API</td><td style="width:15%">OpenAPI·XML<br><span class="small muted">HS코드×국가×월 수출입 금액·중량</span></td><td style="width:12%">월별</td><td>수출 실적 시계열의 원천 — 예측·스코어·조기경보 엔진의 입력, 산업부 데이터와 국가·품목 코드로 융합</td></tr>
+    <tr><td>공개 선하증권(B/L) · 사용자 CSV 업로드</td><td>파일</td><td>수시</td><td>거래 인텔리전스(기업→상품→시장→바이어 흐름), 실거래 단가 보강 — 출처 신뢰도를 4단계로 구분 표기</td></tr>
+  </table>
+
+  <div class="dgm"><div class="t">데이터 융합 구조 — 서로 다른 기관의 데이터를 잇는 세 개의 공통 코드</div>
+    <div class="steps">
+      <div class="s"><span class="n">축 1</span><h5>국가 코드 (ISO)</h5><p>관세청 실적의 국가 ↔ K-SURE 등급의 국가 ↔ KOTRA 뉴스·규제의 국가를 동일 코드로 매칭 → 국가 화면·지도 레이어</p></div>
+      <div class="s"><span class="n">축 2</span><h5>품목 (HS코드 → 카테고리)</h5><p>HS 6단위 실적을 28개 품목·12개 산업 카테고리로 계층화 → 품목 프로필·디스커버리·마켓맵 타일</p></div>
+      <div class="s"><span class="n">축 3</span><h5>업종 (표준산업분류)</h5><p>K-SURE 위험지수의 업종(중분류)을 품목 카테고리에 매핑 → "이 나라에서 이 업종이 위험한가"까지 정밀화</p></div>
+    </div>
+    <p class="small muted" style="margin-top:4px">동기화: data.go.kr 인증키 1개로 관세청+산업부 산하기관 API를 일별 배치 수집(<code>scripts/sync_motie_data.py</code>) →
+    정적 데이터(<code>motie.js</code>)로 굽고, 키·네트워크가 없으면 공표치 앵커 스냅샷으로 자동 대체 — <b>심사·시연 환경에서 데모가 항상 동작</b>합니다.
+    집계·익명 데이터만 사용해 개인·기업 식별정보가 없습니다.</p>
+  </div>
+</section>
+</div>
+
+<!-- ═════════ 3. 세부내용 (2) 화면별 상세 ① ═════════ -->
+<div class="page">
+<section>
+  <div class="sub-h">3-3. 화면별 세부 설명 ① — 발견과 판단 (전 화면 실서비스 동작 중)</div>
+
+  <table>
+    <tr><th style="width:13%">화면</th><th style="width:42%">무엇을 보여주나</th><th style="width:24%">사용 데이터</th><th>기술 포인트</th></tr>
+    <tr><td><b>🧭 커맨드센터</b><br><span class="small muted">첫 화면</span></td>
+      <td>수출 현황의 조종석. ① 핵심 지표 5종(추적 수출액·수출 모멘텀 지수·급상승 품목 수·리스크 경보 수·뉴스 시그널 수, 각각 미니 추세선) ② Top 수출 기회 6건(스코어+모멘텀−리스크 순) ③ 급상승 품목 지수 차트 ④ 달아오르는 시장 ⑤ <b>리스크 경보(K-SURE 4등급 이상 국가 자동 경보 포함)</b> ⑥ 뉴스 시그널(KOTRA 현장 뉴스 상단) ⑦ 관심목록 요약</td>
+      <td>관세청 실적 + K-SURE 등급 + KOTRA 뉴스 — 세 원천이 한 화면에 합류</td>
+      <td>모든 위젯이 클릭 시 해당 상세 화면으로 연결되는 드릴다운 구조. 경보는 엔진이 자동 생성</td></tr>
+    <tr><td><b>🗺️ 마켓맵</b></td>
+      <td>타일형 히트맵 2개 — <b>분야별</b>(12개 산업→28개 품목)과 <b>지역·국가별</b>(아시아·북미·유럽·중동→16개국). 타일 크기=수출 규모, 색=신호. 상단 버튼으로 <b>성장률 레이어</b>(색=연초 대비 성장)와 <b>리스크 레이어</b>(국가 색=<b>K-SURE 국별신용등급</b>, 타일 안에 "K-SURE 2등급" 라벨)를 전환. 국가 타일 클릭 시 AI 참모가 해당 시장 분석을 시작</td>
+      <td>관세청 실적(크기), K-SURE 국별신용등급(리스크 레이어 색)</td>
+      <td>등급 1~7을 색 척도(초록→빨강)로 변환. 화면 주소로 레이어 직접 진입 가능(<span class="small">?view=marketmap&amp;map=risk</span>) — 시연·공유·발표에 활용</td></tr>
+    <tr><td><b>🌐 무역상대국</b></td>
+      <td>16개국 × 8개 지표의 정렬형 테이블: 국가·대륙·상위 수출품목·취급 품목수·수출액·전년비·<b>K-SURE 등급(색상 배지)</b>·<b>對韓 수입규제 건수</b>·Tradar Score. 모든 컬럼 클릭 정렬, 검색, CSV 내보내기. 규제 건수에 마우스를 올리면 규제 성격(반덤핑 중심 등) 표시</td>
+      <td>관세청 실적 + K-SURE 국별신용등급 + KOTRA 수입규제 — <b>한 표에 3개 기관 데이터</b></td>
+      <td>등급별 색상 배지(1등급 초록 → 7등급 진홍), 규제 10건 이상 적색 강조</td></tr>
+    <tr><td><b>🔎 디스커버리</b></td>
+      <td>28개 품목 전체를 탐색하는 대형 테이블. 세그먼트 프리셋(전체/급상승/신흥/안정/고위험), 카테고리 필터(K-Food·반도체·2차전지 등 12종), 리스크 필터, 검색, 다중 선택 후 비교, 표/카드/차트 뷰 전환, CSV 내보내기</td>
+      <td>관세청 실적 기반 스코어·단계(성장 주도/확산/신흥 등)</td>
+      <td>필터·정렬 조합이 주소에 반영돼 상태 공유 가능</td></tr>
+    <tr><td><b>📈 수출 차트 · 라이징 인덱스</b></td>
+      <td>Top 100 랭킹과 급상승/신흥/고위험/안정 프리셋 차트, 순위 변동(▲▼) 지표. 라이징 인덱스는 최근 상승세가 가장 가파른 품목들을 지수화해 시계열로 비교</td>
+      <td>스코어·모멘텀 시계열</td>
+      <td>기준 시점=100으로 정규화해 품목 간 상승률을 직접 비교</td></tr>
+    <tr><td><b>⚖️ 비교</b></td>
+      <td>최대 5개 품목을 나란히 — 수출 추세 겹쳐 보기(절대값/변화율 전환), 리스크×모멘텀 산점도(저위험·고모멘텀 사분면 강조), 지표 테이블</td>
+      <td>실적 시계열 + 리스크 지표</td>
+      <td>사분면 배경 강조로 "기회 우위" 영역을 시각 안내</td></tr>
+  </table>
+
+  <div class="shots2">
+    <figure><img class="shot" src="../assets/screens/10-command-motie.png" alt="커맨드센터"><figcaption>① 커맨드센터 — 관세청 지표·K-SURE 경보·KOTRA 뉴스 시그널이 한 화면에 합류</figcaption></figure>
+    <figure><img class="shot" src="../assets/screens/09-map-ksure.png" alt="마켓맵 K-SURE 리스크 레이어"><figcaption>② 마켓맵 리스크 레이어 — 국가 타일 색 = <b>무역보험공사 국별신용등급</b> (미국 1등급 · 베트남 4등급 · 인도 3등급)</figcaption></figure>
+  </div>
+</section>
+</div>
+
+<!-- ═════════ 3. 세부내용 (3) 화면별 상세 ② ═════════ -->
+<div class="page">
+<section>
+  <div class="sub-h">3-4. 화면별 세부 설명 ② — 심층 분석과 실행</div>
+  <table>
+    <tr><th style="width:13%">화면</th><th style="width:42%">무엇을 보여주나</th><th style="width:24%">사용 데이터</th><th>기술 포인트</th></tr>
+    <tr><td><b>📊 360° 품목 프로필</b><br><span class="small muted">8개 탭</span></td>
+      <td><b>개요</b>(스코어 게이지·4축 방사형 차트·핵심 지표 6종·AI 요약) · <b>성과</b>(18개월 추세·월별 실적) · <b>국가</b>(국가별 비중 도넛·성장률 막대·상위 시장 표) · <b>뉴스</b>(관련 뉴스 감성 분포) · <b>타임라인</b>(순위 변동·신기록·뉴스 이벤트 연표) · <b>유사 품목</b>(같은 카테고리·비슷한 스코어 추천) · <b>리스크</b>(리스크 게이지 + 관세·환율·시장 집중도·수요 변동성·<b>K-SURE 국가등급</b> 5개 팩터 막대 + 시나리오 문장) · <b>리포트</b>(품목 브리핑·시장 진출·리스크 리포트 원클릭 생성)</td>
+      <td>관세청 실적, K-SURE 등급·위험지수(리스크 탭), 뉴스 태깅 결과</td>
+      <td>모든 수치가 클릭 가능한 근거로 연결. 차트는 자체 SVG 렌더링(외부 서버 불필요)</td></tr>
+    <tr><td><b>📰 뉴스 인텔리전스</b></td>
+      <td>KOTRA 해외시장뉴스와 통상 뉴스가 <b>시그널 카드</b>로: 제목·요약·출처(무역관 표기)·국가·감성(긍정/중립/부정)·심각도(기회/주의/리스크/정보)·관련성 점수·토픽·<b>관련 품목 칩</b>·연동 데이터 변동("라면 대미 수출 +28%"). 감성·토픽별 필터, 관련 품목 클릭 시 프로필로 이동</td>
+      <td><b>KOTRA_해외시장뉴스</b>(무역관 현장 리포트) + 통상 뉴스 큐레이션</td>
+      <td>뉴스→품목 자동 매핑(아래 파이프라인). 부정 뉴스는 해당 품목 리스크 경보에 반영</td></tr>
+    <tr><td><b>💬 AI 무역참모 '바람이'</b></td>
+      <td>우측 하단 상시 패널 + 전체 화면 모드. 한국어 질문에서 <b>품목·국가·의도</b>(추천/예측/리스크/비교)를 인식해 실제 수치·스코어·등급을 근거로 답변, 필요한 차트를 즉석 생성. 답변 하단에 근거 출처를 항상 병기, "리포트에 추가·알림 생성·비교 담기" 액션 제공. 단축키 ⌘K 팔레트로 어디서든 호출</td>
+      <td>전 데이터(실적·스코어·K-SURE·뉴스) — 근거 팩으로 조립</td>
+      <td>수치는 엔진이 계산, 국산 LLM(Solar·HyperCLOVA X)은 문장만 다듬음 → <b>숫자 지어내기(환각) 원천 차단</b>(아래 흐름도)</td></tr>
+    <tr><td><b>🔗 거래 인텔리전스</b></td>
+      <td>품목 선택 시 <b>기업 → 상품 → 시장 → 바이어</b>를 하나의 흐름 그래프로. 실거래 단가 사다리(최저~최고 단가대), 바이어 후보 목록, 선적 건수. 모든 값에 <b>출처 신뢰도 4단계</b>(공식 통계/공개 선하증권/추정/사용자 업로드)를 구분 표기, CSV 내보내기</td>
+      <td>관세청 통계 + 공개 선하증권 + 사용자 CSV</td>
+      <td>출처 등급별 시각 구분으로 "추정을 사실처럼" 보이지 않게 설계</td></tr>
+    <tr><td><b>🔖 관심목록 · 🔔 알림 센터</b></td>
+      <td>품목·시장을 그룹으로 저장, 항목별 성과 요약·순위 변동·경보 수. 알림 센터에는 심각도·발생 근거·연동 지표가 붙은 경보 카드(<b>K-SURE 등급 경보 포함</b>)와 <b>커스텀 규칙 빌더</b> — "라면의 7일 모멘텀이 10% 이상이면 푸시" 같은 규칙을 대상·지표·조건·임계값·채널로 직접 조립</td>
+      <td>스코어·모멘텀 지표 스트림 + K-SURE 등급 변동</td>
+      <td>규칙은 지표 이름이 아니라 사람이 읽는 문장 형태로 미리보기</td></tr>
+    <tr><td><b>📄 리포트 빌더 · 리포트 스튜디오</b></td>
+      <td>섹션 패널·문서 미리보기·데이터 위젯으로 분석 리포트를 조립해 PDF 내보내기. 리포트 스튜디오에서는 <b>"3분기 미국 라면 시장 전망 리포트 만들어줘"</b> 같은 자연어 한 줄로 차트·표·해설이 배치된 인터랙티브 리포트가 자동 조립(§3-5 구조)</td>
+      <td>전 데이터 + 리포트 설계 규격(Report Spec)</td>
+      <td>생성 결과의 모든 수치는 엔진 계산값 — 재현 가능</td></tr>
+    <tr><td><b>📱 모바일 모드 · ⚙️ 설정</b></td>
+      <td>모바일 전용 5탭(레이더/스캔/관심/알림/AI) — 이동 중 기회·경보 확인에 최적화. 설정에서는 연결된 <b>데이터 소스 현황</b>(관세청·K-SURE·KOTRA 등 6종의 연결 상태) 확인</td>
+      <td>동일 데이터 계약 공유</td>
+      <td>PWA로 홈 화면 설치·오프라인 동작, Android 네이티브 앱 병행 출시</td></tr>
+  </table>
+
+  <div class="shots1"><figure><img class="shot" src="../assets/screens/08-partners-ksure.png" alt="무역상대국"><figcaption>③ 무역상대국 보드 — 수출 통계(관세청) + K-SURE 등급 배지(무역보험공사) + 對韓 수입규제 건수(KOTRA)를 한 표로. 미국: 수출 1위지만 규제 53건 / 베트남: 성장 +8%지만 신용 4등급 — 기회와 위험의 비대칭이 즉시 보임</figcaption></figure></div>
+</section>
+</div>
+
+<!-- ═════════ 3. 세부내용 (4) 핵심 기술 ═════════ -->
+<div class="page">
+<section>
+  <div class="sub-h">3-5. 핵심 기술 상세 — 점수·예측·뉴스·리포트는 이렇게 만들어집니다</div>
+
+  <div class="dgm"><div class="t">① Tradar Score — 시장 매력도 0~100점의 산출 구조</div>
+    <div class="scorebox">
+      <div class="ax"><b>모멘텀</b>최근 상승세<br>(7일·30일 성장률)</div>
+      <div class="op">+</div>
+      <div class="ax"><b>규모</b>연간 수출액<br>(로그 척도)</div>
+      <div class="op">+</div>
+      <div class="ax"><b>다변화</b>시장 분산도<br>(1위 시장 쏠림의 역수)</div>
+      <div class="op">+</div>
+      <div class="ax"><b>안정성</b>변동성·리스크<br>(변동계수 기반)</div>
+      <div class="op">−</div>
+      <div class="ax" style="border-color:#f3c9c4"><b>리스크 페널티</b>관세 노출 ·<br><b>K-SURE 국가등급</b></div>
+      <div class="op">=</div>
+      <div class="res"><b>Tradar Score</b>0~100 · 성장단계 배지<br><span class="small muted">(신흥→확산→성장 주도→글로벌 주력)</span></div>
+    </div>
+    <p class="small muted" style="margin:4px 0 0">각 축을 0~100으로 정규화한 뒤 가중 결합. 순위와 함께 <b>순위 변동(▲▼)</b>을 제공해 "지금 움직이는 품목"을 드러냅니다.</p>
+  </div>
+
+  <div class="dgm"><div class="t">② 수요예측 엔진 — 4단계 (순수 numpy 자체구현, 외산 모델·외부 API 없음)</div>
+    <div class="steps">
+      <div class="s"><span class="n">1</span><h5>계절지수 추정</h5><p>월별 패턴(명절 특수, 연말 수요 등)을 곱셈 계절지수로 분리</p></div>
+      <div class="s"><span class="n">2</span><h5>탈계절화·추세 추정</h5><p>계절성을 제거한 최근 18개월에 로그선형 회귀 — 현재 국면의 성장률 산출</p></div>
+      <div class="s"><span class="n">3</span><h5>감쇠 외삽</h5><p>성장률을 점차 완화하며 6개월 연장 — 급등 추세를 무한 연장하는 과대예측 방지</p></div>
+      <div class="s"><span class="n">4</span><h5>예측구간·검증</h5><p>잔차 기반 95% 예측구간 + 과거 구간 적합도(MAPE)를 함께 표시 — 정확도를 숨기지 않음</p></div>
+    </div>
+  </div>
+
+  <div class="dgm"><div class="t">③ 뉴스 파이프라인 — KOTRA 현장 리포트가 내 품목의 경보가 되기까지</div>
+    <div class="flow">
+      <div class="node motie"><h4>수집</h4><span class="small"><b>KOTRA_해외시장뉴스</b> OpenAPI(무역관 리포트) + 통상 뉴스 큐레이션</span></div>
+      <div class="arr">→</div>
+      <div class="node"><h4>정규화</h4><span class="small">제목·요약·국가·산업분류·무역관·게시일 추출, 국가 코드 표준화</span></div>
+      <div class="arr">→</div>
+      <div class="node"><h4>AI 태깅</h4><span class="small">감성(긍정/중립/부정)·심각도(기회/주의/리스크)·관련성 점수·토픽 분류</span></div>
+      <div class="arr">→</div>
+      <div class="node"><h4>품목 연결</h4><span class="small">산업분류·키워드로 28개 품목에 매핑 — "MoCRA 규제" → 기초·색조화장품</span></div>
+      <div class="arr">→</div>
+      <div class="node hl"><h4>신호화</h4><span class="small">뉴스 카드 + 데이터 변동 병기("대미 +28%") + 부정 뉴스는 리스크 경보로</span></div>
+    </div>
+  </div>
+
+  <div class="dgm"><div class="t">④ 생성형 리포트·AI 상담 — 숫자를 지어내지 못하는 구조</div>
+    <div class="flow">
+      <div class="node"><h4>사용자</h4><span class="small">"3분기 미국 라면 시장 전망 리포트"</span></div>
+      <div class="arr">→</div>
+      <div class="node"><h4>LLM: 설계만</h4><span class="small">리포트 설계 규격(Report Spec — 어떤 품목·국가·기간·차트를 넣을지)을 JSON으로 작성. <b>숫자는 다루지 않음</b></span></div>
+      <div class="arr">→</div>
+      <div class="node"><h4>검증</h4><span class="small">JSON 스키마로 규격 검사 — 잘못된 설계는 이 단계에서 차단</span></div>
+      <div class="arr">→</div>
+      <div class="node hl"><h4>엔진: 계산</h4><span class="small">설계에 따라 관세청·산업부 데이터를 조회하고 예측·스코어를 <b>결정론적으로 계산</b></span></div>
+      <div class="arr">→</div>
+      <div class="node"><h4>조립</h4><span class="small">차트·표·해설이 배치된 인터랙티브 리포트 — 같은 질문이면 같은 수치</span></div>
+    </div>
+    <p class="small muted" style="margin:4px 0 0">AI 상담(바람이)도 동일 원칙 — 의도 인식 후 근거 수치를 엔진이 먼저 확정하고, 국산 LLM은 문장 표현만 담당합니다.
+    공공데이터 서비스에서 가장 위험한 "그럴듯한 거짓 숫자"를 <b>설계 차원에서 불가능</b>하게 만든 구조입니다.</p>
+  </div>
+</section>
+</div>
+
+<!-- ═════════ 3. 세부내용 (5) 차별성·창의성·구현 ═════════ -->
+<div class="page">
+<section>
+  <div class="sub-h">3-6. 기존 서비스와의 차별성</div>
+  <table>
+    <tr><th style="width:19%">구분</th><th>무역통계 조회 서비스<br><span class="small muted">(관세청 포털·무역협회 통계)</span></th><th>유료 무역통계 분석<br><span class="small muted">(민간, 연 수십만 원)</span></th><th>기관별 개별 서비스<br><span class="small muted">(K-SIGHT·KOTRA 드림)</span></th><th style="background:#e8f6f4">Tradar</th></tr>
+    <tr><td>핵심 성격</td><td>통계 조회·다운로드</td><td>통계 조회·리포트</td><td>등급/뉴스 <b>개별</b> 열람</td><td style="background:#f0fbfa"><b>융합 → 예측·경보·상담</b></td></tr>
+    <tr><td>데이터 융합</td><td class="pillno">✕ 통계만</td><td class="pillno">✕ 통계만</td><td class="pillno">✕ 단일 소스</td><td class="pillok" style="background:#f0fbfa">✓ 통계×신용등급×뉴스×규제</td></tr>
+    <tr><td>미래 전망</td><td class="pillno">—</td><td class="pillno">—</td><td class="pillno">—</td><td class="pillok" style="background:#f0fbfa">✓ 국가별 6개월 AI 예측(예측구간 포함)</td></tr>
+    <tr><td>리스크 신호</td><td class="pillno">—</td><td class="pillno">—</td><td>등급 수치 나열</td><td class="pillok" style="background:#f0fbfa">✓ 지도 색·배지·자동 경보로 번역</td></tr>
+    <tr><td>대화형 AI</td><td class="pillno">—</td><td class="pillno">—</td><td class="pillno">—</td><td class="pillok" style="background:#f0fbfa">✓ 근거기반 AI 참모(환각 차단)</td></tr>
+    <tr><td>가격 · 대상</td><td>무료 · 실무·연구자</td><td>유료 · 기업 실무</td><td>무료 · 무역 전문가</td><td style="background:#f0fbfa"><b>무료 시작 · 수출 중소기업·소상공인 눈높이</b></td></tr>
+  </table>
+
+  <div class="sub-h">3-7. 창의성 · 독창성</div>
+  <div class="grid2">
+    <div class="card"><h3>① 공공 AI 데이터 × 국산 AI 엔진의 '이중 융합'</h3>
+      K-SURE 위험지수는 무역보험공사가 <b>AI로 산출해 개방한 데이터</b>입니다. Tradar는 이를 자체 예측·경보 엔진과
+      다시 결합합니다 — 공공기관의 AI 산출물을 민간 AI가 재해석해 시민의 도구로 만드는, 공공데이터 활용의 새로운 패턴입니다.</div>
+    <div class="card"><h3>② 표를 '점수·색·순위'로 — 데이터 문해력 장벽 제거</h3>
+      HS코드와 통계표를 아는 사람만 쓰던 무역 데이터를, 누구나 직관적으로 읽는 형태로 번역했습니다:
+      시장 매력도는 0~100 <b>점수</b>로, 기회와 위험은 지도의 <b>색</b>으로, 뜨는 품목은 <b>순위 변동</b>으로.
+      전문 지식 없이도 "어디가 초록이고 어디가 빨간지"만 보면 됩니다.</div>
+    <div class="card"><h3>③ 숫자 환각을 구조적으로 차단한 생성형 리포트</h3>
+      AI가 문서를 쓰는 서비스는 많지만, <b>숫자를 지어낼 수 없게 설계된</b> 서비스는 드뭅니다.
+      LLM은 리포트의 설계도만 그리고 모든 수치는 엔진이 공공데이터에서 계산 — 신뢰성이 생명인
+      공공데이터 서비스의 요건을 아키텍처로 해결했습니다(§3-5 ④).</div>
+    <div class="card"><h3>④ '일기예보' 방식의 조기경보 사용자 경험</h3>
+      급등/상승/안정/둔화/변동 5단계 신호와 리스크 경보를 일기예보처럼 제공합니다.
+      "내일 비가 올 확률"을 읽듯 "이 시장의 둔화 신호"를 읽고 우산(수출보험·시장 다변화)을 챙기게 하는,
+      소상공인 눈높이의 위험 커뮤니케이션입니다.</div>
+  </div>
+
+  <div class="sub-h">3-8. 구현 기술 스택 · 품질 · AI 연계 확산성 <span class="muted small">(가산점: AI 활용 확산성)</span></div>
+  <table>
+    <tr><th style="width:16%">계층</th><th>구성</th><th style="width:34%">선택 이유</th></tr>
+    <tr><td>데이터 수집</td><td>Python 표준 라이브러리 기반 API 클라이언트(관세청·K-SURE·KOTRA), 일별 배치 동기화, 공표치 앵커 폴백</td><td>의존성 최소화 — 어떤 환경에서도 파이프라인 재현 가능</td></tr>
+    <tr><td>AI 엔진</td><td>numpy 기반 예측·경보·스코어링(자체구현), 국산 LLM 어댑터(Solar·HyperCLOVA X)</td><td>외산 모델·해외 API 무의존 — 온디바이스·국내 인프라 구동, 비용 0</td></tr>
+    <tr><td>API 서버</td><td>FastAPI — 예측/레이더/스코어/상담/리포트 전 기능을 REST JSON(/api/*)으로 개방</td><td>모든 분석이 API — 타 시스템·AI 에이전트가 즉시 소비</td></tr>
+    <tr><td>프런트엔드</td><td>React+ECharts, 빌드 도구 없는 단일 페이지, PWA(오프라인 동작)</td><td>저사양 PC·모바일에서도 구동, 설치 장벽 0</td></tr>
+    <tr><td>배포·품질</td><td>GitHub Pages(정적)+Render(API)+Google Play(Android), CI/CD, 테스트 55건, 웹 취약점 자동 점검(OWASP ZAP), 오픈소스(AGPL)</td><td>심사 기간 포함 상시 접속 가능한 이중화 배포</td></tr>
+  </table>
+  <div class="grid2">
+    <div class="card"><h3>AI 에이전트 연계 구조</h3>
+      <ul class="small">
+        <li><b>API 연계</b>: 모든 분석이 REST/JSON — 챗봇·업무자동화(RPA)·타 AI 시스템이 바로 호출</li>
+        <li><b>에이전트 도구화</b>: 리포트 설계 규격(Report Spec)은 <b>AI 에이전트가 안전하게 부릴 수 있는 도구 규격</b> — 표준 에이전트 프로토콜(MCP)로 노출하면 국산 LLM 에이전트가 "수출 분석 도구"로 Tradar를 사용</li>
+      </ul></div>
+    <div class="card"><h3>다중 플랫폼 확장 시나리오</h3>
+      <ul class="small">
+        <li>웹 PWA → <b>Android 앱(출시 완료)</b> → 수출지원기관 B2G 관제 콘솔 → 카카오톡 경보 봇(로드맵)</li>
+        <li>하나의 데이터 계약을 모든 플랫폼이 공유 — 채널 추가 비용 최소화</li>
+      </ul></div>
+  </div>
+
+  <div class="sub-h">3-9. 서비스 링크 · 시연 영상</div>
+  <table>
+    <tr><th style="width:22%">구분</th><th>주소 / 내용</th></tr>
+    <tr><td><b>서비스 링크 (필수)</b></td><td><b>https://spcx0701.github.io/tradar/</b> (정적 PWA) · https://tradar.onrender.com/ (라이브 API 포함) · Google Play "Tradar"</td></tr>
+    <tr><td>소스 공개</td><td>https://github.com/spcx0701/tradar (재현 가능한 빌드·데이터 파이프라인 포함)</td></tr>
+    <tr><td><b>시연 영상 구성</b> (첨부)</td><td class="small">① 문제 제기 — 4개 사이트를 오가는 수출 사장님(15초) → ② 커맨드센터: KOTRA 뉴스·K-SURE 경보가 모인 첫 화면(20초) → ③ 마켓맵: 성장률→<b>K-SURE 레이어 전환, 지도의 색이 바뀌는 순간</b>(20초) → ④ 무역상대국: 미국 1등급·규제 53건 vs 베트남 4등급·6건 비교(20초) → ⑤ 품목 프로필: 라면 스코어 94·6개월 예측·리스크 팩터(20초) → ⑥ AI 참모: "라면 어디에 수출하면 좋을까?" 근거 답변(15초) → ⑦ 마무리: 데이터 출처(산업부·관세청)·서비스 URL(10초). <b>화면 주소로 재현 가능</b>: /app/?view=marketmap&amp;map=risk · /app/?view=partners</td></tr>
+  </table>
+</section>
+</div>
+
+<!-- ═════════ 4. 사업화방안 및 기대효과 ═════════ -->
+<div class="page">
+<section>
+  <div class="sec-h"><span class="no">4</span><h2>사업화방안 및 기대효과</h2><span class="crit">심사: 사업성 · 실현가능성 · 발전가능성</span></div>
+
+  <div class="sub-h">4-1. 시장 규모</div>
+  <div class="grid3">
+    <div class="card" style="text-align:center"><h3>전체 시장 (TAM)</h3><b style="font-size:15px;color:var(--blue)">연 1,000억 원+</b><br><span class="small muted">수출기업 약 15만사(중소 9.5만)의 해외시장 정보·조사·컨설팅 지출</span></div>
+    <div class="card" style="text-align:center"><h3>유효 시장 (SAM)</h3><b style="font-size:15px;color:var(--blue)">연 144억 원</b><br><span class="small muted">수출 중소기업 9.5만사 × 구독 11.9만 원/년 중 도달가능 10% + 수출지원기관 약 100곳</span></div>
+    <div class="card" style="text-align:center"><h3>3년 목표 (SOM)</h3><b style="font-size:15px;color:var(--blue)">연 18억 원</b><br><span class="small muted">유료 구독 1만사 × 11.9만 원 + 기관 20곳 × 3천만 원</span></div>
+  </div>
+
+  <div class="sub-h">4-2. 수익 모델 · 매출 구조</div>
+  <table>
+    <tr><th style="width:20%">수익원</th><th>내용</th><th style="width:16%">가격(안)</th><th style="width:24%">근거</th></tr>
+    <tr><td><b>프리미엄 구독 (B2C/B2B)</b></td><td>전 품목·국가 예측 무제한, K-SURE 등급 변동·둔화 경보 알림, AI 상담 무제한, 리포트 내보내기</td><td>월 9,900원</td><td>민간 유료 통계(연 수십만 원) 대비 1/5 가격에 예측·경보·상담까지</td></tr>
+    <tr><td><b>B2G 관제 SaaS</b></td><td>지자체·테크노파크·수출지원기관의 관내기업 수출 관제 콘솔(산업단지 수출 동향 포함 — <b>지역활력</b>)</td><td>기관당 연 2~6천만 원</td><td>기존 수출지원 시스템·관제 용역 단가</td></tr>
+    <tr><td><b>제휴 수수료</b></td><td>무역보험 가입·물류·통관·인증 파트너 연계, 수출바우처 매칭</td><td>건당 수수료</td><td>경보→행동(보험·컨설팅) 전환 지점을 서비스가 보유</td></tr>
+  </table>
+
+  <div class="sub-h">4-3. 개발이력 · 3개년 로드맵 (기 제공 서비스의 보완·확장)</div>
+  <table>
+    <tr><th style="width:16%">단계</th><th>내용</th><th style="width:20%">목표 지표</th></tr>
+    <tr><td><b>완료 (’25~’26.7)</b></td><td>플랫폼 개발·라이브 배포(웹·Android)·국산 AI 엔진 구축 — 관세청 통계 기반 출품작을 <b>산업부 데이터 레이어(K-SURE·KOTRA)로 확장</b>해 '수익성(얼마나 팔리나)'에 '안전성(떼이지 않나)' 축을 완성</td><td>테스트 55건 · 3채널 배포</td></tr>
+    <tr><td><b>1년차 (’26~’27)</b></td><td>실데이터 상시 동기화, K-SURE 등급변동 푸시 알림, 수출지원기관 2곳 시범 도입(B2G 첫 사례), 수출바우처 수행기관 등록</td><td>월간 사용자 5천 · 유료 500 · 기관 2</td></tr>
+    <tr><td><b>2년차 (’27~’28)</b></td><td>산업단지공단 수출실적 연계 '지역 수출 관제'(지역활력), KOTRA 수출유망추천 교차검증, 국산 LLM 정식 연동, AI 에이전트 도구(MCP) 공개</td><td>월간 사용자 2만 · 유료 3천 · 기관 8</td></tr>
+    <tr><td><b>3년차 (’28~’29)</b></td><td>바이어 매칭(K-SURE 바이어 검색 연계)·해외인증 안내, 동남아 역방향(한국 상품을 찾는 해외 수입자용) 확장</td><td>유료 1만 · 기관 20 · 매출 18억</td></tr>
+  </table>
+  <p class="small muted">실현가능성: 아이디어가 아닌 <b>운영 중인 서비스</b>입니다. 데이터는 전부 무료 공공데이터, 인프라는 경량 설계로 고정비 최소,
+  코드·파이프라인은 오픈소스로 공개되어 검증 가능합니다. 초기 유통은 관세청·KOTRA·지자체 수출지원 채널과 수출바우처 연계로 확보합니다.</p>
+
+  <div class="sub-h">4-4. 기대효과 — 정량 (산출 근거 명시)</div>
+  <table>
+    <tr><th style="width:24%">지표</th><th>산출 근거</th><th style="width:20%">기대 효과</th></tr>
+    <tr><td>시장조사 시간 단축</td><td>신시장 검토 1건당 평균 3일(24시간) → 30분 (4개 채널 수작업 조합 → 단일 화면). 이용기업 4,000사 × 연 2회 기준</td><td><b>연 18.8만 시간 · 약 66억 원</b> 절감</td></tr>
+    <tr><td>수출대금 미수 예방</td><td>K-SURE 4등급 이상 시장 거래 시 자동 경보 → 결제조건 상향·수출보험 가입 유도(보험 연계 전환)</td><td>미수 사고의 <b>사전 차단 경로</b> 신설</td></tr>
+    <tr><td>수입규제 사전 인지</td><td>對韓 수입규제 200여 건(30여 개국)을 시장 선택 단계에서 노출 — 반덤핑 피소·통관 거부 리스크 회피</td><td>규제 <b>사후 대응 → 사전 회피</b></td></tr>
+    <tr><td>공공데이터 활용 저변</td><td>산업부 4개 데이터셋의 실사용 주체를 무역 전문가 → 9.5만 수출 중소기업으로 확대</td><td>데이터 활용 인구 <b>100배</b> 확장</td></tr>
+    <tr><td>신규 수출기업 진입</td><td>정보 비용 제거로 내수기업의 수출 전환 지원 (수출 중소기업 +2.2%/년 추세 가속)</td><td>수출 저변 확대 기여</td></tr>
+  </table>
+
+  <div class="sub-h">4-5. 사회 파급효과 — 정성</div>
+  <div class="grid2">
+    <div class="card"><h3>🏭 지역활력 · 균형발전</h3>지자체·산업단지 수출 관제(B2G)로 수도권 밖 수출기업에도 대기업급 인텔리전스 제공 — 지역 수출 창업·일자리 촉진.</div>
+    <div class="card"><h3>🛡️ 통상 리스크 대응력</h3>관세·규제·신용 리스크의 상시 모니터링이 중소기업의 표준 업무가 되도록 — 통상 충격의 미시적 완충망.</div>
+    <div class="card"><h3>🇰🇷 국산 AI 자립 · 신뢰</h3>외산 의존 없는 예측·경보 + 국산 LLM 상담 + 환각 차단 설계 — 공공 분야 AI 신뢰성의 참조 사례.</div>
+    <div class="card"><h3>🔄 공공데이터 생태계 환류</h3>개방 데이터를 소비만 하지 않고 집계 인사이트를 B2G로 되돌리는 양방향 모델 — 산업부 데이터 개방 성과의 실증.</div>
+  </div>
+
+  <div class="lead" style="margin-top:8px"><b>요약</b> — Tradar는 산업통상부가 개방한 <b>국가위험·시장정보·규제 데이터</b>를 관세청 통계와 융합해,
+  "어느 나라에, 무엇을, 언제, 얼마나 안전하게 수출할까"라는 수출 중소기업의 4대 질문에 <b>하나의 화면</b>으로 답합니다.
+  이미 배포된 완성 서비스이며, 산업부 데이터가 늘어날수록 함께 강해지는 <b>공공데이터 네이티브 플랫폼</b>입니다.</div>
+
+  <div class="foot">데이터 출처: 한국무역보험공사_국별신용등급·국가별 업종별 위험지수, 대한무역투자진흥공사_해외시장뉴스·수입규제품목(지역본부별) 정보(이상 공공데이터포털), 관세청_품목별 국가별 수출입실적(GW).
+  통계 인용: 중소벤처기업부 「2025년 중소기업 수출동향」(수출 1,186억 달러·수출 중소기업 78,655개사·온라인 수출 중소기업 비중 77.1%·화장품 39.4억 달러), KOTRA 「2025년 하반기 對韓 수입규제 동향과 전망」(30여 개국 200여 건), 2026.2 미 연방대법원 IEEPA 판결 관련 보도(글로벌 관세 10~15%).
+  데모 수치는 공표치에 앵커링된 대표 스냅샷이며 인증키 연동 시 실데이터로 대체됩니다. 개인·기업 식별정보 미포함.</div>
+</section>
+</div>
+
+</body>
+</html>

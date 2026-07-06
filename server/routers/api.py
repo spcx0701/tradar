@@ -1,18 +1,38 @@
 """무역풍 REST API 라우터 — 예측·레이더·AI 상담(실시간)."""
 from __future__ import annotations
 
-from fastapi import APIRouter, HTTPException, Query
+from fastapi import APIRouter, Header, HTTPException, Query
 
 from ..advisor import answer as advisor_answer, build_llm_adapter
+from ..config import settings
 from ..dataset import get_dataset
 from ..forecasting import MAX_HORIZON, clamp_horizon, forecast
+from ..llm_runtime import (
+    llm_provider_control_state,
+    selected_llm_provider,
+    set_selected_llm_provider,
+)
 from ..radar import market_signal, radar_for_product, risk_alerts, top_opportunities
-from ..schemas import AdvisorRequest, AdvisorResponse
+from ..schemas import AdvisorRequest, AdvisorResponse, LLMProviderSelectionRequest
 
 router = APIRouter(prefix="/api", tags=["tradewind"])
 
 HORIZON = 6
 MAX_RADAR_LIMIT = 60
+
+
+def _verify_admin_token(
+    authorization: str | None,
+    x_tradar_admin_token: str | None,
+) -> None:
+    expected = settings.llm_admin_token
+    if not expected:
+        raise HTTPException(503, "Admin LLM provider control is not configured")
+    token = x_tradar_admin_token or ""
+    if authorization and authorization.lower().startswith("bearer "):
+        token = authorization[7:].strip()
+    if token != expected:
+        raise HTTPException(401, "Invalid admin token")
 
 
 def _bounded_limit(value: int) -> int:
@@ -85,4 +105,29 @@ def radar_product(hs: str):
 @router.post("/advisor", response_model=AdvisorResponse)
 def advisor(req: AdvisorRequest):
     ds = get_dataset()
-    return advisor_answer(ds, req.question, llm=build_llm_adapter())
+    provider = selected_llm_provider(settings)
+    return advisor_answer(ds, req.question, llm=build_llm_adapter(provider_override=provider))
+
+
+@router.get("/admin/llm-provider")
+def get_llm_provider(
+    authorization: str | None = Header(default=None),
+    x_tradar_admin_token: str | None = Header(default=None, alias="X-Tradar-Admin-Token"),
+):
+    _verify_admin_token(authorization, x_tradar_admin_token)
+    return llm_provider_control_state(settings)
+
+
+@router.post("/admin/llm-provider")
+def set_llm_provider(
+    req: LLMProviderSelectionRequest,
+    authorization: str | None = Header(default=None),
+    x_tradar_admin_token: str | None = Header(default=None, alias="X-Tradar-Admin-Token"),
+):
+    _verify_admin_token(authorization, x_tradar_admin_token)
+    try:
+        return set_selected_llm_provider(req.provider, settings)
+    except ValueError as exc:
+        raise HTTPException(400, str(exc)) from exc
+    except RuntimeError as exc:
+        raise HTTPException(409, str(exc)) from exc

@@ -16,7 +16,7 @@ from .config import settings
 from .routers.api import router as api_router
 
 app = FastAPI(title=settings.app_name, version=settings.version,
-              description="관세청 수출입통계·AI 기반 한류 수출 수요예측·조기경보 API")
+              description="관세청·산업부 공공데이터와 AI 기반 수출 수요예측·조기경보 API")
 
 app.add_middleware(
     CORSMiddleware,

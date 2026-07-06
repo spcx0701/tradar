@@ -296,7 +296,7 @@
             <div style="margin-top:18px;display:flex;gap:12px;align-items:flex-start;background:var(--cm-gradient-brand-soft);border:1px solid var(--cm-blue-100);border-radius:12px;padding:14px 16px">
               <span style="width:28px;height:28px;border-radius:50%;flex:none;background:var(--cm-blue-500);display:flex;align-items:center;justify-content:center;margin-top:1px"><span class="ms" style="font-size:16px;color:#fff">auto_awesome</span></span>
               <div style="flex:1;min-width:0">
-                <div style="display:flex;align-items:center;gap:7px;margin-bottom:4px"><span style="font-size:12px;font-weight:700;color:var(--cm-n-800)">AI 요약</span><span style="font-size:10px;font-weight:600;color:var(--cm-blue-700);background:#fff;border:1px solid var(--cm-blue-100);border-radius:5px;padding:1px 6px">관세청 데이터 + 뉴스 기반</span></div>
+                <div style="display:flex;align-items:center;gap:7px;margin-bottom:4px"><span style="font-size:12px;font-weight:700;color:var(--cm-n-800)">AI 요약</span><span style="font-size:10px;font-weight:600;color:var(--cm-blue-700);background:#fff;border:1px solid var(--cm-blue-100);border-radius:5px;padding:1px 6px">관세청·산업부 데이터 기반</span></div>
                 <div style="font-size:13px;line-height:1.6;color:var(--cm-n-700)">{{ pf.summary }}</div>
               </div>
               <button onClick="{{ pf.onAsk }}" style="white-space:nowrap;display:inline-flex;align-items:center;gap:5px;height:32px;padding:0 12px;background:#fff;border:1px solid var(--cm-blue-200);border-radius:8px;color:var(--cm-blue-700);font-size:12px;font-weight:600;cursor:pointer" style-hover="background:var(--cm-blue-50)"><span class="ms" style="font-size:15px">forum</span>더 깊이 분석</button>
@@ -372,7 +372,7 @@
           <div style="margin-bottom:18px"><div class="cm-overline" style="margin-bottom:6px">SETTINGS</div><h1 style="margin:0;font-size:24px;font-weight:800;letter-spacing:-.02em;color:var(--cm-n-900)">설정</h1></div>
           <section style="background:#fff;border:1px solid var(--cm-border);border-radius:12px;box-shadow:var(--cm-shadow-card);padding:20px;margin-bottom:16px">
             <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px"><div><div class="cm-overline" style="margin-bottom:3px">DATA SOURCES</div><h3 style="margin:0;font-size:16px;font-weight:700">데이터 소스 · 공공데이터 연동</h3></div><span style="display:inline-flex;align-items:center;gap:6px;font-size:11.5px;font-weight:700;color:var(--cm-positive-700);background:var(--cm-positive-soft);border-radius:999px;padding:4px 11px"><span style="width:7px;height:7px;border-radius:50%;background:var(--cm-positive);animation:tdr-pulse 1.8s infinite"></span>전체 정상</span></div>
-            <div style="font-size:12px;color:var(--cm-n-500);margin-bottom:14px">관세청 공공데이터를 필수 기반으로, 실시간 뉴스·거시지표·국산 AI 엔진을 통합합니다.</div>
+            <div style="font-size:12px;color:var(--cm-n-500);margin-bottom:14px">관세청·산업부 공공데이터를 기반으로, K-SURE 리스크·KOTRA 뉴스·국산 AI 엔진을 통합합니다.</div>
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
               <sc-for list="{{ dataSources }}" as="ds" hint-placeholder-count="6">
                 <div style="display:flex;align-items:center;gap:12px;border:1px solid var(--cm-border);border-radius:10px;padding:13px">

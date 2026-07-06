@@ -11,6 +11,7 @@ import pytest
 
 ROOT = Path(__file__).resolve().parents[2]
 APP_INDEX = ROOT / "app" / "app" / "index.html"
+APP_ADMIN = ROOT / "app" / "admin.html"
 APP_DATA = ROOT / "app" / "app" / "data" / "tradar.js"
 
 
@@ -75,6 +76,26 @@ def test_web_chatbot_does_not_submit_during_korean_ime_composition():
 
     assert "e.isComposing" in html
     assert "keyCode===229" in html
+
+
+def test_admin_llm_provider_ui_controls_server_runtime_without_secret_fields():
+    html = APP_ADMIN.read_text(encoding="utf-8")
+
+    assert "Tradar Admin" in html
+    assert "LLM Provider Control" in html
+    assert "/admin/llm-provider" in html
+    assert "/advisor" in html
+    assert "sessionStorage" in html
+    assert "URLSearchParams" in html
+    assert "apiBase" in html
+    assert "Authorization" in html
+    assert "Bearer" in html
+    assert "openrouter-solar-free" in html
+    assert "gemini-flash" in html
+    assert "TW_GEMINI_KEY" not in html
+    assert "TW_OPENROUTER_KEY" not in html
+    assert "GEMINI_API_KEY" not in html
+    assert "OPENROUTER_API_KEY" not in html
 
 
 def _load_tradar_payload() -> dict:

@@ -1,6 +1,6 @@
 # Tradar English Documentation
 
-Tradar is an export-market analytics platform. It combines Korea Customs export/import statistics with AI scoring, forecasting, and risk signals so users can compare product and country export opportunities.
+Tradar is an export-market analytics platform. It combines Korea Customs export/import statistics, MOTIE-affiliated K-SURE/KOTRA datasets, and AI scoring, forecasting, and risk signals so users can compare product and country export opportunities.
 
 ## Quick Start
 

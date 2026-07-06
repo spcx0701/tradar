@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project
 
-무역풍 (Tradewind) / product name **Tradar** — a Korean Customs Service (관세청) export-data analytics platform. It scores and forecasts export markets by HS code × country using an in-house ("국산", domestic) AI stack (no external LLM required for the demo). Built for the 2026 관세청 공공데이터·AI 활용 창업경진대회 competition. Korean-first: code comments/docs are Korean, identifiers are English.
+무역풍 (Tradewind) / product name **Tradar** — a public-data export analytics platform combining Korean Customs Service (관세청) HS export statistics with MOTIE-affiliated K-SURE/KOTRA datasets. It scores and forecasts export markets by HS code × country using an in-house ("국산", domestic) AI stack (no external LLM required for the demo). Korean-first: code comments/docs are Korean, identifiers are English.
 
 ## Commands
 
@@ -37,6 +37,7 @@ CI (`.github/workflows/ci.yml`) runs `ruff check server scripts`, regenerates da
 
 ```bash
 python scripts/build_tradar_data.py        # refreshes app/data/tradar.js from data.go.kr (needs DATA_GO_KR_KEY) or keeps 2024 published anchors
+python scripts/sync_motie_data.py          # refreshes app/data/motie.js (window.TRADAR_MOTIE) — 산업부 산하기관 K-SURE 국별신용등급/KOTRA 해외시장뉴스, 키 없으면 공표치 앵커
 ```
 
 Trade-intelligence enrichment (company/buyer/shipment flows, `window.TRADAR_TRADE_INTEL` in `app/data/tradar.js`) is a separate sync:

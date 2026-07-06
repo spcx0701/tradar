@@ -9,16 +9,44 @@ from .env import load_env_file
 load_env_file()
 
 
+def _first_env(*names: str) -> str:
+    for name in names:
+        value = os.environ.get(name, "").strip()
+        if value:
+            return value
+    return ""
+
+
 @dataclass
 class Settings:
     # 관세청 data.go.kr 인증키 — 없으면 데모 스냅샷 사용
     data_go_kr_key: str = field(default_factory=lambda: os.environ.get("DATA_GO_KR_KEY", ""))
-    # 국산 LLM(Solar/HyperCLOVA X) — 없으면 데모 NLG 사용
+    # 운영자 선택 LLM(Solar/OpenRouter/Gemini) — 없으면 데모 NLG 사용
     llm_provider: str = field(default_factory=lambda: os.environ.get("TW_LLM_PROVIDER", ""))
     llm_api_key: str = field(default_factory=lambda: os.environ.get("TW_LLM_KEY", ""))
     llm_base_url: str = field(default_factory=lambda: os.environ.get("TW_LLM_BASE_URL", ""))
     llm_model: str = field(default_factory=lambda: os.environ.get("TW_LLM_MODEL", ""))
     llm_timeout: float = field(default_factory=lambda: float(os.environ.get("TW_LLM_TIMEOUT", "12")))
+    openrouter_api_key: str = field(
+        default_factory=lambda: _first_env("TW_OPENROUTER_KEY", "OPENROUTER_API_KEY")
+    )
+    openrouter_base_url: str = field(
+        default_factory=lambda: os.environ.get("TW_OPENROUTER_BASE_URL", "https://openrouter.ai/api/v1")
+    )
+    openrouter_model: str = field(
+        default_factory=lambda: os.environ.get("TW_OPENROUTER_MODEL", "upstage/solar-pro-3:free")
+    )
+    gemini_api_key: str = field(
+        default_factory=lambda: _first_env("TW_GEMINI_KEY", "GEMINI_API_KEY")
+    )
+    gemini_base_url: str = field(
+        default_factory=lambda: os.environ.get(
+            "TW_GEMINI_BASE_URL",
+            "https://generativelanguage.googleapis.com/v1beta/openai",
+        )
+    )
+    gemini_model: str = field(default_factory=lambda: os.environ.get("TW_GEMINI_MODEL", "gemini-3.5-flash"))
+    llm_admin_token: str = field(default_factory=lambda: os.environ.get("TW_ADMIN_TOKEN", ""))
     cors_origins: str = field(default_factory=lambda: os.environ.get("TW_CORS", "*"))
     app_name: str = "무역풍 Tradewind API"
     version: str = "0.1.0"

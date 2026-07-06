@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#060709">
-  <meta name="description" content="관세청 수출입통계(HS코드)와 AI로 28개 품목 × 주요국 수출 시장을 스코어링·예측하는 수출 인텔리전스 플랫폼 Tradar.">
+  <meta name="description" content="관세청 수출입통계와 산업부 산하기관 공공데이터, AI로 28개 품목 × 주요국 수출 시장을 스코어링·예측하는 수출 인텔리전스 플랫폼 Tradar.">
   <meta property="og:title" content="Tradar — 수출의 다음 기회를 먼저 보는 레이더">
-  <meta property="og:description" content="관세청 수출입통계와 AI로 전 수출산업의 흐름을 한 화면에서 확인하세요.">
+  <meta property="og:description" content="관세청·산업부 공공데이터와 AI로 전 수출산업의 흐름을 한 화면에서 확인하세요.">
   <meta property="og:type" content="website">
   <link rel="icon" href="app/icons/logo.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="app/icons/icon-180.png">
@@ -89,14 +89,14 @@
   <div style="position: relative; z-index: 2; max-width: 640px;">
     <div data-reveal style="display: inline-flex; align-items: center; gap: 9px; padding: 7px 14px 7px 9px; border-radius: 999px; border: 1px solid rgba(46,107,255,.35); background: rgba(46,107,255,.09); font-size: 12.5px; font-weight: 600; color: #A8C5FB; margin-bottom: 26px;">
       <span style="padding: 3px 8px; border-radius: 999px; background: linear-gradient(120deg, #16C8F5, #2E6BFF, #7A5BF0); color: #fff; font-size: 10.5px; font-weight: 700; letter-spacing: .04em;">2026</span>
-      관세청 공공데이터·AI 활용 창업경진대회 출품작
+      관세청·산업부 공공데이터 기반 수출 인텔리전스
     </div>
     <h1 data-reveal style="margin: 0 0 24px; font-size: clamp(44px, 5.2vw, 74px); line-height: 1.06; letter-spacing: -0.035em; font-weight: 900;">
       다음 수출 기회를<br>
       먼저 보는 <span style="background: linear-gradient(120deg, #16C8F5 0%, #2E6BFF 46%, #7A5BF0 100%); -webkit-background-clip: text; background-clip: text; color: transparent;">레이더</span>
     </h1>
     <p data-reveal style="margin: 0 0 36px; font-size: 17.5px; line-height: 1.65; color: #9AA4B2; max-width: 480px; text-wrap: pretty;">
-      관세청 수출입통계(HS코드)와 AI로 <strong style="color: #EDF0F4; font-weight: 600;">28개 품목 × 주요국</strong> 시장을 스코어링하고 예측합니다. 반도체부터 K-Food까지, 전 수출산업의 흐름을 한 화면에서 확인할 수 있습니다.
+      관세청 수출입통계(HS코드)와 산업부 K-SURE·KOTRA 데이터, AI로 <strong style="color: #EDF0F4; font-weight: 600;">28개 품목 × 주요국</strong> 시장을 스코어링하고 예측합니다. 반도체부터 K-Food까지, 전 수출산업의 흐름을 한 화면에서 확인할 수 있습니다.
     </p>
     <div data-reveal style="display: flex; align-items: center; gap: 14px; margin-bottom: 52px;">
       <a href="app/" target="_blank" rel="noreferrer" style="display: inline-flex; align-items: center; gap: 9px; padding: 15px 28px; border-radius: 10px; background: linear-gradient(120deg, #16C8F5, #2E6BFF 46%, #7A5BF0); color: #fff; text-decoration: none; font-weight: 700; font-size: 15.5px; box-shadow: 0 8px 34px rgba(46,107,255,.45);" style-hover="box-shadow: 0 10px 44px rgba(46,107,255,.65); transform: translateY(-1px);">플랫폼 열기 <span>→</span></a>
@@ -115,7 +115,7 @@
       <div style="width: 1px; background: rgba(237,240,244,.1);"></div>
       <div>
         <div style="font-size: 30px; font-weight: 800; letter-spacing: -0.02em; background: linear-gradient(120deg, #16C8F5, #2E6BFF, #7A5BF0); -webkit-background-clip: text; background-clip: text; color: transparent;">실시간</div>
-        <div style="font-size: 12px; color: #6B7585; letter-spacing: .05em; margin-top: 4px;">관세청 데이터 동기화</div>
+        <div style="font-size: 12px; color: #6B7585; letter-spacing: .05em; margin-top: 4px;">관세청·산업부 데이터 동기화</div>
       </div>
     </div>
   </div>
@@ -189,7 +189,7 @@
   <div data-reveal style="max-width: 720px; margin-bottom: 56px;">
     <div style="font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: .12em; color: #16C8F5; margin-bottom: 16px;">01 — 리포트 스튜디오</div>
     <h2 style="margin: 0 0 18px; font-size: clamp(32px, 3.6vw, 52px); line-height: 1.1; letter-spacing: -0.03em; font-weight: 800;">질문 한 줄로<br>리포트가 완성됩니다</h2>
-    <p style="margin: 0; font-size: 16.5px; line-height: 1.65; color: #9AA4B2; text-wrap: pretty;">자연어 요청 → 선언적 Report Spec(DSL) → 관세청 데이터 리졸브 순서로 동작합니다. LLM은 스펙만 설계하고, 실제 수치 계산은 엔진이 맡기 때문에 없는 숫자가 만들어질 수 없습니다. 아래 질문을 눌러보세요.</p>
+    <p style="margin: 0; font-size: 16.5px; line-height: 1.65; color: #9AA4B2; text-wrap: pretty;">자연어 요청 → 선언적 Report Spec(DSL) → 관세청·산업부 데이터 리졸브 순서로 동작합니다. LLM은 스펙만 설계하고, 실제 수치 계산은 엔진이 맡기 때문에 없는 숫자가 만들어질 수 없습니다. 아래 질문을 눌러보세요.</p>
   </div>
   <div id="rs-demo-mount" data-reveal style="border-radius: 18px; border: 1px solid rgba(237,240,244,.12); background: linear-gradient(180deg, rgba(30,34,48,.45), rgba(8,8,11,.75)); overflow: hidden; box-shadow: 0 40px 100px rgba(0,0,0,.55), 0 0 80px rgba(46,107,255,.07);">
     <!-- window chrome -->
@@ -265,7 +265,7 @@
               <div style="font-size: 21px; font-weight: 800; letter-spacing: -0.02em;">{{ rsTitle }}</div>
               <div style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; color: #6B7585; margin-top: 5px; letter-spacing: .08em;">{{ rsMeta }}</div>
             </div>
-            <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #16B364; border: 1px solid rgba(22,179,100,.35); background: rgba(22,179,100,.08); padding: 4px 9px; border-radius: 999px; white-space: nowrap;">관세청 데이터 리졸브 · 0.14s</span>
+            <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #16B364; border: 1px solid rgba(22,179,100,.35); background: rgba(22,179,100,.08); padding: 4px 9px; border-radius: 999px; white-space: nowrap;">관세청·산업부 데이터 리졸브 · 0.14s</span>
           </div>
         </sc-if>
         <sc-if value="{{ rsKpi }}" hint-placeholder-val="{{ false }}">
@@ -513,7 +513,7 @@
             </div>
           </sc-if>
         </div>
-        <div style="text-align: center; font-size: 11.5px; color: #4B5563; margin-top: 14px;">모든 답변에는 관세청 실적 수치가 근거로 함께 표시됩니다.</div>
+        <div style="text-align: center; font-size: 11.5px; color: #4B5563; margin-top: 14px;">모든 답변에는 관세청 실적과 산업부 리스크·뉴스 근거가 함께 표시됩니다.</div>
       </div>
     </sc-if>
 
@@ -542,14 +542,14 @@
 <section id="pipeline" data-screen-label="작동 방식" style="position: relative; padding: 0 72px 140px; max-width: 1280px; margin: 0 auto;">
   <div data-reveal style="max-width: 720px; margin-bottom: 56px;">
     <div style="font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: .12em; color: #7A5BF0; margin-bottom: 16px;">03 — 작동 방식</div>
-    <h2 style="margin: 0 0 18px; font-size: clamp(32px, 3.6vw, 52px); line-height: 1.1; letter-spacing: -0.03em; font-weight: 800;">관세청 데이터가<br>인사이트로 바뀌는 3단계</h2>
+    <h2 style="margin: 0 0 18px; font-size: clamp(32px, 3.6vw, 52px); line-height: 1.1; letter-spacing: -0.03em; font-weight: 800;">관세청·산업부 데이터가<br>인사이트로 바뀌는 3단계</h2>
   </div>
   <div id="pipeline-mount" data-reveal style="display: grid; grid-template-columns: 1fr 110px 1fr 110px 1fr; align-items: stretch; gap: 0;">
     <!-- stage 1 -->
     <div style="border: 1px solid rgba(22,200,245,.25); border-radius: 16px; background: linear-gradient(180deg, rgba(22,200,245,.07), rgba(8,8,11,.6)); padding: 24px;">
       <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: .12em; color: #16C8F5; margin-bottom: 12px;">STEP 1 · 필수 공공데이터</div>
-      <div style="font-size: 19px; font-weight: 800; margin-bottom: 8px;">관세청 수출입실적</div>
-      <div style="font-size: 13px; line-height: 1.6; color: #9AA4B2; margin-bottom: 16px;">품목별 국가별 수출입실적 오픈API를 HS코드 기준으로 연동. 인증키 설정 시 실시간 동기화.</div>
+      <div style="font-size: 19px; font-weight: 800; margin-bottom: 8px;">관세청 실적 + 산업부 신호</div>
+      <div style="font-size: 13px; line-height: 1.6; color: #9AA4B2; margin-bottom: 16px;">관세청 수출입실적과 산업부 산하기관 K-SURE·KOTRA 데이터를 HS·국가 기준으로 연동. 인증키 설정 시 실시간 동기화.</div>
       <div style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; color: #6B7585; background: rgba(8,8,11,.8); border: 1px solid rgba(237,240,244,.08); border-radius: 8px; padding: 10px 12px; overflow: hidden; white-space: nowrap;"><span style="color: #16B364;">GET</span> apis.data.go.kr/1220000/<wbr>nitemtrade</div>
       <div style="display: flex; gap: 6px; margin-top: 12px; flex-wrap: wrap;">
         <span style="font-family: 'JetBrains Mono', monospace; font-size: 9.5px; padding: 3px 8px; border-radius: 999px; border: 1px solid rgba(237,240,244,.12); color: #9AA4B2;">HS 8542</span>
@@ -600,7 +600,7 @@
 <section id="trust" data-screen-label="데이터 신뢰성" style="position: relative; padding: 0 72px 140px; max-width: 1280px; margin: 0 auto;">
   <div data-reveal style="max-width: 720px; margin-bottom: 56px;">
     <div style="font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: .12em; color: #16B364; margin-bottom: 16px;">04 — 데이터 신뢰성</div>
-    <h2 style="margin: 0 0 18px; font-size: clamp(32px, 3.6vw, 52px); line-height: 1.1; letter-spacing: -0.03em; font-weight: 800;">모든 숫자의 출처는<br>관세청입니다</h2>
+    <h2 style="margin: 0 0 18px; font-size: clamp(32px, 3.6vw, 52px); line-height: 1.1; letter-spacing: -0.03em; font-weight: 800;">판단 근거는<br>관세청·산업부 데이터입니다</h2>
   </div>
   <div id="trust-mount" data-reveal style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: start;">
     <!-- 환각 차단 구조 -->
@@ -626,8 +626,8 @@
         <div style="display: flex; gap: 14px; align-items: center;">
           <span style="width: 34px; height: 34px; border-radius: 10px; background: rgba(237,240,244,.06); border: 1px solid rgba(237,240,244,.12); display: grid; place-items: center; flex: none; font-size: 13px;">⚙</span>
           <div style="flex: 1; padding: 12px 15px; border-radius: 11px; border: 1px solid rgba(22,179,100,.35); background: rgba(22,179,100,.07);">
-            <div style="display: flex; justify-content: space-between; align-items: center;"><b style="font-size: 14px;">엔진 — 수치 리졸브</b><span style="font-family: 'JetBrains Mono', monospace; font-size: 9.5px; color: #16B364; border: 1px solid rgba(22,179,100,.4); padding: 2px 7px; border-radius: 999px;">관세청 실측치만</span></div>
-            <div style="font-size: 12px; color: #9AA4B2; margin-top: 4px;">모든 숫자는 관세청 실적 데이터에서 계산되어 채워짐</div>
+            <div style="display: flex; justify-content: space-between; align-items: center;"><b style="font-size: 14px;">엔진 — 수치 리졸브</b><span style="font-family: 'JetBrains Mono', monospace; font-size: 9.5px; color: #16B364; border: 1px solid rgba(22,179,100,.4); padding: 2px 7px; border-radius: 999px;">공공데이터 검증값</span></div>
+            <div style="font-size: 12px; color: #9AA4B2; margin-top: 4px;">핵심 수치는 관세청 실적과 산업부 K-SURE·KOTRA 데이터에서 계산되어 채워짐</div>
           </div>
         </div>
         <div style="width: 1px; height: 22px; margin-left: 17px; background: linear-gradient(rgba(22,179,100,.5), rgba(237,240,244,.2));"></div>
@@ -644,7 +644,7 @@
     <div style="display: flex; flex-direction: column; gap: 14px;">
       <div style="border: 1px solid rgba(237,240,244,.12); border-radius: 16px; background: rgba(8,8,11,.6); padding: 22px 24px;">
         <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;"><span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #16C8F5;">01</span><b style="font-size: 16px;">필수 공공데이터, 원본 그대로</b></div>
-        <div style="font-size: 13.5px; line-height: 1.65; color: #9AA4B2;">관세청 <b style="color: #C9CFD8;">품목별 국가별 수출입실적</b>(data.go.kr)을 HS코드 기준으로 직접 연동합니다. 가공을 거치지 않은 국가 통계 원본에서 출발합니다.</div>
+        <div style="font-size: 13.5px; line-height: 1.65; color: #9AA4B2;">관세청 <b style="color: #C9CFD8;">품목별 국가별 수출입실적</b>과 산업부 산하기관 <b style="color: #C9CFD8;">K-SURE·KOTRA 데이터</b>(data.go.kr)을 직접 연동합니다. 가공을 거치지 않은 국가 통계 원본에서 출발합니다.</div>
       </div>
       <div style="border: 1px solid rgba(237,240,244,.12); border-radius: 16px; background: rgba(8,8,11,.6); padding: 22px 24px;">
         <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;"><span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #2E6BFF;">02</span><b style="font-size: 16px;">답변마다 근거 수치 인용</b></div>
@@ -652,7 +652,7 @@
       </div>
       <div style="border: 1px solid rgba(237,240,244,.12); border-radius: 16px; background: rgba(8,8,11,.6); padding: 22px 24px;">
         <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;"><span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #7A5BF0;">03</span><b style="font-size: 16px;">항상 동작하는 데모</b></div>
-        <div style="font-size: 13.5px; line-height: 1.65; color: #9AA4B2;">인증키가 없어도 <b style="color: #C9CFD8;">2024년 관세청 공표치</b>를 기준으로 항상 동작합니다. AGPL-3.0 오픈소스이며 개인·기업 식별 정보는 담지 않습니다.</div>
+        <div style="font-size: 13.5px; line-height: 1.65; color: #9AA4B2;">인증키가 없어도 <b style="color: #C9CFD8;">관세청·산업부 공표치 앵커</b>를 기준으로 항상 동작합니다. AGPL-3.0 오픈소스이며 개인·기업 식별 정보는 담지 않습니다.</div>
       </div>
       <div style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; color: #4B5563; padding: 0 4px;">// 국산 AI 엔진(예측·스코어·상담) 포함 — server/</div>
     </div>
@@ -673,7 +673,7 @@
   </div>
   <footer style="position: relative; margin-top: 110px; padding-top: 28px; border-top: 1px solid rgba(237,240,244,.07); display: flex; justify-content: space-between; align-items: center; font-size: 12.5px; color: #6B7585;">
     <span>© 2026 Tradar · AGPL-3.0-or-later</span>
-    <span style="font-family: 'JetBrains Mono', monospace;">관세청 품목별 국가별 수출입실적 (data.go.kr) 연동</span>
+    <span style="font-family: 'JetBrains Mono', monospace;">관세청·산업부 공공데이터(data.go.kr) 연동</span>
   </footer>
 </section>
 </x-dc>

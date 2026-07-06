@@ -4,7 +4,7 @@
 
 <h1 align="center">Tradar</h1>
 
-<p align="center"><strong>An export-market analytics platform that scores and forecasts product-by-country opportunities across Korea's export industries with Korea Customs HS-code data and AI.</strong></p>
+<p align="center"><strong>An export-market analytics platform that scores and forecasts product-by-country opportunities across Korea's export industries with Korea Customs HS-code data, MOTIE-affiliated K-SURE/KOTRA data, and AI.</strong></p>
 
 <p align="center">
   <a href="https://github.com/spcx0701/tradar/releases/latest"><img alt="Latest release" src="https://img.shields.io/github/v/release/spcx0701/tradar?display_name=tag&color=1D68F0&logo=github&cacheSeconds=60"></a>
@@ -22,14 +22,15 @@
 
 <p align="center">
   <a href="https://tradar.onrender.com/"><strong>Open platform -></strong></a> &middot;
-  <a href="https://www.data.go.kr/data/15100475/openapi.do"><strong>Korea Customs data</strong></a>
+  <a href="https://www.data.go.kr/data/15100475/openapi.do"><strong>Korea Customs data</strong></a> &middot;
+  <a href="https://www.data.go.kr/data/15140201/openapi.do"><strong>MOTIE data</strong></a>
 </p>
 
 <p align="center">
   <a href="README.md">Korean</a> &middot; <strong>English</strong>
 </p>
 
-> Submission for the **2026 Korea Customs Public Data and AI Startup Competition**, Product and Service Development track.
+> Tradar combines Korea Customs and MOTIE public datasets with a Korean AI engine for export intelligence.
 > Tradar covers **28 product groups x major destination countries** across export industries from semiconductors, automobiles, batteries, and shipbuilding to K-Food and K-Beauty.
 
 <p align="center">
@@ -53,7 +54,7 @@
 | **Discovery** | Sorts 28 product groups by Tradar Score with category filters such as K-Food, semiconductors, and batteries |
 | **News Intelligence** | Automatically connects real-time news signals to products and markets with sentiment, impact, and related-item hints |
 | **AI Analyst** | Answers product, market, and news questions with numeric evidence, plus a command palette |
-| **Report Studio** | Turns a natural-language request into a declarative Report Spec DSL, resolves Korea Customs data, and assembles an interactive report in [app/report.html](app/report.html). The LLM designs the spec only; the engine calculates the numbers to block numeric hallucination. See the [design note](docs/GENERATIVE_REPORTS.md). |
+| **Report Studio** | Turns a natural-language request into a declarative Report Spec DSL, resolves Korea Customs and MOTIE data, and assembles an interactive report in [app/report.html](app/report.html). The LLM designs the spec only; the engine calculates the numbers to block numeric hallucination. See the [design note](docs/GENERATIVE_REPORTS.md). |
 
 ## Data
 
@@ -61,14 +62,15 @@
 - **Pipeline** - [scripts/build_tradar_data.py](scripts/build_tradar_data.py) fetches HS-code results, computes annual exports, YoY change, and country share, then builds `app/data/tradar.js`.
   - With `DATA_GO_KR_KEY`, the pipeline syncs live data through [server/customs_client.py](server/customs_client.py).
   - Without the key, the app falls back to 2024 Korea Customs published-value anchors so the demo remains usable.
+- **MOTIE public-data layer** - [scripts/sync_motie_data.py](scripts/sync_motie_data.py) builds `app/data/motie.js` from MOTIE-affiliated K-SURE country credit/risk datasets and KOTRA overseas-market news/import-control datasets.
 - **AI and analytics** - Tradar Score, demand trend, forecasting, anomaly detection, and evidence-based advising are implemented in [server/](server/) and can be connected to the pipeline.
 
-Korea Customs public data plus Korean AI directly supports the competition rubric, including the domestic-AI bonus.
+Tradar uses Korea Customs export statistics and MOTIE K-SURE/KOTRA signals together, while the Korean AI engine handles forecasting, early warnings, and grounded advising.
 
 ## How It Works
 
 ```text
-Korea Customs product-by-country export/import results (HS code)
+Korea Customs product-by-country export/import results + MOTIE K-SURE/KOTRA data
         |  scripts/build_tradar_data.py  (live with API key / 2024 anchor without key)
         v
 app/data/tradar.js  -->  Tradar SPA (React + ECharts, Chartmetric-style design system)
@@ -78,6 +80,7 @@ app/data/tradar.js  -->  Tradar SPA (React + ECharts, Chartmetric-style design s
 
 ```bash
 python scripts/build_tradar_data.py     # Korea Customs data -> app/data/tradar.js
+python scripts/sync_motie_data.py       # MOTIE K-SURE/KOTRA data -> app/data/motie.js
 python scripts/serve.py                 # Platform: http://localhost:5183
 ```
 
@@ -130,5 +133,5 @@ distributed under the [GNU Affero General Public License v3.0 or later](LICENSE)
 If you modify this software and serve it over a network, you must offer that software's source code
 to those users. The Android mobile client carries an additional AGPL section 7 permission for app-store
 distribution; the server and web/PWA client are not covered by that exception. See [LICENSE](LICENSE) and
-[NOTICE](NOTICE) for details. Demo data is anchored to public Korea Customs statistics and does not
+[NOTICE](NOTICE) for details. Demo data is anchored to public Korea Customs and MOTIE statistics and does not
 include personally identifiable or company-identifiable information.

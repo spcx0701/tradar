@@ -325,6 +325,69 @@ def test_build_llm_adapter_uses_configured_solar_defaults():
     assert adapter.model == "solar-pro3"
 
 
+def test_build_llm_adapter_supports_openrouter_solar_free(monkeypatch):
+    monkeypatch.setenv("TW_LLM_PROVIDER", "openrouter-solar-free")
+    monkeypatch.setenv("TW_OPENROUTER_KEY", "or-test-key")
+    monkeypatch.delenv("TW_LLM_KEY", raising=False)
+
+    adapter = build_llm_adapter(Settings())
+
+    assert adapter is not None
+    assert adapter.provider == "openrouter-solar-free"
+    assert adapter.base_url == "https://openrouter.ai/api/v1"
+    assert adapter.model == "upstage/solar-pro-3:free"
+    assert adapter.api_key == "or-test-key"
+
+
+def test_build_llm_adapter_supports_gemini_flash(monkeypatch):
+    monkeypatch.setenv("TW_LLM_PROVIDER", "gemini-flash")
+    monkeypatch.setenv("TW_GEMINI_KEY", "gemini-test-key")
+    monkeypatch.delenv("TW_LLM_KEY", raising=False)
+
+    adapter = build_llm_adapter(Settings())
+
+    assert adapter is not None
+    assert adapter.provider == "gemini-flash"
+    assert adapter.base_url == "https://generativelanguage.googleapis.com/v1beta/openai"
+    assert adapter.model == "gemini-3.5-flash"
+    assert adapter.api_key == "gemini-test-key"
+
+
+def test_admin_llm_provider_selection_requires_token_and_updates_runtime(monkeypatch):
+    from server.config import settings as live_settings
+
+    client = TestClient(app)
+    monkeypatch.setattr(live_settings, "llm_admin_token", "admin-secret", raising=False)
+    monkeypatch.setattr(live_settings, "openrouter_api_key", "or-test-key", raising=False)
+    monkeypatch.setattr(live_settings, "gemini_api_key", "gemini-test-key", raising=False)
+
+    unauthorized = client.post("/api/admin/llm-provider", json={"provider": "openrouter-solar-free"})
+    assert unauthorized.status_code == 401
+
+    switched = client.post(
+        "/api/admin/llm-provider",
+        json={"provider": "openrouter-solar-free"},
+        headers={"Authorization": "Bearer admin-secret"},
+    )
+
+    assert switched.status_code == 200
+    assert switched.json()["selected_provider"] == "openrouter-solar-free"
+
+    status = client.get(
+        "/api/admin/llm-provider",
+        headers={"Authorization": "Bearer admin-secret"},
+    )
+
+    payload = status.json()
+    assert status.status_code == 200
+    assert payload["selected_provider"] == "openrouter-solar-free"
+    assert {provider["provider"] for provider in payload["providers"]} >= {
+        "gemini-flash",
+        "openrouter-solar-free",
+    }
+    assert all("api_key" not in provider for provider in payload["providers"])
+
+
 def test_schema_validation_rejects_blank_question():
     with pytest.raises(ValidationError):
         AdvisorRequest(question="")

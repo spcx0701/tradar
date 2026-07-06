@@ -35,7 +35,7 @@
 | 공개 B/L CSV | ImportYeti/Panjiva/내부 리서치에서 내려받은 선적 CSV 또는 고객 업로드 | `TRADE_INTEL_PUBLIC_BL_CSV` | 기업·바이어·상품·물량 흐름 수집 |
 | 공개 B/L JSON API | records/results/data 배열을 반환하는 공개 B/L API | `TRADE_INTEL_PUBLIC_BL_API_URL`, `TRADE_INTEL_PUBLIC_BL_API_KEY` | 커넥터 정규화 지원 |
 | ImportYeti API | https://www.importyeti.com/yeti-api 및 https://data.importyeti.com/ | `IMPORTYETI_API_KEY` | company supplier relationship 정규화 |
-| AI 답변 보강 LLM | 운영자가 쓰는 Solar/HyperCLOVA X 등 | `TW_LLM_PROVIDER`, `TW_LLM_KEY` | 키 없으면 근거 기반 기본 답변 사용 |
+| AI 답변 보강 LLM | 운영자가 쓰는 Solar/OpenRouter Solar/Gemini Flash 등 | `TW_LLM_PROVIDER`, provider별 키, `TW_ADMIN_TOKEN` | 키 없으면 근거 기반 기본 답변 사용 |
 
 키 상태 확인:
 

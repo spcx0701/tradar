@@ -1,0 +1,645 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tradar Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+  <style>
+    :root {
+      --bg: #f5f7fb;
+      --surface: #ffffff;
+      --ink: #16202f;
+      --muted: #637083;
+      --line: #d9e0ea;
+      --blue: #1d68f0;
+      --green: #0f8f6f;
+      --red: #d64545;
+      --amber: #ad6b00;
+      --shadow: 0 18px 46px rgba(24, 32, 47, .08);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: Inter, "Pretendard Variable", Pretendard, system-ui, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    button, input, textarea { font: inherit; }
+
+    button {
+      border: 0;
+      cursor: pointer;
+      transition: background .16s ease, border-color .16s ease, color .16s ease, transform .16s ease;
+    }
+
+    button:disabled {
+      cursor: not-allowed;
+      opacity: .56;
+      transform: none;
+    }
+
+    .shell {
+      width: min(1180px, calc(100% - 40px));
+      margin: 0 auto;
+      padding: 28px 0 44px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      min-height: 58px;
+      margin-bottom: 22px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .brand-mark {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      background: linear-gradient(135deg, #1d68f0, #0f8f6f);
+      font-weight: 800;
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-size: 19px;
+      line-height: 1.1;
+      letter-spacing: 0;
+    }
+
+    .brand span {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .link-button,
+    .primary-button,
+    .secondary-button,
+    .danger-button {
+      height: 38px;
+      border-radius: 8px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 0 14px;
+      font-size: 13px;
+      font-weight: 700;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .link-button {
+      color: var(--ink);
+      background: transparent;
+      border: 1px solid var(--line);
+    }
+
+    .primary-button { color: #fff; background: var(--blue); }
+    .primary-button:hover { background: #155ad2; }
+    .secondary-button { color: var(--ink); background: #eef3f8; border: 1px solid #d7e0ea; }
+    .secondary-button:hover { background: #e4ecf5; }
+    .danger-button { color: #fff; background: var(--red); }
+    .danger-button:hover { background: #bd3434; }
+
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 340px;
+      gap: 18px;
+      align-items: start;
+    }
+
+    .section,
+    .provider-card,
+    .side-panel {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+    }
+
+    .section { padding: 20px; }
+
+    .section-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+
+    .section-title {
+      margin: 0;
+      font-size: 17px;
+      line-height: 1.2;
+      letter-spacing: 0;
+    }
+
+    .section-subtitle {
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      height: 28px;
+      padding: 0 10px;
+      border-radius: 999px;
+      background: #eef3f8;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 99px;
+      background: currentColor;
+    }
+
+    .status-pill.ready { color: var(--green); background: #e9f7f2; }
+    .status-pill.warn { color: var(--amber); background: #fff4dd; }
+    .status-pill.bad { color: var(--red); background: #fdecec; }
+
+    .provider-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .provider-card {
+      padding: 16px;
+      min-height: 182px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      box-shadow: none;
+    }
+
+    .provider-card.selected {
+      border-color: rgba(29, 104, 240, .65);
+      box-shadow: 0 0 0 3px rgba(29, 104, 240, .12);
+    }
+
+    .provider-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .provider-name {
+      margin: 0;
+      font-size: 15px;
+      font-weight: 800;
+      line-height: 1.25;
+      letter-spacing: 0;
+    }
+
+    .provider-id,
+    .mono {
+      font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+      letter-spacing: 0;
+    }
+
+    .provider-id {
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.35;
+      overflow-wrap: anywhere;
+    }
+
+    .provider-meta {
+      display: grid;
+      gap: 7px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .provider-meta b {
+      color: #303a49;
+      font-weight: 700;
+    }
+
+    .provider-card .primary-button,
+    .provider-card .secondary-button {
+      width: 100%;
+      margin-top: auto;
+    }
+
+    .side-panel {
+      padding: 18px;
+      position: sticky;
+      top: 18px;
+    }
+
+    .field {
+      display: grid;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .field label {
+      color: #303a49;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .field input,
+    .field textarea {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      color: var(--ink);
+      outline: none;
+      padding: 11px 12px;
+      font-size: 13px;
+    }
+
+    .field textarea {
+      min-height: 90px;
+      resize: vertical;
+      line-height: 1.5;
+    }
+
+    .field input:focus,
+    .field textarea:focus {
+      border-color: rgba(29, 104, 240, .65);
+      box-shadow: 0 0 0 3px rgba(29, 104, 240, .12);
+    }
+
+    .button-row {
+      display: flex;
+      gap: 9px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+
+    .button-row > button { flex: 1 1 120px; }
+
+    .message {
+      min-height: 42px;
+      border-radius: 8px;
+      padding: 11px 12px;
+      background: #eef3f8;
+      color: #465367;
+      font-size: 12px;
+      line-height: 1.5;
+      white-space: pre-wrap;
+    }
+
+    .message.good { background: #e9f7f2; color: #0d725a; }
+    .message.bad { background: #fdecec; color: #a92e2e; }
+
+    .answer-box {
+      margin-top: 14px;
+      padding: 14px;
+      min-height: 120px;
+      border-radius: 8px;
+      background: #101827;
+      color: #eef3f8;
+      font-size: 13px;
+      line-height: 1.6;
+      white-space: pre-wrap;
+    }
+
+    .empty-state {
+      padding: 22px;
+      border-radius: 8px;
+      border: 1px dashed #c9d3df;
+      color: var(--muted);
+      background: #fbfcfe;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    @media (max-width: 960px) {
+      .layout { grid-template-columns: 1fr; }
+      .side-panel { position: static; }
+      .provider-grid { grid-template-columns: 1fr; }
+      .topbar { align-items: flex-start; flex-direction: column; }
+      .nav-actions { justify-content: flex-start; }
+    }
+
+    @media (max-width: 560px) {
+      .shell { width: min(100% - 24px, 1180px); padding-top: 16px; }
+      .section, .side-panel { padding: 14px; }
+      .section-header { flex-direction: column; }
+      .link-button, .primary-button, .secondary-button, .danger-button { width: 100%; }
+      .nav-actions { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true">T</div>
+        <div>
+          <h1>Tradar Admin</h1>
+          <span>LLM Provider Control</span>
+        </div>
+      </div>
+      <nav class="nav-actions" aria-label="Admin navigation">
+        <a class="link-button" href="./">Home</a>
+        <a class="link-button" href="./app/">Platform</a>
+      </nav>
+    </header>
+
+    <div class="layout">
+      <section class="section" aria-labelledby="provider-heading">
+        <div class="section-header">
+          <div>
+            <h2 id="provider-heading" class="section-title">Provider Runtime</h2>
+            <p class="section-subtitle" id="selected-summary">Token required.</p>
+          </div>
+          <div id="runtime-status" class="status-pill warn">
+            <span class="status-dot"></span>
+            Locked
+          </div>
+        </div>
+        <div id="provider-grid" class="provider-grid">
+          <div class="empty-state">Enter admin token and refresh status. Expected providers: openrouter-solar-free, gemini-flash.</div>
+        </div>
+      </section>
+
+      <aside class="side-panel" aria-labelledby="auth-heading">
+        <h2 id="auth-heading" class="section-title">Access</h2>
+        <p class="section-subtitle">Session-only token storage.</p>
+
+        <div class="field">
+          <label for="admin-token">Admin Token</label>
+          <input id="admin-token" type="password" autocomplete="off" spellcheck="false" placeholder="Bearer token">
+        </div>
+
+        <div class="button-row">
+          <button class="primary-button" type="button" id="save-token">Save</button>
+          <button class="secondary-button" type="button" id="refresh-status">Refresh</button>
+          <button class="danger-button" type="button" id="clear-token">Clear</button>
+        </div>
+
+        <div id="message" class="message">No request yet.</div>
+
+        <div class="field" style="margin-top: 18px;">
+          <label for="test-question">Test Question</label>
+          <textarea id="test-question" spellcheck="false">라면 어디에 수출하면 좋을까?</textarea>
+        </div>
+        <button class="secondary-button" type="button" id="run-test">Run Advisor Test</button>
+        <div id="answer-box" class="answer-box">Waiting for test.</div>
+      </aside>
+    </div>
+  </main>
+
+  <script>
+    (function () {
+      const tokenInput = document.getElementById('admin-token');
+      const saveTokenButton = document.getElementById('save-token');
+      const clearTokenButton = document.getElementById('clear-token');
+      const refreshButton = document.getElementById('refresh-status');
+      const providerGrid = document.getElementById('provider-grid');
+      const message = document.getElementById('message');
+      const runtimeStatus = document.getElementById('runtime-status');
+      const selectedSummary = document.getElementById('selected-summary');
+      const runTestButton = document.getElementById('run-test');
+      const questionInput = document.getElementById('test-question');
+      const answerBox = document.getElementById('answer-box');
+      const tokenStorageKey = 'tradarAdminToken';
+
+      function apiBase() {
+        const queryApiBase = new URLSearchParams(location.search).get('apiBase');
+        if (queryApiBase) return queryApiBase.replace(/\/+$/, '');
+        if (window.TRADAR_API_BASE) return String(window.TRADAR_API_BASE).replace(/\/+$/, '');
+        if (location.protocol === 'file:' || location.hostname.indexOf('github.io') !== -1) {
+          return 'https://tradar.onrender.com/api';
+        }
+        return location.origin + '/api';
+      }
+
+      function token() {
+        return sessionStorage.getItem(tokenStorageKey) || '';
+      }
+
+      function headers() {
+        return {
+          'Authorization': 'Bearer ' + token(),
+          'Content-Type': 'application/json'
+        };
+      }
+
+      function setMessage(text, kind) {
+        message.textContent = text;
+        message.className = 'message' + (kind ? ' ' + kind : '');
+      }
+
+      function setRuntimeStatus(label, kind) {
+        runtimeStatus.innerHTML = '<span class="status-dot"></span>' + label;
+        runtimeStatus.className = 'status-pill' + (kind ? ' ' + kind : '');
+      }
+
+      async function request(path, options) {
+        const res = await fetch(apiBase() + path, options || {});
+        const text = await res.text();
+        let payload = {};
+        if (text) {
+          try { payload = JSON.parse(text); } catch (error) { payload = { detail: text }; }
+        }
+        if (!res.ok) {
+          const detail = payload.detail || payload.error || ('HTTP ' + res.status);
+          throw new Error(detail);
+        }
+        return payload;
+      }
+
+      function renderProviders(state) {
+        const selected = state.selected_provider || '';
+        const providers = state.providers || [];
+        selectedSummary.textContent = selected ? 'Selected: ' + selected : 'No provider selected.';
+
+        if (!providers.length) {
+          providerGrid.innerHTML = '<div class="empty-state">No provider state returned.</div>';
+          return;
+        }
+
+        providerGrid.innerHTML = providers.map((provider) => {
+          const configured = Boolean(provider.configured);
+          const isSelected = provider.provider === selected;
+          const buttonLabel = isSelected ? 'Selected' : 'Switch';
+          const statusClass = configured ? 'ready' : 'warn';
+          const statusText = configured ? 'Configured' : 'Missing secret';
+          return `
+            <article class="provider-card${isSelected ? ' selected' : ''}" data-provider="${provider.provider}">
+              <div class="provider-top">
+                <div>
+                  <h3 class="provider-name">${escapeHtml(provider.label || provider.provider)}</h3>
+                  <div class="provider-id">${escapeHtml(provider.provider)}</div>
+                </div>
+                <div class="status-pill ${statusClass}">
+                  <span class="status-dot"></span>${statusText}
+                </div>
+              </div>
+              <div class="provider-meta">
+                <div><b>Model</b><br><span class="mono">${escapeHtml(provider.model || '-')}</span></div>
+                <div><b>Endpoint</b><br><span class="mono">${escapeHtml(provider.base_url || '-')}</span></div>
+              </div>
+              <button class="${isSelected ? 'secondary-button' : 'primary-button'}" type="button" data-switch-provider="${provider.provider}" ${configured && !isSelected ? '' : 'disabled'}>
+                ${buttonLabel}
+              </button>
+            </article>
+          `;
+        }).join('');
+      }
+
+      function escapeHtml(value) {
+        return String(value).replace(/[&<>"']/g, (char) => ({
+          '&': '&amp;',
+          '<': '&lt;',
+          '>': '&gt;',
+          '"': '&quot;',
+          "'": '&#39;'
+        })[char]);
+      }
+
+      async function loadStatus() {
+        if (!token()) {
+          setRuntimeStatus('Locked', 'warn');
+          setMessage('Admin token required.', 'bad');
+          return;
+        }
+        setRuntimeStatus('Loading', '');
+        const state = await request('/admin/llm-provider', { headers: headers() });
+        renderProviders(state);
+        setRuntimeStatus('Ready', 'ready');
+        setMessage('Provider status refreshed.', 'good');
+      }
+
+      async function switchProvider(provider) {
+        setRuntimeStatus('Switching', '');
+        const state = await request('/admin/llm-provider', {
+          method: 'POST',
+          headers: headers(),
+          body: JSON.stringify({ provider: provider })
+        });
+        renderProviders(state);
+        setRuntimeStatus('Ready', 'ready');
+        setMessage('Switched to ' + state.selected_provider + '.', 'good');
+      }
+
+      async function runAdvisorTest() {
+        const question = questionInput.value.trim();
+        if (!question) {
+          setMessage('Question required.', 'bad');
+          return;
+        }
+        answerBox.textContent = 'Running...';
+        const payload = await request('/advisor', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ question: question })
+        });
+        answerBox.textContent = [
+          'engine: ' + (payload.engine || '-'),
+          payload.llm_error ? 'llm_error: ' + payload.llm_error : '',
+          '',
+          payload.answer || ''
+        ].filter(Boolean).join('\n');
+        setMessage('Advisor test completed.', 'good');
+      }
+
+      saveTokenButton.addEventListener('click', () => {
+        const value = tokenInput.value.trim();
+        if (!value) {
+          setMessage('Token field is empty.', 'bad');
+          return;
+        }
+        sessionStorage.setItem(tokenStorageKey, value);
+        tokenInput.value = '';
+        setMessage('Token saved for this tab.', 'good');
+        loadStatus().catch((error) => {
+          setRuntimeStatus('Error', 'bad');
+          setMessage(error.message, 'bad');
+        });
+      });
+
+      clearTokenButton.addEventListener('click', () => {
+        sessionStorage.removeItem(tokenStorageKey);
+        providerGrid.innerHTML = '<div class="empty-state">Enter admin token and refresh status. Expected providers: openrouter-solar-free, gemini-flash.</div>';
+        selectedSummary.textContent = 'Token required.';
+        setRuntimeStatus('Locked', 'warn');
+        setMessage('Token cleared.', '');
+      });
+
+      refreshButton.addEventListener('click', () => {
+        loadStatus().catch((error) => {
+          setRuntimeStatus('Error', 'bad');
+          setMessage(error.message, 'bad');
+        });
+      });
+
+      providerGrid.addEventListener('click', (event) => {
+        const button = event.target.closest('[data-switch-provider]');
+        if (!button || button.disabled) return;
+        switchProvider(button.dataset.switchProvider).catch((error) => {
+          setRuntimeStatus('Error', 'bad');
+          setMessage(error.message, 'bad');
+        });
+      });
+
+      runTestButton.addEventListener('click', () => {
+        runAdvisorTest().catch((error) => {
+          answerBox.textContent = 'Test failed.';
+          setMessage(error.message, 'bad');
+        });
+      });
+
+      const saved = token();
+      if (saved) {
+        setMessage('Token loaded for this tab.', '');
+        loadStatus().catch((error) => {
+          setRuntimeStatus('Error', 'bad');
+          setMessage(error.message, 'bad');
+        });
+      }
+    }());
+  </script>
+</body>
+</html>

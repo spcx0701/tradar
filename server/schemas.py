@@ -24,6 +24,10 @@ class AdvisorResponse(BaseModel):
     llm_error: str | None = None
 
 
+class LLMProviderSelectionRequest(BaseModel):
+    provider: str = Field(..., examples=["openrouter-solar-free"], min_length=1)
+
+
 class ForecastPoint(BaseModel):
     months: list[str]
     fc_months: list[str]

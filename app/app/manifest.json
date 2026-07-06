@@ -1,7 +1,7 @@
 {
   "name": "Tradar — 수출 인텔리전스 플랫폼",
   "short_name": "Tradar",
-  "description": "관세청 수출입통계·국산 AI로 한류 수출 시장을 스코어링하고 떠오르는 시장을 먼저 포착하는 수출 인텔리전스 플랫폼.",
+  "description": "관세청 수출입통계와 산업부 K-SURE·KOTRA 데이터, 국산 AI로 수출 시장을 스코어링하고 떠오르는 기회를 먼저 포착하는 수출 인텔리전스 플랫폼.",
   "lang": "ko",
   "start_url": "index.html",
   "scope": "./",

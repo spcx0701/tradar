@@ -49,7 +49,8 @@
 
 ### AI 무역참모 (advisor.py)
 한국어 질문에서 품목·국가·의도(추천/예측/리스크/개요)를 추출 → 예측·레이더 결과를 **근거 팩**으로 묶어 답변.
-데모는 결정적 NLG로 오프라인 동작하고, 운영은 동일 근거 팩을 **국산 LLM**(Solar·HyperCLOVA X) 어댑터에 넘겨 문체만 다듬는다(근거는 고정 → 환각 차단).
+데모는 결정적 NLG로 오프라인 동작하고, 운영은 동일 근거 팩을 운영자 선택 LLM(Solar·Gemini Flash 등) 어댑터에 넘겨 문체만 다듬는다(근거는 고정 → 환각 차단).
+운영 중 LLM provider 선택은 서버 런타임(`llm_runtime.py`)이 소유하며, 관리자 토큰이 있는 요청만 `/api/admin/llm-provider`에서 Gemini Flash·OpenRouter Solar free 등으로 전환할 수 있다. 키는 환경변수에만 있고 응답에는 설정 여부만 노출한다.
 
 ## 기술 스택
 - 백엔드/AI: Python · FastAPI · numpy

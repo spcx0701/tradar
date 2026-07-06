@@ -4,7 +4,7 @@
 근거(evidence)로 묶어 한국어 답변을 생성한다.
 
 - 데모: 외부 호출 없이 검색·규칙 기반 NLG로 항상 동작(오프라인).
-- 운영: 동일한 evidence 팩을 **국산 LLM**(업스테이지 Solar·네이버 HyperCLOVA X 등)
+- 운영: 동일한 evidence 팩을 운영자가 선택한 LLM(Solar·Gemini Flash 등)
   어댑터에 넘겨 자연스러운 문장으로 다듬는다. 어댑터 미설정 시 데모 NLG로 폴백.
 
 핵심: 모든 문장은 실제 수출 통계 수치에 근거하며, 근거를 함께 반환한다(환각 차단).
@@ -243,10 +243,74 @@ def compose(pack: dict) -> str:
 ChatTransport = Callable[[str, dict[str, str], dict[str, Any], float], dict[str, Any]]
 
 
+PROVIDER_ALIASES = {
+    "openrouter": "openrouter-solar-free",
+    "openrouter-solar": "openrouter-solar-free",
+    "solar-free": "openrouter-solar-free",
+    "solar-openrouter": "openrouter-solar-free",
+    "gemini": "gemini-flash",
+    "gemini-flash": "gemini-flash",
+}
+
 PROVIDER_DEFAULTS = {
     "solar": {"base_url": "https://api.upstage.ai/v1", "model": "solar-pro3"},
     "upstage": {"base_url": "https://api.upstage.ai/v1", "model": "solar-pro3"},
+    "openrouter-solar-free": {
+        "base_url": "https://openrouter.ai/api/v1",
+        "model": "upstage/solar-pro-3:free",
+    },
+    "gemini-flash": {
+        "base_url": "https://generativelanguage.googleapis.com/v1beta/openai",
+        "model": "gemini-3.5-flash",
+    },
 }
+
+
+def normalize_llm_provider(provider: str | None) -> str:
+    value = (provider or "").strip().lower()
+    return PROVIDER_ALIASES.get(value, value)
+
+
+def _provider_connection(config: Settings, provider: str) -> dict[str, str]:
+    defaults = PROVIDER_DEFAULTS.get(provider, {})
+    if provider == "openrouter-solar-free":
+        return {
+            "api_key": config.openrouter_api_key or config.llm_api_key,
+            "base_url": config.openrouter_base_url or defaults.get("base_url", ""),
+            "model": config.openrouter_model or defaults.get("model", ""),
+        }
+    if provider == "gemini-flash":
+        return {
+            "api_key": config.gemini_api_key or config.llm_api_key,
+            "base_url": config.gemini_base_url or defaults.get("base_url", ""),
+            "model": config.gemini_model or defaults.get("model", ""),
+        }
+    return {
+        "api_key": config.llm_api_key,
+        "base_url": config.llm_base_url or defaults.get("base_url", ""),
+        "model": config.llm_model or defaults.get("model", ""),
+    }
+
+
+def llm_provider_status(config: Settings = settings) -> list[dict[str, Any]]:
+    providers = [
+        ("solar", "Upstage Solar official"),
+        ("openrouter-solar-free", "OpenRouter Solar Pro 3 free"),
+        ("gemini-flash", "Google Gemini Flash"),
+    ]
+    status = []
+    for provider, label in providers:
+        conn = _provider_connection(config, provider)
+        status.append(
+            {
+                "provider": provider,
+                "label": label,
+                "configured": bool(conn["api_key"] and conn["base_url"] and conn["model"]),
+                "base_url": conn["base_url"],
+                "model": conn["model"],
+            }
+        )
+    return status
 
 
 def _join_chat_completions_url(base_url: str) -> str:
@@ -275,10 +339,10 @@ def _default_chat_transport(
 
 
 class KoreanLLMAdapter:
-    """국산 LLM 어댑터.
+    """Grounded chat-completions LLM 어댑터.
 
-    기본 운영 모드는 업스테이지 Solar의 OpenAI-compatible Chat Completions API다.
-    다른 국산/온프레미스 모델도 `TW_LLM_BASE_URL`과 `TW_LLM_MODEL`로 같은 형식이면 연결된다.
+    기본 운영 모드는 OpenAI-compatible Chat Completions API다.
+    Solar, OpenRouter, Gemini OpenAI 호환 엔드포인트를 같은 근거 팩 계약으로 호출한다.
     """
 
     def __init__(
@@ -290,8 +354,8 @@ class KoreanLLMAdapter:
         timeout: float = 12,
         transport: ChatTransport | None = None,
     ):
-        defaults = PROVIDER_DEFAULTS.get(provider.lower(), {})
-        self.provider = provider.lower()
+        self.provider = normalize_llm_provider(provider)
+        defaults = PROVIDER_DEFAULTS.get(self.provider, {})
         self.api_key = api_key or ""
         self.base_url = base_url or defaults.get("base_url", "")
         self.model = model or defaults.get("model", "")
@@ -339,26 +403,32 @@ class KoreanLLMAdapter:
             "Authorization": f"Bearer {self.api_key}",
             "Content-Type": "application/json",
         }
-        response = self.transport(_join_chat_completions_url(self.base_url), headers, payload, self.timeout)
+        response = self.transport(
+            _join_chat_completions_url(self.base_url),
+            headers,
+            payload,
+            self.timeout,
+        )
         text = response["choices"][0]["message"]["content"].strip()
         if not text:
             raise RuntimeError("LLM returned an empty answer")
         return text
 
 
-def build_llm_adapter(config: Settings = settings) -> KoreanLLMAdapter | None:
-    if not config.llm_provider or not config.llm_api_key:
+def build_llm_adapter(
+    config: Settings = settings,
+    provider_override: str | None = None,
+) -> KoreanLLMAdapter | None:
+    if not (provider_override or config.llm_provider):
         return None
-    provider = config.llm_provider.lower()
-    defaults = PROVIDER_DEFAULTS.get(provider, {})
-    base_url = config.llm_base_url or defaults.get("base_url", "")
-    model = config.llm_model or defaults.get("model", "")
-    if not base_url or not model:
+    provider = normalize_llm_provider(provider_override or config.llm_provider)
+    conn = _provider_connection(config, provider)
+    if not conn["api_key"] or not conn["base_url"] or not conn["model"]:
         return None
     return KoreanLLMAdapter(
         provider=provider,
-        api_key=config.llm_api_key,
-        base_url=base_url,
-        model=model,
+        api_key=conn["api_key"],
+        base_url=conn["base_url"],
+        model=conn["model"],
         timeout=config.llm_timeout,
     )
