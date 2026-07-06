@@ -1,0 +1,44 @@
+name: Feature request
+description: Suggest an improvement or new capability for Tradar.
+title: "feat: "
+labels:
+  - enhancement
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem or opportunity
+      description: What user, data, trade-intelligence, or workflow need should this solve?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+      description: Describe the smallest useful version of the change.
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Web/PWA
+        - FastAPI server
+        - Data pipeline
+        - AI advisor/report studio
+        - Android packaging
+        - Documentation
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: data
+    attributes:
+      label: Data or evidence
+      description: Link public datasets, official references, screenshots, or examples if available.
+  - type: textarea
+    id: constraints
+    attributes:
+      label: Constraints
+      description: Note privacy, security, licensing, operational, or public-data constraints.

@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security vulnerability report
+    url: https://github.com/spcx0701/tradar/security/advisories/new
+    about: Report exploitable vulnerabilities, secret exposure, or sensitive data issues privately.
+  - name: Contributing guide
+    url: https://github.com/spcx0701/tradar/blob/main/CONTRIBUTING.md
+    about: Read setup, testing, pull request, licensing, and CLA expectations.
