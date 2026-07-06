@@ -54,6 +54,10 @@
       #top { grid-template-columns: 1fr !important; padding-top: 120px !important; }
       #rs-demo-mount > div:nth-child(2) { grid-template-columns: 1fr !important; }
     }
+    @media (max-width: 760px) {
+      nav { padding-left: 18px !important; padding-right: 18px !important; }
+      nav > div:nth-child(2) > a:not(:last-child) { display: none !important; }
+    }
   </style>
 </helmet>
 
@@ -67,6 +71,7 @@
     <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #6B7585; letter-spacing: .06em; margin-top: 3px;">트레이더</span>
   </a>
   <div style="display: flex; align-items: center; gap: 26px; font-size: 13.5px; font-weight: 500; color: #9AA4B2;">
+    <a href="#service-video" style="color: inherit; text-decoration: none;" style-hover="color: #EDF0F4;">서비스 영상</a>
     <a href="#report-studio" style="color: inherit; text-decoration: none;" style-hover="color: #EDF0F4;">리포트 스튜디오</a>
     <a href="#features" style="color: inherit; text-decoration: none;" style-hover="color: #EDF0F4;">기능</a>
     <a href="#pipeline" style="color: inherit; text-decoration: none;" style-hover="color: #EDF0F4;">작동 방식</a>
@@ -98,8 +103,9 @@
     <p data-reveal style="margin: 0 0 36px; font-size: 17.5px; line-height: 1.65; color: #9AA4B2; max-width: 480px; text-wrap: pretty;">
       관세청 수출입통계(HS코드)와 산업부 K-SURE·KOTRA 데이터, AI로 <strong style="color: #EDF0F4; font-weight: 600;">28개 품목 × 주요국</strong> 시장을 스코어링하고 예측합니다. 반도체부터 K-Food까지, 전 수출산업의 흐름을 한 화면에서 확인할 수 있습니다.
     </p>
-    <div data-reveal style="display: flex; align-items: center; gap: 14px; margin-bottom: 52px;">
+    <div data-reveal style="display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin-bottom: 52px;">
       <a href="app/" target="_blank" rel="noreferrer" style="display: inline-flex; align-items: center; gap: 9px; padding: 15px 28px; border-radius: 10px; background: linear-gradient(120deg, #16C8F5, #2E6BFF 46%, #7A5BF0); color: #fff; text-decoration: none; font-weight: 700; font-size: 15.5px; box-shadow: 0 8px 34px rgba(46,107,255,.45);" style-hover="box-shadow: 0 10px 44px rgba(46,107,255,.65); transform: translateY(-1px);">플랫폼 열기 <span>→</span></a>
+      <a href="#service-video" style="display: inline-flex; align-items: center; gap: 9px; padding: 15px 24px; border-radius: 10px; border: 1px solid rgba(22,200,245,.36); color: #CFEFFF; text-decoration: none; font-weight: 600; font-size: 15px; background: rgba(22,200,245,.08);" style-hover="border-color: rgba(22,200,245,.62); background: rgba(22,200,245,.13);">서비스 영상 보기</a>
       <a href="https://github.com/spcx0701/tradar" target="_blank" rel="noreferrer" style="display: inline-flex; align-items: center; gap: 9px; padding: 15px 24px; border-radius: 10px; border: 1px solid rgba(237,240,244,.16); color: #EDF0F4; text-decoration: none; font-weight: 600; font-size: 15px; background: rgba(237,240,244,.03);" style-hover="border-color: rgba(237,240,244,.4); background: rgba(237,240,244,.07);">GitHub에서 보기</a>
     </div>
     <div data-reveal style="display: flex; gap: 40px;">
@@ -173,6 +179,20 @@
     <span style="width: 1px; height: 34px; background: linear-gradient(#6B7585, transparent); display: block;"></span>
   </div>
 </header>
+
+<!-- ══════════════ SERVICE VIDEO ══════════════ -->
+<section id="service-video" data-screen-label="서비스 영상" style="position: relative; padding: 110px 72px 120px; max-width: 1180px; margin: 0 auto;">
+  <div data-reveal style="max-width: 720px; margin-bottom: 36px;">
+    <div style="font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: .12em; color: #16C8F5; margin-bottom: 16px;">00 — 서비스 영상</div>
+    <h2 style="margin: 0 0 18px; font-size: clamp(32px, 3.6vw, 52px); line-height: 1.1; letter-spacing: -0.03em; font-weight: 800;">Tradar 흐름을<br>영상으로 먼저 확인하세요</h2>
+    <p style="margin: 0; font-size: 16.5px; line-height: 1.65; color: #9AA4B2; text-wrap: pretty;">품목·국가별 수출 기회 탐색, 마켓맵, AI 애널리스트와 리포트 스튜디오까지 실제 서비스 화면 기준으로 빠르게 살펴볼 수 있습니다.</p>
+  </div>
+  <div data-reveal style="position: relative; border-radius: 18px; border: 1px solid rgba(237,240,244,.12); background: linear-gradient(180deg, rgba(30,34,48,.45), rgba(8,8,11,.78)); overflow: hidden; box-shadow: 0 40px 100px rgba(0,0,0,.5), 0 0 80px rgba(46,107,255,.08);">
+    <div style="position: relative; width: 100%; aspect-ratio: 16 / 9;">
+      <iframe src="https://www.youtube.com/embed/bNExkDu3g-o" title="Tradar 소개 영상" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen style="position: absolute; inset: 0; width: 100%; height: 100%; border: 0;"></iframe>
+    </div>
+  </div>
+</section>
 
 <!-- ══════════════ TICKER ══════════════ -->
 <sc-if value="{{ showTicker }}" hint-placeholder-val="{{ true }}">

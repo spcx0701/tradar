@@ -35,6 +35,18 @@
   <strong>한국어</strong> · <a href="README.en.md">English</a>
 </p>
 
+## 서비스 영상
+
+<p align="center">
+  <a href="https://youtu.be/bNExkDu3g-o">
+    <img src="https://i.ytimg.com/vi/bNExkDu3g-o/hqdefault.jpg" alt="Tradar 소개 영상" width="720">
+  </a>
+</p>
+
+<p align="center">
+  <a href="https://youtu.be/bNExkDu3g-o"><strong>Tradar 소개 영상 보기 →</strong></a>
+</p>
+
 > 관세청·산업부 공공데이터와 국산 AI를 결합한 수출 인텔리전스 플랫폼입니다.
 > 반도체·자동차·2차전지·조선부터 K-Food·K-뷰티까지 **전 수출산업 28개 품목 × 주요국**을 다룹니다.
 
