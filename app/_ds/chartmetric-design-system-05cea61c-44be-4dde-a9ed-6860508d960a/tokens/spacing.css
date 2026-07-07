@@ -1,0 +1,32 @@
+/* ============================================================
+   Spacing — 4px base grid. Analytics UIs are dense; favor the
+   smaller steps for table/control padding, larger for page
+   gutters and section rhythm.
+   ============================================================ */
+:root {
+  --cm-space-0:   0;
+  --cm-space-1:   2px;
+  --cm-space-2:   4px;
+  --cm-space-3:   6px;
+  --cm-space-4:   8px;
+  --cm-space-5:   12px;
+  --cm-space-6:   16px;
+  --cm-space-7:   20px;
+  --cm-space-8:   24px;
+  --cm-space-9:   32px;
+  --cm-space-10:  40px;
+  --cm-space-11:  48px;
+  --cm-space-12:  64px;
+  --cm-space-14:  80px;
+  --cm-space-16:  96px;
+
+  /* Semantic */
+  --cm-gutter-page:    24px;  /* page horizontal padding */
+  --cm-pad-card:       20px;  /* default card padding */
+  --cm-pad-card-tight: 14px;  /* compact card / list row */
+  --cm-gap-grid:       16px;  /* dashboard tile gap */
+  --cm-row-height:     40px;  /* dense table row */
+  --cm-sidebar-width:  240px;
+  --cm-topbar-height:  60px;
+  --cm-hit-min:        40px;  /* min interactive target */
+}

@@ -1,0 +1,13 @@
+/* ============================================================
+   Chartmetric Design System — global entry point
+   Consumers link THIS one file. It only @imports; never put
+   rules here directly. Everything reachable from here is
+   shipped (tokens + @font-face).
+   ============================================================ */
+@import "./tokens/fonts.css";
+@import "./tokens/colors.css";
+@import "./tokens/typography.css";
+@import "./tokens/spacing.css";
+@import "./tokens/radius.css";
+@import "./tokens/shadows.css";
+@import "./tokens/motion.css";

@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#060709">
+  <meta name="description" content="관세청 수출입통계와 산업부 산하기관 공공데이터, AI로 28개 품목 × 주요국 수출 시장을 스코어링·예측하는 수출 인텔리전스 플랫폼 Tradar.">
+  <meta property="og:title" content="Tradar — 수출의 다음 기회를 먼저 보는 레이더">
+  <meta property="og:description" content="관세청·산업부 공공데이터와 AI로 전 수출산업의 흐름을 한 화면에서 확인하세요.">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="app/icons/logo.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="app/icons/icon-180.png">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tradar — 수출의 다음 기회를 먼저 보는 레이더</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+  <style>
+    html { scroll-behavior: smooth; }
+    body { margin: 0; background: #060709; color: #EDF0F4; font-family: Inter, "Pretendard Variable", Pretendard, system-ui, sans-serif; -webkit-font-smoothing: antialiased; overflow-x: hidden; word-break: keep-all; }
+    * { box-sizing: border-box; }
+    ::selection { background: rgba(46,107,255,.35); }
+    @keyframes trSweep { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    @keyframes trPing { 0% { transform: scale(.4); opacity: .9; } 80% { transform: scale(2.2); opacity: 0; } 100% { transform: scale(2.2); opacity: 0; } }
+    @keyframes trFloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+    @keyframes trBlink { 0%,100% { opacity: 1; } 50% { opacity: 0; } }
+    @keyframes trDrift { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(40px,-30px) scale(1.08); } }
+    @keyframes trGrain { 0% { background-position: 0 0; } 100% { background-position: 120px 120px; } }
+    @keyframes trDash { to { stroke-dashoffset: 0; } }
+    @keyframes trRise { from { opacity: 0; transform: translateY(26px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes trBarUp { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+    @keyframes trBarX { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+    @keyframes trRing { from { stroke-dashoffset: 440; } }
+    @keyframes trPop { from { opacity: 0; transform: scale(.86); } to { opacity: 1; transform: scale(1); } }
+    @keyframes trFlowDot { 0% { left: -6px; opacity: 0; } 12% { opacity: 1; } 88% { opacity: 1; } 100% { left: calc(100% + 2px); opacity: 0; } }
+    @keyframes trTickerMove { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+    [data-reveal] { opacity: 0; transform: translateY(28px); transition: opacity .8s cubic-bezier(.2,.6,.2,1), transform .8s cubic-bezier(.2,.6,.2,1); }
+    [data-reveal].tr-in { opacity: 1; transform: translateY(0); }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .001s !important; transition-duration: .001s !important; } [data-reveal] { opacity: 1; transform: none; } }
+    @media (max-width: 1100px) {
+      header[data-screen-label], section[data-screen-label] { padding-left: 36px !important; padding-right: 36px !important; }
+      #pipeline-mount { grid-template-columns: 1fr !important; gap: 16px !important; }
+      #pipeline-mount > div:nth-child(2), #pipeline-mount > div:nth-child(4) { display: none !important; }
+      #trust-mount { grid-template-columns: 1fr !important; }
+    }
+    @media (max-width: 1000px) {
+      #top { grid-template-columns: 1fr !important; padding-top: 120px !important; }
+      #rs-demo-mount > div:nth-child(2) { grid-template-columns: 1fr !important; }
+    }
+    @media (max-width: 760px) {
+      nav { padding-left: 18px !important; padding-right: 18px !important; }
+      nav > div:nth-child(2) > a:not(:last-child) { display: none !important; }
+    }
+  </style>
+</helmet>
+
+<!-- ══════════════ NAV ══════════════ -->
+<nav style="position: fixed; top: 0; left: 0; right: 0; z-index: 90; display: flex; align-items: center; justify-content: space-between; padding: 0 32px; height: 64px; background: rgba(6,7,9,.72); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid rgba(237,240,244,.07);">
+  <a href="#top" style="display: flex; align-items: center; gap: 10px; text-decoration: none; color: #EDF0F4;">
+    <span style="width: 26px; height: 26px; border-radius: 8px; background: linear-gradient(120deg, #16C8F5 0%, #2E6BFF 46%, #7A5BF0 100%); display: grid; place-items: center; box-shadow: 0 0 18px rgba(46,107,255,.5);">
+      <span style="width: 10px; height: 10px; border: 2px solid #fff; border-radius: 50%; border-top-color: transparent; transform: rotate(-45deg); display: block;"></span>
+    </span>
+    <span style="font-weight: 800; font-size: 17px; letter-spacing: -0.02em;">Tradar</span>
+    <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #6B7585; letter-spacing: .06em; margin-top: 3px;">트레이더</span>
+  </a>
+  <div style="display: flex; align-items: center; gap: 26px; font-size: 13.5px; font-weight: 500; color: #9AA4B2;">
+    <a href="#service-video" style="color: inherit; text-decoration: none;" style-hover="color: #EDF0F4;">서비스 영상</a>
+    <a href="#report-studio" style="color: inherit; text-decoration: none;" style-hover="color: #EDF0F4;">리포트 스튜디오</a>
+    <a href="#features" style="color: inherit; text-decoration: none;" style-hover="color: #EDF0F4;">기능</a>
+    <a href="#pipeline" style="color: inherit; text-decoration: none;" style-hover="color: #EDF0F4;">작동 방식</a>
+    <a href="#trust" style="color: inherit; text-decoration: none;" style-hover="color: #EDF0F4;">데이터 신뢰성</a>
+    <a href="#download" style="display: inline-flex; align-items: center; gap: 7px; padding: 9px 18px; border-radius: 8px; background: #1D68F0; color: #fff; text-decoration: none; font-weight: 600; box-shadow: 0 0 22px rgba(29,104,240,.45);" style-hover="background: #2E6BFF;">플랫폼 열기 <span style="font-size: 15px; line-height: 1;">→</span></a>
+  </div>
+</nav>
+
+<!-- ══════════════ HERO ══════════════ -->
+<header id="top" data-screen-label="히어로" style="position: relative; min-height: 100vh; display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr); align-items: center; gap: 40px; padding: 140px 72px 80px; overflow: hidden;">
+  <!-- ambient glow -->
+  <div aria-hidden="true" style="position: absolute; inset: 0; pointer-events: none;">
+    <div style="position: absolute; top: -220px; left: -160px; width: 640px; height: 640px; border-radius: 50%; background: radial-gradient(circle, rgba(22,200,245,.16), transparent 62%); animation: trDrift 14s ease-in-out infinite;"></div>
+    <div style="position: absolute; bottom: -260px; right: -120px; width: 720px; height: 720px; border-radius: 50%; background: radial-gradient(circle, rgba(122,91,240,.15), transparent 60%); animation: trDrift 18s ease-in-out infinite reverse;"></div>
+    <div style="position: absolute; top: 30%; right: 34%; width: 420px; height: 420px; border-radius: 50%; background: radial-gradient(circle, rgba(46,107,255,.12), transparent 65%);"></div>
+    <div style="position: absolute; inset: 0; background-image: linear-gradient(rgba(237,240,244,.035) 1px, transparent 1px), linear-gradient(90deg, rgba(237,240,244,.035) 1px, transparent 1px); background-size: 56px 56px; mask-image: radial-gradient(ellipse 90% 80% at 50% 40%, black 30%, transparent 75%);"></div>
+  </div>
+
+  <!-- copy -->
+  <div style="position: relative; z-index: 2; max-width: 640px;">
+    <div data-reveal style="display: inline-flex; align-items: center; gap: 9px; padding: 7px 14px 7px 9px; border-radius: 999px; border: 1px solid rgba(46,107,255,.35); background: rgba(46,107,255,.09); font-size: 12.5px; font-weight: 600; color: #A8C5FB; margin-bottom: 26px;">
+      <span style="padding: 3px 8px; border-radius: 999px; background: linear-gradient(120deg, #16C8F5, #2E6BFF, #7A5BF0); color: #fff; font-size: 10.5px; font-weight: 700; letter-spacing: .04em;">2026</span>
+      관세청·산업부 공공데이터 기반 수출 인텔리전스
+    </div>
+    <h1 data-reveal style="margin: 0 0 24px; font-size: clamp(44px, 5.2vw, 74px); line-height: 1.06; letter-spacing: -0.035em; font-weight: 900;">
+      다음 수출 기회를<br>
+      먼저 보는 <span style="background: linear-gradient(120deg, #16C8F5 0%, #2E6BFF 46%, #7A5BF0 100%); -webkit-background-clip: text; background-clip: text; color: transparent;">레이더</span>
+    </h1>
+    <p data-reveal style="margin: 0 0 36px; font-size: 17.5px; line-height: 1.65; color: #9AA4B2; max-width: 480px; text-wrap: pretty;">
+      관세청 수출입통계(HS코드)와 산업부 K-SURE·KOTRA 데이터, AI로 <strong style="color: #EDF0F4; font-weight: 600;">28개 품목 × 주요국</strong> 시장을 스코어링하고 예측합니다. 반도체부터 K-Food까지, 전 수출산업의 흐름을 한 화면에서 확인할 수 있습니다.
+    </p>
+    <div data-reveal style="display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin-bottom: 52px;">
+      <a href="app/" target="_blank" rel="noreferrer" style="display: inline-flex; align-items: center; gap: 9px; padding: 15px 28px; border-radius: 10px; background: linear-gradient(120deg, #16C8F5, #2E6BFF 46%, #7A5BF0); color: #fff; text-decoration: none; font-weight: 700; font-size: 15.5px; box-shadow: 0 8px 34px rgba(46,107,255,.45);" style-hover="box-shadow: 0 10px 44px rgba(46,107,255,.65); transform: translateY(-1px);">플랫폼 열기 <span>→</span></a>
+      <a href="#service-video" style="display: inline-flex; align-items: center; gap: 9px; padding: 15px 24px; border-radius: 10px; border: 1px solid rgba(22,200,245,.36); color: #CFEFFF; text-decoration: none; font-weight: 600; font-size: 15px; background: rgba(22,200,245,.08);" style-hover="border-color: rgba(22,200,245,.62); background: rgba(22,200,245,.13);">서비스 영상 보기</a>
+      <a href="https://github.com/spcx0701/tradar" target="_blank" rel="noreferrer" style="display: inline-flex; align-items: center; gap: 9px; padding: 15px 24px; border-radius: 10px; border: 1px solid rgba(237,240,244,.16); color: #EDF0F4; text-decoration: none; font-weight: 600; font-size: 15px; background: rgba(237,240,244,.03);" style-hover="border-color: rgba(237,240,244,.4); background: rgba(237,240,244,.07);">GitHub에서 보기</a>
+    </div>
+    <div data-reveal style="display: flex; gap: 40px;">
+      <div>
+        <div style="font-size: 30px; font-weight: 800; letter-spacing: -0.02em; font-variant-numeric: tabular-nums;"><span data-count="28">0</span><span style="color: #6B7585; font-size: 18px; font-weight: 600;">개</span></div>
+        <div style="font-size: 12px; color: #6B7585; letter-spacing: .05em; margin-top: 4px;">전 수출산업 품목</div>
+      </div>
+      <div style="width: 1px; background: rgba(237,240,244,.1);"></div>
+      <div>
+        <div style="font-size: 30px; font-weight: 800; letter-spacing: -0.02em; font-variant-numeric: tabular-nums;"><span data-count="12">0</span><span style="color: #6B7585; font-size: 18px; font-weight: 600;">개월</span></div>
+        <div style="font-size: 12px; color: #6B7585; letter-spacing: .05em; margin-top: 4px;">AI 수출 예측 지평</div>
+      </div>
+      <div style="width: 1px; background: rgba(237,240,244,.1);"></div>
+      <div>
+        <div style="font-size: 30px; font-weight: 800; letter-spacing: -0.02em; background: linear-gradient(120deg, #16C8F5, #2E6BFF, #7A5BF0); -webkit-background-clip: text; background-clip: text; color: transparent;">실시간</div>
+        <div style="font-size: 12px; color: #6B7585; letter-spacing: .05em; margin-top: 4px;">관세청·산업부 데이터 동기화</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- radar visual -->
+  <div data-reveal style="position: relative; z-index: 1; display: grid; place-items: center; min-height: 520px;">
+    <div style="position: relative; width: min(520px, 100%); aspect-ratio: 1; animation: trFloat 9s ease-in-out infinite;">
+      <div style="position: absolute; inset: 0; border-radius: 50%; border: 1px solid rgba(46,107,255,.22);"></div>
+      <div style="position: absolute; inset: 12.5%; border-radius: 50%; border: 1px solid rgba(46,107,255,.18);"></div>
+      <div style="position: absolute; inset: 25%; border-radius: 50%; border: 1px solid rgba(46,107,255,.14);"></div>
+      <div style="position: absolute; inset: 37.5%; border-radius: 50%; border: 1px solid rgba(46,107,255,.12);"></div>
+      <div style="position: absolute; top: 0; bottom: 0; left: 50%; width: 1px; background: linear-gradient(rgba(46,107,255,0), rgba(46,107,255,.18), rgba(46,107,255,0));"></div>
+      <div style="position: absolute; left: 0; right: 0; top: 50%; height: 1px; background: linear-gradient(90deg, rgba(46,107,255,0), rgba(46,107,255,.18), rgba(46,107,255,0));"></div>
+      <!-- sweep -->
+      <div style="position: absolute; inset: 0; border-radius: 50%; overflow: hidden; animation: trSweep 7s linear infinite;">
+        <div style="position: absolute; inset: 0; background: conic-gradient(from 0deg, rgba(22,200,245,.4), rgba(46,107,255,.12) 18%, transparent 32%);"></div>
+      </div>
+      <div style="position: absolute; inset: 0; border-radius: 50%; box-shadow: inset 0 0 90px rgba(46,107,255,.14);"></div>
+      <!-- center -->
+      <div style="position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%); width: 12px; height: 12px; border-radius: 50%; background: linear-gradient(120deg, #16C8F5, #2E6BFF); box-shadow: 0 0 24px rgba(22,200,245,.9);"></div>
+      <!-- blips -->
+      <div style="position: absolute; left: 66%; top: 24%;">
+        <span style="position: absolute; inset: -6px; border-radius: 50%; background: rgba(22,179,100,.5); animation: trPing 3s cubic-bezier(.2,.6,.2,1) infinite;"></span>
+        <span style="position: relative; display: block; width: 9px; height: 9px; border-radius: 50%; background: #16B364; box-shadow: 0 0 14px rgba(22,179,100,.9);"></span>
+        <div style="position: absolute; left: 16px; top: -14px; white-space: nowrap; padding: 6px 11px; border-radius: 8px; background: rgba(12,13,17,.88); border: 1px solid rgba(22,179,100,.4); backdrop-filter: blur(6px);">
+          <div style="font-size: 11.5px; font-weight: 700;">반도체 → 🇺🇸</div>
+          <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #16B364;">Score 91 ▲ 12.4%</div>
+        </div>
+      </div>
+      <div style="position: absolute; left: 26%; top: 62%;">
+        <span style="position: absolute; inset: -6px; border-radius: 50%; background: rgba(22,200,245,.5); animation: trPing 3s cubic-bezier(.2,.6,.2,1) infinite 1s;"></span>
+        <span style="position: relative; display: block; width: 9px; height: 9px; border-radius: 50%; background: #16C8F5; box-shadow: 0 0 14px rgba(22,200,245,.9);"></span>
+        <div style="position: absolute; left: 16px; top: -14px; white-space: nowrap; padding: 6px 11px; border-radius: 8px; background: rgba(12,13,17,.88); border: 1px solid rgba(22,200,245,.4); backdrop-filter: blur(6px);">
+          <div style="font-size: 11.5px; font-weight: 700;">K-라면 → 🇻🇳</div>
+          <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #16C8F5;">Score 84 ▲ 31.2%</div>
+        </div>
+      </div>
+      <div style="position: absolute; left: 58%; top: 72%;">
+        <span style="position: absolute; inset: -6px; border-radius: 50%; background: rgba(242,162,12,.5); animation: trPing 3s cubic-bezier(.2,.6,.2,1) infinite 2s;"></span>
+        <span style="position: relative; display: block; width: 9px; height: 9px; border-radius: 50%; background: #F2A20C; box-shadow: 0 0 14px rgba(242,162,12,.9);"></span>
+        <div style="position: absolute; left: 16px; top: -14px; white-space: nowrap; padding: 6px 11px; border-radius: 8px; background: rgba(12,13,17,.88); border: 1px solid rgba(242,162,12,.4); backdrop-filter: blur(6px);">
+          <div style="font-size: 11.5px; font-weight: 700;">2차전지 → 🇩🇪</div>
+          <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #F2A20C;">리스크 경보 ⚠</div>
+        </div>
+      </div>
+      <div style="position: absolute; left: 38%; top: 30%;">
+        <span style="position: relative; display: block; width: 7px; height: 7px; border-radius: 50%; background: #7A5BF0; box-shadow: 0 0 12px rgba(122,91,240,.9);"></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- scroll cue -->
+  <div aria-hidden="true" style="position: absolute; left: 50%; bottom: 26px; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 8px; color: #6B7585; font-size: 11px; letter-spacing: .14em;">
+    SCROLL
+    <span style="width: 1px; height: 34px; background: linear-gradient(#6B7585, transparent); display: block;"></span>
+  </div>
+</header>
+
+<!-- ══════════════ SERVICE VIDEO ══════════════ -->
+<section id="service-video" data-screen-label="서비스 영상" style="position: relative; padding: 110px 72px 120px; max-width: 1180px; margin: 0 auto;">
+  <div data-reveal style="max-width: 720px; margin-bottom: 36px;">
+    <div style="font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: .12em; color: #16C8F5; margin-bottom: 16px;">00 — 서비스 영상</div>
+    <h2 style="margin: 0 0 18px; font-size: clamp(32px, 3.6vw, 52px); line-height: 1.1; letter-spacing: -0.03em; font-weight: 800;">Tradar 흐름을<br>영상으로 먼저 확인하세요</h2>
+    <p style="margin: 0; font-size: 16.5px; line-height: 1.65; color: #9AA4B2; text-wrap: pretty;">품목·국가별 수출 기회 탐색, 마켓맵, AI 애널리스트와 리포트 스튜디오까지 실제 서비스 화면 기준으로 빠르게 살펴볼 수 있습니다.</p>
+  </div>
+  <div data-reveal style="position: relative; border-radius: 18px; border: 1px solid rgba(237,240,244,.12); background: linear-gradient(180deg, rgba(30,34,48,.45), rgba(8,8,11,.78)); overflow: hidden; box-shadow: 0 40px 100px rgba(0,0,0,.5), 0 0 80px rgba(46,107,255,.08);">
+    <div style="position: relative; width: 100%; aspect-ratio: 16 / 9;">
+      <iframe src="https://www.youtube.com/embed/bNExkDu3g-o" title="Tradar 소개 영상" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen style="position: absolute; inset: 0; width: 100%; height: 100%; border: 0;"></iframe>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ TICKER ══════════════ -->
+<sc-if value="{{ showTicker }}" hint-placeholder-val="{{ true }}">
+<div style="border-top: 1px solid rgba(237,240,244,.07); border-bottom: 1px solid rgba(237,240,244,.07); background: rgba(12,13,17,.6); overflow: hidden; padding: 13px 0; position: relative;">
+  <div style="display: flex; gap: 48px; width: max-content; animation: trTickerMove 38s linear infinite; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #9AA4B2;">
+    <span>반도체(8542) <b style="color:#16B364;">▲4.3%</b></span><span>자동차(8703) <b style="color:#16B364;">▲2.1%</b></span><span>2차전지(8507) <b style="color:#F0443B;">▼1.8%</b></span><span>라면(1902.30) <b style="color:#16B364;">▲31.2%</b></span><span>화장품(3304) <b style="color:#16B364;">▲12.7%</b></span><span>조선(8901) <b style="color:#16B364;">▲6.9%</b></span><span>석유화학(2902) <b style="color:#F0443B;">▼0.4%</b></span><span>김(1212.21) <b style="color:#16B364;">▲18.5%</b></span>
+    <span>반도체(8542) <b style="color:#16B364;">▲4.3%</b></span><span>자동차(8703) <b style="color:#16B364;">▲2.1%</b></span><span>2차전지(8507) <b style="color:#F0443B;">▼1.8%</b></span><span>라면(1902.30) <b style="color:#16B364;">▲31.2%</b></span><span>화장품(3304) <b style="color:#16B364;">▲12.7%</b></span><span>조선(8901) <b style="color:#16B364;">▲6.9%</b></span><span>석유화학(2902) <b style="color:#F0443B;">▼0.4%</b></span><span>김(1212.21) <b style="color:#16B364;">▲18.5%</b></span>
+  </div>
+</div>
+</sc-if>
+
+<!-- ══════════════ REPORT STUDIO (interactive demo — placeholder shell) ══════════════ -->
+<section id="report-studio" data-screen-label="리포트 스튜디오" style="position: relative; padding: 140px 72px; max-width: 1280px; margin: 0 auto;">
+  <div data-reveal style="max-width: 720px; margin-bottom: 56px;">
+    <div style="font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: .12em; color: #16C8F5; margin-bottom: 16px;">01 — 리포트 스튜디오</div>
+    <h2 style="margin: 0 0 18px; font-size: clamp(32px, 3.6vw, 52px); line-height: 1.1; letter-spacing: -0.03em; font-weight: 800;">질문 한 줄로<br>리포트가 완성됩니다</h2>
+    <p style="margin: 0; font-size: 16.5px; line-height: 1.65; color: #9AA4B2; text-wrap: pretty;">자연어 요청 → 선언적 Report Spec(DSL) → 관세청·산업부 데이터 리졸브 순서로 동작합니다. LLM은 스펙만 설계하고, 실제 수치 계산은 엔진이 맡기 때문에 없는 숫자가 만들어질 수 없습니다. 아래 질문을 눌러보세요.</p>
+  </div>
+  <div id="rs-demo-mount" data-reveal style="border-radius: 18px; border: 1px solid rgba(237,240,244,.12); background: linear-gradient(180deg, rgba(30,34,48,.45), rgba(8,8,11,.75)); overflow: hidden; box-shadow: 0 40px 100px rgba(0,0,0,.55), 0 0 80px rgba(46,107,255,.07);">
+    <!-- window chrome -->
+    <div style="display: flex; align-items: center; gap: 10px; padding: 12px 18px; border-bottom: 1px solid rgba(237,240,244,.08); background: rgba(8,8,11,.7);">
+      <span style="width: 10px; height: 10px; border-radius: 50%; background: rgba(237,240,244,.14); display: block;"></span>
+      <span style="width: 10px; height: 10px; border-radius: 50%; background: rgba(237,240,244,.14); display: block;"></span>
+      <span style="width: 10px; height: 10px; border-radius: 50%; background: rgba(237,240,244,.14); display: block;"></span>
+      <span style="flex: 1; text-align: center; font-family: 'JetBrains Mono', monospace; font-size: 11.5px; color: #6B7585;">tradar.onrender.com/report</span>
+      <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #16C8F5; border: 1px solid rgba(22,200,245,.35); padding: 3px 8px; border-radius: 999px;">Report Spec DSL</span>
+    </div>
+    <div style="display: grid; grid-template-columns: 370px 1fr; min-height: 560px;">
+      <!-- LEFT: question + spec -->
+      <div style="border-right: 1px solid rgba(237,240,244,.08); padding: 22px; display: flex; flex-direction: column; gap: 16px; background: rgba(12,13,17,.4);">
+        <div style="font-size: 11px; font-weight: 700; letter-spacing: .1em; color: #6B7585;">질문을 눌러보세요</div>
+        <div style="display: flex; flex-direction: column; gap: 8px;">
+          <sc-for list="{{ rsChips }}" as="item" hint-placeholder-count="3">
+            <button onClick="{{ item.onRun }}" style="white-space: nowrap; display: flex; align-items: center; gap: 8px; width: 100%; text-align: left; padding: 12px 14px; border-radius: 10px; border: 1px solid {{ item.bd }}; background: {{ item.bg }}; color: #EDF0F4; font-family: inherit; font-size: 13.5px; font-weight: 600; cursor: pointer; transition: all .25s cubic-bezier(.2,.6,.2,1);" style-hover="border-color: rgba(46,107,255,.6); background: rgba(46,107,255,.12);">{{ item.chip }}</button>
+          </sc-for>
+        </div>
+        <!-- typed input -->
+        <div style="border: 1px solid rgba(237,240,244,.14); border-radius: 10px; padding: 13px 14px; background: rgba(8,8,11,.7); min-height: 46px; display: flex; align-items: center; gap: 8px;">
+          <span style="color: #16C8F5; font-size: 14px;">✦</span>
+          <span style="font-size: 13.5px; color: #EDF0F4;">{{ rsTyped }}</span>
+          <sc-if value="{{ rsTyping }}" hint-placeholder-val="{{ false }}">
+            <span style="width: 2px; height: 16px; background: #16C8F5; display: inline-block; animation: trBlink .9s step-end infinite;"></span>
+          </sc-if>
+          <sc-if value="{{ rsIdle }}" hint-placeholder-val="{{ false }}">
+            <span style="font-size: 13px; color: #4B5563;">자연어로 물어보면…</span>
+          </sc-if>
+        </div>
+        <!-- spec panel -->
+        <div style="flex: 1; border: 1px solid rgba(237,240,244,.1); border-radius: 10px; background: #08080B; padding: 14px 16px; font-family: 'JetBrains Mono', monospace; font-size: 11.5px; line-height: 1.75; overflow: hidden;">
+          <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+            <span style="color: #4B5563;">report.spec.json</span>
+            <sc-if value="{{ rsResolved }}" hint-placeholder-val="{{ false }}"><span style="color: #16B364;">✓ 스키마 검증</span></sc-if>
+          </div>
+          <sc-if value="{{ rsSpecShown }}" hint-placeholder-val="{{ false }}">
+            <sc-for list="{{ rsSpecLines }}" as="ln" hint-placeholder-count="0">
+              <div style="color: {{ ln.c }}; white-space: pre; animation: trRise .3s cubic-bezier(.2,.6,.2,1) both;">{{ ln.t }}</div>
+            </sc-for>
+          </sc-if>
+          <sc-if value="{{ rsIdle }}" hint-placeholder-val="{{ true }}">
+            <div style="color: #333B49;">// LLM이 설계하는 선언적 리포트 스펙</div>
+            <div style="color: #333B49;">// 수치 계산은 관세청 데이터 엔진 담당</div>
+          </sc-if>
+        </div>
+        <!-- steps -->
+        <div style="display: flex; align-items: center; gap: 6px; font-size: 10.5px; font-weight: 600; color: #4B5563;">
+          <sc-if value="{{ rsStep1 }}" hint-placeholder-val="{{ false }}"><span style="color: #16C8F5;">● 질문 해석</span></sc-if>
+          <sc-if value="{{ rsStep1 }}" hint-placeholder-val="{{ false }}"><span>→</span></sc-if>
+          <sc-if value="{{ rsStep2 }}" hint-placeholder-val="{{ false }}"><span style="color: #2E6BFF;">● Spec 설계</span></sc-if>
+          <sc-if value="{{ rsStep2 }}" hint-placeholder-val="{{ false }}"><span>→</span></sc-if>
+          <sc-if value="{{ rsStep3 }}" hint-placeholder-val="{{ false }}"><span style="color: #7A5BF0;">● 데이터 리졸브</span></sc-if>
+          <sc-if value="{{ rsStep3 }}" hint-placeholder-val="{{ false }}"><span>→</span></sc-if>
+          <sc-if value="{{ rsStep4 }}" hint-placeholder-val="{{ false }}"><span style="color: #16B364;">● 리포트 조립</span></sc-if>
+          <sc-if value="{{ rsIdle }}" hint-placeholder-val="{{ true }}"><span>질문 해석 → Spec 설계 → 데이터 리졸브 → 리포트 조립</span></sc-if>
+        </div>
+      </div>
+      <!-- RIGHT: assembled report -->
+      <div style="padding: 26px 30px; position: relative;">
+        <sc-if value="{{ rsIdle }}" hint-placeholder-val="{{ true }}">
+          <div style="position: absolute; inset: 26px 30px; border: 1.5px dashed rgba(237,240,244,.12); border-radius: 14px; display: grid; place-items: center;">
+            <div style="text-align: center; color: #4B5563;">
+              <div style="font-size: 34px; margin-bottom: 12px;">📄</div>
+              <div style="font-size: 14px; font-weight: 600; color: #6B7585;">리포트가 이 자리에 실시간으로 조립됩니다</div>
+              <div style="font-size: 12.5px; margin-top: 6px;">왼쪽 질문 중 하나를 눌러보세요</div>
+            </div>
+          </div>
+        </sc-if>
+        <sc-if value="{{ rsShowHead }}" hint-placeholder-val="{{ false }}">
+          <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-bottom: 20px; animation: trRise .5s cubic-bezier(.2,.6,.2,1) both;">
+            <div>
+              <div style="font-size: 21px; font-weight: 800; letter-spacing: -0.02em;">{{ rsTitle }}</div>
+              <div style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; color: #6B7585; margin-top: 5px; letter-spacing: .08em;">{{ rsMeta }}</div>
+            </div>
+            <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #16B364; border: 1px solid rgba(22,179,100,.35); background: rgba(22,179,100,.08); padding: 4px 9px; border-radius: 999px; white-space: nowrap;">관세청·산업부 데이터 리졸브 · 0.14s</span>
+          </div>
+        </sc-if>
+        <sc-if value="{{ rsKpi }}" hint-placeholder-val="{{ false }}">
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 16px;">
+            <sc-for list="{{ rsKpis }}" as="k" hint-placeholder-count="3">
+              <div style="border: 1px solid rgba(237,240,244,.1); border-radius: 12px; padding: 14px 16px; background: rgba(30,34,48,.35); animation: trRise .5s cubic-bezier(.2,.6,.2,1) both;">
+                <div style="font-size: 11px; color: #6B7585; font-weight: 600; margin-bottom: 7px;">{{ k.label }}</div>
+                <div style="font-size: 24px; font-weight: 800; letter-spacing: -0.02em; font-variant-numeric: tabular-nums;">{{ k.value }}</div>
+                <div style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; margin-top: 5px; color: {{ k.dc }};">{{ k.delta }}</div>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+        <sc-if value="{{ rsIsLine }}" hint-placeholder-val="{{ false }}">
+          <div style="border: 1px solid rgba(237,240,244,.1); border-radius: 12px; padding: 18px 18px 10px; background: rgba(30,34,48,.35); margin-bottom: 16px; animation: trRise .5s cubic-bezier(.2,.6,.2,1) both;">
+            <div style="display: flex; justify-content: space-between; font-size: 11px; color: #6B7585; font-weight: 600; margin-bottom: 10px;">
+              <span>수출 추세 · AI 예측</span>
+              <span style="display: flex; gap: 14px;"><span style="color: #16C8F5;">━ 실적</span><span style="color: #7A5BF0;">┅ 예측</span><span style="color: #4B5563;">▨ 신뢰구간</span></span>
+            </div>
+            <svg viewBox="0 0 520 210" style="width: 100%; height: auto; display: block;">
+              <line x1="0" y1="52" x2="520" y2="52" stroke="rgba(237,240,244,.06)"></line>
+              <line x1="0" y1="104" x2="520" y2="104" stroke="rgba(237,240,244,.06)"></line>
+              <line x1="0" y1="156" x2="520" y2="156" stroke="rgba(237,240,244,.06)"></line>
+              <line x1="320" y1="10" x2="320" y2="200" stroke="rgba(122,91,240,.3)" stroke-dasharray="3 5"></line>
+              <polygon points="{{ rsBand }}" fill="rgba(122,91,240,.15)"></polygon>
+              <path d="{{ rsPath }}" fill="none" stroke="#16C8F5" stroke-width="2.5" stroke-linecap="round" style="stroke-dasharray: 620; stroke-dashoffset: 620; animation: trDash 1.3s cubic-bezier(.2,.6,.2,1) .1s forwards;"></path>
+              <path d="{{ rsFore }}" fill="none" stroke="#7A5BF0" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="6 7" style="opacity: 0; animation: trRise .6s .9s forwards;"></path>
+            </svg>
+            <div style="display: flex; justify-content: space-between; font-family: 'JetBrains Mono', monospace; font-size: 9.5px; color: #4B5563; margin-top: 6px;">
+              <sc-for list="{{ rsXLabels }}" as="xl" hint-placeholder-count="0"><span>{{ xl }}</span></sc-for>
+            </div>
+          </div>
+        </sc-if>
+        <sc-if value="{{ rsIsBars }}" hint-placeholder-val="{{ false }}">
+          <div style="border: 1px solid rgba(237,240,244,.1); border-radius: 12px; padding: 18px; background: rgba(30,34,48,.35); margin-bottom: 16px; animation: trRise .5s cubic-bezier(.2,.6,.2,1) both;">
+            <div style="font-size: 11px; color: #6B7585; font-weight: 600; margin-bottom: 14px;">YoY 성장률 랭킹</div>
+            <div style="display: flex; align-items: flex-end; gap: 18px; height: 190px;">
+              <sc-for list="{{ rsBars }}" as="bar" hint-placeholder-count="5">
+                <div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 8px; height: 100%;">
+                  <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #16C8F5; font-weight: 600;">{{ bar.pct }}</span>
+                  <div style="width: 100%; max-width: 64px; height: {{ bar.h }}px; border-radius: 8px 8px 3px 3px; background: linear-gradient(180deg, #16C8F5, #2E6BFF 80%); transform-origin: bottom; animation: trBarUp .7s cubic-bezier(.2,.6,.2,1) {{ bar.delay }} both; box-shadow: 0 0 24px rgba(46,107,255,.35);"></div>
+                  <span style="font-size: 11.5px; color: #9AA4B2; font-weight: 600;">{{ bar.label }}</span>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </sc-if>
+        <sc-if value="{{ rsTable }}" hint-placeholder-val="{{ false }}">
+          <div style="border: 1px solid rgba(237,240,244,.1); border-radius: 12px; background: rgba(30,34,48,.35); overflow: hidden; animation: trRise .5s cubic-bezier(.2,.6,.2,1) both;">
+            <div style="display: grid; grid-template-columns: 1.4fr 1fr 1fr .8fr; padding: 10px 16px; border-bottom: 1px solid rgba(237,240,244,.08); font-size: 10.5px; font-weight: 700; letter-spacing: .06em; color: #6B7585;">
+              <sc-for list="{{ rsCols }}" as="col" hint-placeholder-count="4"><span>{{ col }}</span></sc-for>
+            </div>
+            <sc-for list="{{ rsRows }}" as="row" hint-placeholder-count="3">
+              <div style="display: grid; grid-template-columns: 1.4fr 1fr 1fr .8fr; padding: 11px 16px; border-bottom: 1px solid rgba(237,240,244,.05); font-size: 13px; font-variant-numeric: tabular-nums; animation: trRise .4s cubic-bezier(.2,.6,.2,1) both;" style-hover="background: rgba(46,107,255,.06);">
+                <span style="font-weight: 600;">{{ row.a }}</span>
+                <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #9AA4B2;">{{ row.b }}</span>
+                <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: {{ row.cc }};">{{ row.c }}</span>
+                <span style="font-weight: 700; color: #EDF0F4;">{{ row.d }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ FEATURES (placeholder shells) ══════════════ -->
+<section id="features" data-screen-label="기능 쇼케이스" style="position: relative; padding: 40px 72px 140px; max-width: 1280px; margin: 0 auto;">
+  <div data-reveal style="max-width: 720px; margin-bottom: 56px;">
+    <div style="font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: .12em; color: #2E6BFF; margin-bottom: 16px;">02 — 기능</div>
+    <h2 style="margin: 0 0 18px; font-size: clamp(32px, 3.6vw, 52px); line-height: 1.1; letter-spacing: -0.03em; font-weight: 800;">전 수출산업을 살펴보는<br>다섯 가지 화면</h2>
+  </div>
+  <div data-reveal style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 18px;">
+    <sc-for list="{{ ftTabs }}" as="tab" hint-placeholder-count="5">
+      <button onClick="{{ tab.onTab }}" style="white-space: nowrap; padding: 10px 18px; border-radius: 999px; border: 1px solid {{ tab.bd }}; background: {{ tab.bg }}; color: {{ tab.fg }}; font-family: inherit; font-size: 13.5px; font-weight: 600; cursor: pointer; transition: all .25s cubic-bezier(.2,.6,.2,1);" style-hover="color: #EDF0F4; border-color: rgba(46,107,255,.5);">{{ tab.label }}</button>
+    </sc-for>
+  </div>
+  <div id="features-mount" data-reveal style="min-height: 480px; border-radius: 18px; border: 1px solid rgba(237,240,244,.12); background: linear-gradient(180deg, rgba(30,34,48,.45), rgba(8,8,11,.75)); box-shadow: 0 40px 100px rgba(0,0,0,.55); padding: 26px; overflow: hidden;">
+
+    <!-- ── 마켓맵 ── -->
+    <sc-if value="{{ ftIs0 }}" hint-placeholder-val="{{ true }}">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+        <div style="font-size: 12px; color: #6B7585; font-weight: 600;">타일 크기 = 수출액 · 색 = 모멘텀 <span style="color: #16B364;">(상승)</span> / <span style="color: #F0443B;">(둔화)</span></div>
+        <div style="display: flex; gap: 6px;">
+          <span style="padding: 6px 13px; border-radius: 999px; font-size: 11.5px; font-weight: 700; background: rgba(46,107,255,.16); border: 1px solid rgba(46,107,255,.5); color: #EDF0F4;">분야별</span>
+          <span style="padding: 6px 13px; border-radius: 999px; font-size: 11.5px; font-weight: 600; border: 1px solid rgba(237,240,244,.1); color: #6B7585;">국가별</span>
+        </div>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(6, 1fr); grid-auto-rows: 92px; gap: 5px;">
+        <div style="grid-column: span 3; grid-row: span 2; border-radius: 10px; background: rgba(22,179,100,.28); border: 1px solid rgba(22,179,100,.25); padding: 16px; display: flex; flex-direction: column; justify-content: space-between; animation: trPop .5s cubic-bezier(.2,.6,.2,1) both;" style-hover="background: rgba(22,179,100,.38);">
+          <div><div style="font-size: 19px; font-weight: 800;">반도체</div><div style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; color: #9AA4B2; margin-top: 3px;">HS 8542 · $141.9B</div></div>
+          <div style="font-family: 'JetBrains Mono', monospace; font-size: 15px; font-weight: 600; color: #16B364;">▲ 4.3%</div>
+        </div>
+        <div style="grid-column: span 3; border-radius: 10px; background: rgba(22,179,100,.2); border: 1px solid rgba(22,179,100,.2); padding: 14px; display: flex; flex-direction: column; justify-content: space-between; animation: trPop .5s cubic-bezier(.2,.6,.2,1) .06s both;" style-hover="background: rgba(22,179,100,.3);">
+          <div style="font-size: 15px; font-weight: 700;">자동차 <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #9AA4B2;">HS 8703</span></div>
+          <div style="font-family: 'JetBrains Mono', monospace; font-size: 12.5px; color: #16B364;">▲ 2.1%</div>
+        </div>
+        <div style="grid-column: span 2; border-radius: 10px; background: rgba(240,68,59,.22); border: 1px solid rgba(240,68,59,.22); padding: 14px; display: flex; flex-direction: column; justify-content: space-between; animation: trPop .5s cubic-bezier(.2,.6,.2,1) .12s both;" style-hover="background: rgba(240,68,59,.32);">
+          <div style="font-size: 14px; font-weight: 700;">2차전지 <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #9AA4B2;">HS 8507</span></div>
+          <div style="font-family: 'JetBrains Mono', monospace; font-size: 12.5px; color: #F0443B;">▼ 1.8%</div>
+        </div>
+        <div style="border-radius: 10px; background: rgba(22,179,100,.42); border: 1px solid rgba(22,179,100,.35); padding: 12px; display: flex; flex-direction: column; justify-content: space-between; animation: trPop .5s cubic-bezier(.2,.6,.2,1) .18s both;">
+          <div style="font-size: 12.5px; font-weight: 700;">화장품</div>
+          <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #6EF0AE;">▲ 12.7%</div>
+        </div>
+        <div style="grid-column: span 2; border-radius: 10px; background: rgba(22,179,100,.24); border: 1px solid rgba(22,179,100,.22); padding: 14px; display: flex; flex-direction: column; justify-content: space-between; animation: trPop .5s cubic-bezier(.2,.6,.2,1) .24s both;">
+          <div style="font-size: 14px; font-weight: 700;">조선 <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #9AA4B2;">HS 8901</span></div>
+          <div style="font-family: 'JetBrains Mono', monospace; font-size: 12.5px; color: #16B364;">▲ 6.9%</div>
+        </div>
+        <div style="grid-column: span 2; border-radius: 10px; background: rgba(22,179,100,.5); border: 1px solid rgba(22,179,100,.4); padding: 14px; display: flex; flex-direction: column; justify-content: space-between; animation: trPop .5s cubic-bezier(.2,.6,.2,1) .3s both; box-shadow: 0 0 30px rgba(22,179,100,.25);">
+          <div style="font-size: 14px; font-weight: 700;">라면 🔥 <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #C9F5DE;">HS 1902.30</span></div>
+          <div style="font-family: 'JetBrains Mono', monospace; font-size: 12.5px; font-weight: 700; color: #6EF0AE;">▲ 31.2%</div>
+        </div>
+        <div style="grid-column: span 2; border-radius: 10px; background: rgba(240,68,59,.12); border: 1px solid rgba(240,68,59,.15); padding: 14px; display: flex; flex-direction: column; justify-content: space-between; animation: trPop .5s cubic-bezier(.2,.6,.2,1) .36s both;">
+          <div style="font-size: 13.5px; font-weight: 700;">석유화학</div>
+          <div style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #F0443B;">▼ 0.4%</div>
+        </div>
+        <div style="border-radius: 10px; background: rgba(240,68,59,.2); border: 1px solid rgba(240,68,59,.2); padding: 12px; display: flex; flex-direction: column; justify-content: space-between; animation: trPop .5s cubic-bezier(.2,.6,.2,1) .42s both;">
+          <div style="font-size: 12.5px; font-weight: 700;">철강</div>
+          <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #F0443B;">▼ 2.4%</div>
+        </div>
+        <div style="border-radius: 10px; background: rgba(22,179,100,.45); border: 1px solid rgba(22,179,100,.35); padding: 12px; display: flex; flex-direction: column; justify-content: space-between; animation: trPop .5s cubic-bezier(.2,.6,.2,1) .48s both;">
+          <div style="font-size: 12.5px; font-weight: 700;">김</div>
+          <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #6EF0AE;">▲ 18.5%</div>
+        </div>
+        <div style="grid-column: span 2; border-radius: 10px; background: rgba(22,179,100,.3); border: 1px solid rgba(22,179,100,.25); padding: 12px; display: flex; flex-direction: column; justify-content: space-between; animation: trPop .5s cubic-bezier(.2,.6,.2,1) .54s both;">
+          <div style="font-size: 13.5px; font-weight: 700;">바이오헬스</div>
+          <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #16B364;">▲ 9.2%</div>
+        </div>
+        <div style="border-radius: 10px; background: rgba(22,179,100,.16); border: 1px solid rgba(22,179,100,.16); padding: 12px; display: flex; flex-direction: column; justify-content: space-between; animation: trPop .5s cubic-bezier(.2,.6,.2,1) .6s both;">
+          <div style="font-size: 12.5px; font-weight: 700;">가전</div>
+          <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #16B364;">▲ 1.4%</div>
+        </div>
+        <div style="border-radius: 10px; background: rgba(240,68,59,.26); border: 1px solid rgba(240,68,59,.24); padding: 12px; display: flex; flex-direction: column; justify-content: space-between; animation: trPop .5s cubic-bezier(.2,.6,.2,1) .66s both;">
+          <div style="font-size: 12px; font-weight: 700;">디스플레이</div>
+          <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #F0443B;">▼ 3.1%</div>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- ── 커맨드센터 ── -->
+    <sc-if value="{{ ftIs1 }}" hint-placeholder-val="{{ false }}">
+      <div style="display: grid; grid-template-columns: 1.1fr .9fr; gap: 20px;">
+        <div>
+          <div style="font-size: 12px; font-weight: 700; letter-spacing: .08em; color: #6B7585; margin-bottom: 12px;">TOP 수출 기회</div>
+          <div style="display: flex; flex-direction: column; gap: 10px;">
+            <div style="display: flex; align-items: center; gap: 14px; padding: 15px 17px; border-radius: 12px; border: 1px solid rgba(22,200,245,.25); background: rgba(22,200,245,.06); animation: trRise .5s cubic-bezier(.2,.6,.2,1) both;" style-hover="border-color: rgba(22,200,245,.5);">
+              <span style="font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #16C8F5; font-weight: 600;">01</span>
+              <div style="flex: 1;"><div style="font-size: 15px; font-weight: 700;">라면 → 베트남</div><div style="font-size: 11.5px; color: #6B7585; margin-top: 2px;">12개월 연속 증가 · 침투율 여유</div></div>
+              <div style="text-align: right;"><div style="font-size: 19px; font-weight: 800; color: #16C8F5;">84</div><div style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; color: #16B364;">▲ 31.2%</div></div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 14px; padding: 15px 17px; border-radius: 12px; border: 1px solid rgba(237,240,244,.1); background: rgba(30,34,48,.35); animation: trRise .5s cubic-bezier(.2,.6,.2,1) .08s both;" style-hover="border-color: rgba(22,200,245,.4);">
+              <span style="font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #6B7585; font-weight: 600;">02</span>
+              <div style="flex: 1;"><div style="font-size: 15px; font-weight: 700;">반도체 → 미국</div><div style="font-size: 11.5px; color: #6B7585; margin-top: 2px;">AI 서버 수요 · 단가 회복</div></div>
+              <div style="text-align: right;"><div style="font-size: 19px; font-weight: 800;">91</div><div style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; color: #16B364;">▲ 4.3%</div></div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 14px; padding: 15px 17px; border-radius: 12px; border: 1px solid rgba(237,240,244,.1); background: rgba(30,34,48,.35); animation: trRise .5s cubic-bezier(.2,.6,.2,1) .16s both;" style-hover="border-color: rgba(22,200,245,.4);">
+              <span style="font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #6B7585; font-weight: 600;">03</span>
+              <div style="flex: 1;"><div style="font-size: 15px; font-weight: 700;">김 → 미국</div><div style="font-size: 11.5px; color: #6B7585; margin-top: 2px;">K-Food 카테고리 확장</div></div>
+              <div style="text-align: right;"><div style="font-size: 19px; font-weight: 800;">79</div><div style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; color: #16B364;">▲ 18.5%</div></div>
+            </div>
+          </div>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 18px;">
+          <div>
+            <div style="font-size: 12px; font-weight: 700; letter-spacing: .08em; color: #6B7585; margin-bottom: 12px;">리스크 경보</div>
+            <div style="display: flex; flex-direction: column; gap: 10px;">
+              <div style="padding: 13px 16px; border-radius: 12px; border: 1px solid rgba(242,162,12,.35); background: rgba(242,162,12,.07); animation: trRise .5s cubic-bezier(.2,.6,.2,1) .1s both;">
+                <div style="display: flex; justify-content: space-between; font-size: 13.5px; font-weight: 700;"><span>⚠ 2차전지 → 독일</span><span style="font-family: 'JetBrains Mono', monospace; color: #F2A20C;">−6.2%</span></div>
+                <div style="font-size: 11.5px; color: #9AA4B2; margin-top: 4px;">3개월 연속 둔화 · EV 보조금 축소</div>
+              </div>
+              <div style="padding: 13px 16px; border-radius: 12px; border: 1px solid rgba(240,68,59,.35); background: rgba(240,68,59,.07); animation: trRise .5s cubic-bezier(.2,.6,.2,1) .18s both;">
+                <div style="display: flex; justify-content: space-between; font-size: 13.5px; font-weight: 700;"><span>⚠ 철강 → 미국</span><span style="font-family: 'JetBrains Mono', monospace; color: #F0443B;">관세 리스크</span></div>
+                <div style="font-size: 11.5px; color: #9AA4B2; margin-top: 4px;">무역구제 조사 개시 시그널</div>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div style="font-size: 12px; font-weight: 700; letter-spacing: .08em; color: #6B7585; margin-bottom: 12px;">뉴스 시그널</div>
+            <div style="display: flex; flex-direction: column; gap: 8px; font-size: 12.5px;">
+              <div style="display: flex; gap: 9px; align-items: baseline; animation: trRise .5s .24s both;"><span style="width: 7px; height: 7px; border-radius: 50%; background: #16B364; flex: none; transform: translateY(-1px);"></span><span style="color: #C9CFD8;">"美 빅테크, HBM 주문 2배 확대" <span style="color: #4B5563; font-family: 'JetBrains Mono', monospace; font-size: 10.5px;">→ 반도체 · 영향도 높음</span></span></div>
+              <div style="display: flex; gap: 9px; align-items: baseline; animation: trRise .5s .32s both;"><span style="width: 7px; height: 7px; border-radius: 50%; background: #F2A20C; flex: none; transform: translateY(-1px);"></span><span style="color: #C9CFD8;">"EU 배터리 규제 초안 발표" <span style="color: #4B5563; font-family: 'JetBrains Mono', monospace; font-size: 10.5px;">→ 2차전지 · 부정</span></span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- ── 스코어 프로파일 ── -->
+    <sc-if value="{{ ftIs2 }}" hint-placeholder-val="{{ false }}">
+      <div style="display: grid; grid-template-columns: 300px 1fr; gap: 28px; align-items: center;">
+        <div style="text-align: center;">
+          <div style="position: relative; width: 200px; height: 200px; margin: 0 auto;">
+            <svg viewBox="0 0 160 160" style="width: 100%; height: 100%; transform: rotate(-90deg);">
+              <circle cx="80" cy="80" r="70" fill="none" stroke="rgba(237,240,244,.07)" stroke-width="11"></circle>
+              <circle cx="80" cy="80" r="70" fill="none" stroke="url(#trGrad)" stroke-width="11" stroke-linecap="round" stroke-dasharray="440" stroke-dashoffset="39.6" style="animation: trRing 1.4s cubic-bezier(.2,.6,.2,1) both;"></circle>
+              <defs><linearGradient id="trGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#16C8F5"></stop><stop offset="50%" stop-color="#2E6BFF"></stop><stop offset="100%" stop-color="#7A5BF0"></stop></linearGradient></defs>
+            </svg>
+            <div style="position: absolute; inset: 0; display: grid; place-items: center;">
+              <div><div style="font-size: 46px; font-weight: 900; letter-spacing: -0.03em; line-height: 1;">91</div><div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #6B7585; letter-spacing: .12em; margin-top: 4px;">TRADAR SCORE</div></div>
+            </div>
+          </div>
+          <div style="margin-top: 14px; font-size: 15px; font-weight: 700;">반도체 · 미국</div>
+          <div style="font-size: 11.5px; color: #6B7585; margin-top: 3px;">시장 매력도 상위 3위 / 28개 품목</div>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 14px;">
+          <div><div style="display: flex; justify-content: space-between; font-size: 12.5px; margin-bottom: 6px;"><span style="font-weight: 600; color: #C9CFD8;">수요 추세</span><span style="font-family: 'JetBrains Mono', monospace; color: #16C8F5;">88</span></div><div style="height: 7px; border-radius: 99px; background: rgba(237,240,244,.06); overflow: hidden;"><div style="width: 88%; height: 100%; border-radius: 99px; background: linear-gradient(90deg, #16C8F5, #2E6BFF); transform-origin: left; animation: trBarX .9s cubic-bezier(.2,.6,.2,1) .1s both;"></div></div></div>
+          <div><div style="display: flex; justify-content: space-between; font-size: 12.5px; margin-bottom: 6px;"><span style="font-weight: 600; color: #C9CFD8;">성장 모멘텀</span><span style="font-family: 'JetBrains Mono', monospace; color: #16C8F5;">94</span></div><div style="height: 7px; border-radius: 99px; background: rgba(237,240,244,.06); overflow: hidden;"><div style="width: 94%; height: 100%; border-radius: 99px; background: linear-gradient(90deg, #16C8F5, #2E6BFF); transform-origin: left; animation: trBarX .9s cubic-bezier(.2,.6,.2,1) .2s both;"></div></div></div>
+          <div><div style="display: flex; justify-content: space-between; font-size: 12.5px; margin-bottom: 6px;"><span style="font-weight: 600; color: #C9CFD8;">시장 다변화</span><span style="font-family: 'JetBrains Mono', monospace; color: #7CA8F8;">76</span></div><div style="height: 7px; border-radius: 99px; background: rgba(237,240,244,.06); overflow: hidden;"><div style="width: 76%; height: 100%; border-radius: 99px; background: linear-gradient(90deg, #2E6BFF, #7A5BF0); transform-origin: left; animation: trBarX .9s cubic-bezier(.2,.6,.2,1) .3s both;"></div></div></div>
+          <div><div style="display: flex; justify-content: space-between; font-size: 12.5px; margin-bottom: 6px;"><span style="font-weight: 600; color: #C9CFD8;">리스크 안정성</span><span style="font-family: 'JetBrains Mono', monospace; color: #7CA8F8;">82</span></div><div style="height: 7px; border-radius: 99px; background: rgba(237,240,244,.06); overflow: hidden;"><div style="width: 82%; height: 100%; border-radius: 99px; background: linear-gradient(90deg, #2E6BFF, #7A5BF0); transform-origin: left; animation: trBarX .9s cubic-bezier(.2,.6,.2,1) .4s both;"></div></div></div>
+          <div style="display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap;">
+            <span style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; padding: 5px 10px; border-radius: 999px; border: 1px solid rgba(22,179,100,.35); color: #16B364; animation: trPop .4s .5s both;">이벤트 · 단가 반등 감지</span>
+            <span style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; padding: 5px 10px; border-radius: 999px; border: 1px solid rgba(122,91,240,.4); color: #A78BFA; animation: trPop .4s .6s both;">계절분해 · 성수기 진입</span>
+            <span style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; padding: 5px 10px; border-radius: 999px; border: 1px solid rgba(237,240,244,.14); color: #9AA4B2; animation: trPop .4s .7s both;">이상탐지 · 특이점 없음</span>
+          </div>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- ── AI 애널리스트 ── -->
+    <sc-if value="{{ ftIs3 }}" hint-placeholder-val="{{ false }}">
+      <div style="max-width: 660px; margin: 0 auto; padding: 10px 0;">
+        <div style="border: 1px solid rgba(237,240,244,.14); border-radius: 14px; background: rgba(8,8,11,.8); box-shadow: 0 30px 70px rgba(0,0,0,.5); overflow: hidden;">
+          <div style="display: flex; align-items: center; gap: 10px; padding: 15px 18px; border-bottom: 1px solid rgba(237,240,244,.08);">
+            <span style="color: #16C8F5; font-size: 15px;">✦</span>
+            <span style="flex: 1; font-size: 14.5px; color: #EDF0F4;">{{ aiTyped }}<sc-if value="{{ aiCaret }}" hint-placeholder-val="{{ false }}"><span style="display: inline-block; width: 2px; height: 15px; background: #16C8F5; margin-left: 2px; vertical-align: -2px; animation: trBlink .9s step-end infinite;"></span></sc-if></span>
+            <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #6B7585; border: 1px solid rgba(237,240,244,.14); padding: 3px 7px; border-radius: 6px;">⌘K</span>
+          </div>
+          <sc-if value="{{ aiShowA }}" hint-placeholder-val="{{ false }}">
+            <div style="padding: 18px; animation: trRise .5s cubic-bezier(.2,.6,.2,1) both;">
+              <div style="font-size: 13.5px; line-height: 1.7; color: #C9CFD8;">베트남 라면 수출은 <b style="color: #16C8F5;">12개월 연속 증가</b> 중이고, 최근 분기 YoY <b style="color: #16B364;">+31.2%</b>입니다. 시장 침투율은 상위 3국 대비 <b style="color: #EDF0F4;">42% 수준</b>으로 상방 여력이 남아 있습니다. Tradar Score <b style="color: #16C8F5;">84</b>, '달아오르는 시장' 구간입니다.</div>
+              <div style="display: flex; gap: 7px; margin-top: 14px; flex-wrap: wrap;">
+                <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; padding: 4px 9px; border-radius: 6px; background: rgba(46,107,255,.1); border: 1px solid rgba(46,107,255,.3); color: #7CA8F8;">근거 · 1902.30 VN 실적 24개월</span>
+                <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; padding: 4px 9px; border-radius: 6px; background: rgba(46,107,255,.1); border: 1px solid rgba(46,107,255,.3); color: #7CA8F8;">근거 · 스코어 분해</span>
+                <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; padding: 4px 9px; border-radius: 6px; background: rgba(46,107,255,.1); border: 1px solid rgba(46,107,255,.3); color: #7CA8F8;">근거 · 뉴스 시그널 12건</span>
+              </div>
+            </div>
+          </sc-if>
+          <sc-if value="{{ aiCaret }}" hint-placeholder-val="{{ true }}">
+            <div style="padding: 14px 18px; display: flex; flex-direction: column; gap: 9px; font-size: 12.5px; color: #4B5563;">
+              <span>↳ 반도체 미국 수출 6개월 예측 보여줘</span>
+              <span>↳ 이번 주 리스크 경보 요약</span>
+              <span>↳ K-뷰티가 제일 잘 크는 시장은?</span>
+            </div>
+          </sc-if>
+        </div>
+        <div style="text-align: center; font-size: 11.5px; color: #4B5563; margin-top: 14px;">모든 답변에는 관세청 실적과 산업부 리스크·뉴스 근거가 함께 표시됩니다.</div>
+      </div>
+    </sc-if>
+
+    <!-- ── 디스커버리 ── -->
+    <sc-if value="{{ ftIs4 }}" hint-placeholder-val="{{ false }}">
+      <div style="display: flex; gap: 7px; margin-bottom: 16px; flex-wrap: wrap;">
+        <span style="padding: 6px 13px; border-radius: 999px; font-size: 11.5px; font-weight: 700; background: rgba(46,107,255,.16); border: 1px solid rgba(46,107,255,.5);">전체 28</span>
+        <span style="padding: 6px 13px; border-radius: 999px; font-size: 11.5px; font-weight: 600; border: 1px solid rgba(237,240,244,.1); color: #6B7585;">K-Food</span>
+        <span style="padding: 6px 13px; border-radius: 999px; font-size: 11.5px; font-weight: 600; border: 1px solid rgba(237,240,244,.1); color: #6B7585;">반도체·IT</span>
+        <span style="padding: 6px 13px; border-radius: 999px; font-size: 11.5px; font-weight: 600; border: 1px solid rgba(237,240,244,.1); color: #6B7585;">모빌리티</span>
+        <span style="padding: 6px 13px; border-radius: 999px; font-size: 11.5px; font-weight: 600; border: 1px solid rgba(237,240,244,.1); color: #6B7585;">K-뷰티</span>
+        <span style="margin-left: auto; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #6B7585; align-self: center;">SORT: TRADAR SCORE ↓</span>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 8px;">
+        <div style="display: grid; grid-template-columns: 44px 1.2fr 1fr 2fr 90px; gap: 14px; align-items: center; padding: 13px 16px; border-radius: 11px; border: 1px solid rgba(237,240,244,.1); background: rgba(30,34,48,.35); animation: trRise .45s cubic-bezier(.2,.6,.2,1) both;" style-hover="border-color: rgba(46,107,255,.45);"><span style="font-family: 'JetBrains Mono', monospace; color: #16C8F5; font-weight: 600;">01</span><span style="font-weight: 700; font-size: 14px;">반도체</span><span style="font-size: 11px; color: #6B7585;">반도체·IT · HS 8542</span><div style="height: 6px; border-radius: 99px; background: rgba(237,240,244,.06); overflow: hidden;"><div style="width: 91%; height: 100%; background: linear-gradient(90deg, #16C8F5, #2E6BFF, #7A5BF0); transform-origin: left; animation: trBarX .8s .1s both;"></div></div><span style="font-family: 'JetBrains Mono', monospace; text-align: right;"><b style="font-size: 15px;">91</b> <span style="color: #16B364; font-size: 10.5px;">▲4.3%</span></span></div>
+        <div style="display: grid; grid-template-columns: 44px 1.2fr 1fr 2fr 90px; gap: 14px; align-items: center; padding: 13px 16px; border-radius: 11px; border: 1px solid rgba(237,240,244,.1); background: rgba(30,34,48,.35); animation: trRise .45s cubic-bezier(.2,.6,.2,1) .07s both;" style-hover="border-color: rgba(46,107,255,.45);"><span style="font-family: 'JetBrains Mono', monospace; color: #16C8F5; font-weight: 600;">02</span><span style="font-weight: 700; font-size: 14px;">조선</span><span style="font-size: 11px; color: #6B7585;">중공업 · HS 8901</span><div style="height: 6px; border-radius: 99px; background: rgba(237,240,244,.06); overflow: hidden;"><div style="width: 87%; height: 100%; background: linear-gradient(90deg, #16C8F5, #2E6BFF, #7A5BF0); transform-origin: left; animation: trBarX .8s .17s both;"></div></div><span style="font-family: 'JetBrains Mono', monospace; text-align: right;"><b style="font-size: 15px;">87</b> <span style="color: #16B364; font-size: 10.5px;">▲6.9%</span></span></div>
+        <div style="display: grid; grid-template-columns: 44px 1.2fr 1fr 2fr 90px; gap: 14px; align-items: center; padding: 13px 16px; border-radius: 11px; border: 1px solid rgba(22,200,245,.3); background: rgba(22,200,245,.05); animation: trRise .45s cubic-bezier(.2,.6,.2,1) .14s both;"><span style="font-family: 'JetBrains Mono', monospace; color: #16C8F5; font-weight: 600;">03</span><span style="font-weight: 700; font-size: 14px;">라면 🔥</span><span style="font-size: 11px; color: #6B7585;">K-Food · HS 1902.30</span><div style="height: 6px; border-radius: 99px; background: rgba(237,240,244,.06); overflow: hidden;"><div style="width: 84%; height: 100%; background: linear-gradient(90deg, #16C8F5, #2E6BFF, #7A5BF0); transform-origin: left; animation: trBarX .8s .24s both;"></div></div><span style="font-family: 'JetBrains Mono', monospace; text-align: right;"><b style="font-size: 15px;">84</b> <span style="color: #16B364; font-size: 10.5px;">▲31.2%</span></span></div>
+        <div style="display: grid; grid-template-columns: 44px 1.2fr 1fr 2fr 90px; gap: 14px; align-items: center; padding: 13px 16px; border-radius: 11px; border: 1px solid rgba(237,240,244,.1); background: rgba(30,34,48,.35); animation: trRise .45s cubic-bezier(.2,.6,.2,1) .21s both;" style-hover="border-color: rgba(46,107,255,.45);"><span style="font-family: 'JetBrains Mono', monospace; color: #16C8F5; font-weight: 600;">04</span><span style="font-weight: 700; font-size: 14px;">화장품</span><span style="font-size: 11px; color: #6B7585;">K-뷰티 · HS 3304</span><div style="height: 6px; border-radius: 99px; background: rgba(237,240,244,.06); overflow: hidden;"><div style="width: 82%; height: 100%; background: linear-gradient(90deg, #16C8F5, #2E6BFF, #7A5BF0); transform-origin: left; animation: trBarX .8s .31s both;"></div></div><span style="font-family: 'JetBrains Mono', monospace; text-align: right;"><b style="font-size: 15px;">82</b> <span style="color: #16B364; font-size: 10.5px;">▲12.7%</span></span></div>
+        <div style="display: grid; grid-template-columns: 44px 1.2fr 1fr 2fr 90px; gap: 14px; align-items: center; padding: 13px 16px; border-radius: 11px; border: 1px solid rgba(237,240,244,.1); background: rgba(30,34,48,.35); animation: trRise .45s cubic-bezier(.2,.6,.2,1) .28s both;" style-hover="border-color: rgba(46,107,255,.45);"><span style="font-family: 'JetBrains Mono', monospace; color: #16C8F5; font-weight: 600;">05</span><span style="font-weight: 700; font-size: 14px;">자동차</span><span style="font-size: 11px; color: #6B7585;">모빌리티 · HS 8703</span><div style="height: 6px; border-radius: 99px; background: rgba(237,240,244,.06); overflow: hidden;"><div style="width: 78%; height: 100%; background: linear-gradient(90deg, #16C8F5, #2E6BFF, #7A5BF0); transform-origin: left; animation: trBarX .8s .38s both;"></div></div><span style="font-family: 'JetBrains Mono', monospace; text-align: right;"><b style="font-size: 15px;">78</b> <span style="color: #16B364; font-size: 10.5px;">▲2.1%</span></span></div>
+      </div>
+    </sc-if>
+  </div>
+</section>
+
+<!-- ══════════════ PIPELINE (placeholder) ══════════════ -->
+<section id="pipeline" data-screen-label="작동 방식" style="position: relative; padding: 0 72px 140px; max-width: 1280px; margin: 0 auto;">
+  <div data-reveal style="max-width: 720px; margin-bottom: 56px;">
+    <div style="font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: .12em; color: #7A5BF0; margin-bottom: 16px;">03 — 작동 방식</div>
+    <h2 style="margin: 0 0 18px; font-size: clamp(32px, 3.6vw, 52px); line-height: 1.1; letter-spacing: -0.03em; font-weight: 800;">관세청·산업부 데이터가<br>인사이트로 바뀌는 3단계</h2>
+  </div>
+  <div id="pipeline-mount" data-reveal style="display: grid; grid-template-columns: 1fr 110px 1fr 110px 1fr; align-items: stretch; gap: 0;">
+    <!-- stage 1 -->
+    <div style="border: 1px solid rgba(22,200,245,.25); border-radius: 16px; background: linear-gradient(180deg, rgba(22,200,245,.07), rgba(8,8,11,.6)); padding: 24px;">
+      <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: .12em; color: #16C8F5; margin-bottom: 12px;">STEP 1 · 필수 공공데이터</div>
+      <div style="font-size: 19px; font-weight: 800; margin-bottom: 8px;">관세청 실적 + 산업부 신호</div>
+      <div style="font-size: 13px; line-height: 1.6; color: #9AA4B2; margin-bottom: 16px;">관세청 수출입실적과 산업부 산하기관 K-SURE·KOTRA 데이터를 HS·국가 기준으로 연동. 인증키 설정 시 실시간 동기화.</div>
+      <div style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; color: #6B7585; background: rgba(8,8,11,.8); border: 1px solid rgba(237,240,244,.08); border-radius: 8px; padding: 10px 12px; overflow: hidden; white-space: nowrap;"><span style="color: #16B364;">GET</span> apis.data.go.kr/1220000/<wbr>nitemtrade</div>
+      <div style="display: flex; gap: 6px; margin-top: 12px; flex-wrap: wrap;">
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 9.5px; padding: 3px 8px; border-radius: 999px; border: 1px solid rgba(237,240,244,.12); color: #9AA4B2;">HS 8542</span>
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 9.5px; padding: 3px 8px; border-radius: 999px; border: 1px solid rgba(237,240,244,.12); color: #9AA4B2;">HS 1902.30</span>
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 9.5px; padding: 3px 8px; border-radius: 999px; border: 1px solid rgba(237,240,244,.12); color: #9AA4B2;">× 28개 품목</span>
+      </div>
+    </div>
+    <!-- connector 1 -->
+    <div style="position: relative; align-self: center; height: 2px; margin: 0 10px; background: linear-gradient(90deg, rgba(22,200,245,.4), rgba(46,107,255,.4));">
+      <span style="position: absolute; top: -3px; width: 8px; height: 8px; border-radius: 50%; background: #16C8F5; box-shadow: 0 0 10px rgba(22,200,245,.9); animation: trFlowDot 2.4s linear infinite;"></span>
+      <span style="position: absolute; top: -3px; width: 8px; height: 8px; border-radius: 50%; background: #2E6BFF; box-shadow: 0 0 10px rgba(46,107,255,.9); animation: trFlowDot 2.4s linear infinite .8s;"></span>
+      <span style="position: absolute; top: -3px; width: 8px; height: 8px; border-radius: 50%; background: #16C8F5; box-shadow: 0 0 10px rgba(22,200,245,.9); animation: trFlowDot 2.4s linear infinite 1.6s;"></span>
+      <span style="position: absolute; left: 50%; top: 12px; transform: translateX(-50%); font-family: 'JetBrains Mono', monospace; font-size: 9px; color: #4B5563; white-space: nowrap;">HS코드 실적</span>
+    </div>
+    <!-- stage 2 -->
+    <div style="border: 1px solid rgba(46,107,255,.35); border-radius: 16px; background: linear-gradient(180deg, rgba(46,107,255,.1), rgba(8,8,11,.6)); padding: 24px; box-shadow: 0 0 50px rgba(46,107,255,.12);">
+      <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: .12em; color: #7CA8F8; margin-bottom: 12px;">STEP 2 · 국산 AI 엔진</div>
+      <div style="font-size: 19px; font-weight: 800; margin-bottom: 8px;">Tradar Engine</div>
+      <div style="font-size: 13px; line-height: 1.6; color: #9AA4B2; margin-bottom: 16px;">실적 시계열을 받아 시장 매력도를 계산하고 미래를 예측합니다. 계산 과정은 전부 공개된 수식으로, 블랙박스가 없습니다.</div>
+      <div style="display: flex; flex-direction: column; gap: 7px; font-size: 12.5px;">
+        <div style="display: flex; align-items: center; gap: 9px;"><span style="width: 6px; height: 6px; border-radius: 2px; background: #16C8F5; flex: none;"></span><b>Tradar Score</b> <span style="color: #6B7585;">— 시장 매력도 스코어링</span></div>
+        <div style="display: flex; align-items: center; gap: 9px;"><span style="width: 6px; height: 6px; border-radius: 2px; background: #2E6BFF; flex: none;"></span><b>수요 예측</b> <span style="color: #6B7585;">— 승법 계절분해 · 1–12개월</span></div>
+        <div style="display: flex; align-items: center; gap: 9px;"><span style="width: 6px; height: 6px; border-radius: 2px; background: #7A5BF0; flex: none;"></span><b>이상탐지</b> <span style="color: #6B7585;">— 조기경보 · 리스크 인덱스</span></div>
+      </div>
+    </div>
+    <!-- connector 2 -->
+    <div style="position: relative; align-self: center; height: 2px; margin: 0 10px; background: linear-gradient(90deg, rgba(46,107,255,.4), rgba(122,91,240,.4));">
+      <span style="position: absolute; top: -3px; width: 8px; height: 8px; border-radius: 50%; background: #2E6BFF; box-shadow: 0 0 10px rgba(46,107,255,.9); animation: trFlowDot 2.4s linear infinite .4s;"></span>
+      <span style="position: absolute; top: -3px; width: 8px; height: 8px; border-radius: 50%; background: #7A5BF0; box-shadow: 0 0 10px rgba(122,91,240,.9); animation: trFlowDot 2.4s linear infinite 1.2s;"></span>
+      <span style="position: absolute; top: -3px; width: 8px; height: 8px; border-radius: 50%; background: #7A5BF0; box-shadow: 0 0 10px rgba(122,91,240,.9); animation: trFlowDot 2.4s linear infinite 2s;"></span>
+      <span style="position: absolute; left: 50%; top: 12px; transform: translateX(-50%); font-family: 'JetBrains Mono', monospace; font-size: 9px; color: #4B5563; white-space: nowrap;">스코어 · 예측 · 시그널</span>
+    </div>
+    <!-- stage 3 -->
+    <div style="border: 1px solid rgba(122,91,240,.3); border-radius: 16px; background: linear-gradient(180deg, rgba(122,91,240,.09), rgba(8,8,11,.6)); padding: 24px;">
+      <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: .12em; color: #A78BFA; margin-bottom: 12px;">STEP 3 · 인사이트</div>
+      <div style="font-size: 19px; font-weight: 800; margin-bottom: 8px;">결정을 돕는 화면들</div>
+      <div style="font-size: 13px; line-height: 1.6; color: #9AA4B2; margin-bottom: 16px;">같은 엔진 출력이 커맨드센터·마켓맵·리포트 스튜디오·AI 애널리스트로 흘러갑니다.</div>
+      <div style="display: flex; flex-direction: column; gap: 7px; font-size: 12.5px;">
+        <div style="display: flex; align-items: center; gap: 9px;"><span style="color: #16C8F5;">📄</span><b>리포트 스튜디오</b> <span style="color: #6B7585;">— 질문 → 리포트</span></div>
+        <div style="display: flex; align-items: center; gap: 9px;"><span style="color: #2E6BFF;">🧭</span><b>커맨드센터</b> <span style="color: #6B7585;">— 기회 · 경보</span></div>
+        <div style="display: flex; align-items: center; gap: 9px;"><span style="color: #A78BFA;">💬</span><b>AI 애널리스트</b> <span style="color: #6B7585;">— 근거 기반 답변</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ TRUST (placeholder) ══════════════ -->
+<section id="trust" data-screen-label="데이터 신뢰성" style="position: relative; padding: 0 72px 140px; max-width: 1280px; margin: 0 auto;">
+  <div data-reveal style="max-width: 720px; margin-bottom: 56px;">
+    <div style="font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: .12em; color: #16B364; margin-bottom: 16px;">04 — 데이터 신뢰성</div>
+    <h2 style="margin: 0 0 18px; font-size: clamp(32px, 3.6vw, 52px); line-height: 1.1; letter-spacing: -0.03em; font-weight: 800;">판단 근거는<br>관세청·산업부 데이터입니다</h2>
+  </div>
+  <div id="trust-mount" data-reveal style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: start;">
+    <!-- 환각 차단 구조 -->
+    <div style="border: 1px solid rgba(237,240,244,.12); border-radius: 16px; background: rgba(8,8,11,.6); padding: 26px;">
+      <div style="font-size: 12px; font-weight: 700; letter-spacing: .08em; color: #6B7585; margin-bottom: 20px;">환각 차단 구조 — 역할의 분리</div>
+      <div style="display: flex; flex-direction: column; gap: 0;">
+        <div style="display: flex; gap: 14px; align-items: center;">
+          <span style="width: 34px; height: 34px; border-radius: 10px; background: rgba(237,240,244,.06); border: 1px solid rgba(237,240,244,.12); display: grid; place-items: center; flex: none; font-size: 14px;">✦</span>
+          <div style="flex: 1; padding: 12px 15px; border-radius: 11px; border: 1px solid rgba(122,91,240,.35); background: rgba(122,91,240,.07);">
+            <div style="display: flex; justify-content: space-between; align-items: center;"><b style="font-size: 14px;">LLM — 리포트 스펙만 설계</b><span style="font-family: 'JetBrains Mono', monospace; font-size: 9.5px; color: #F0443B; border: 1px solid rgba(240,68,59,.4); padding: 2px 7px; border-radius: 999px;">숫자 생성 금지</span></div>
+            <div style="font-size: 12px; color: #9AA4B2; margin-top: 4px;">어떤 블록·차트·비교가 필요한지 선언적 DSL로 계획</div>
+          </div>
+        </div>
+        <div style="width: 1px; height: 22px; margin-left: 17px; background: linear-gradient(rgba(122,91,240,.5), rgba(46,107,255,.5));"></div>
+        <div style="display: flex; gap: 14px; align-items: center;">
+          <span style="width: 34px; height: 34px; border-radius: 10px; background: rgba(237,240,244,.06); border: 1px solid rgba(237,240,244,.12); display: grid; place-items: center; flex: none; font-size: 13px;">🛡</span>
+          <div style="flex: 1; padding: 12px 15px; border-radius: 11px; border: 1px solid rgba(46,107,255,.35); background: rgba(46,107,255,.07);">
+            <div style="display: flex; justify-content: space-between; align-items: center;"><b style="font-size: 14px;">JSON 스키마 검증</b><span style="font-family: 'JetBrains Mono', monospace; font-size: 9.5px; color: #7CA8F8;">/api/report/schema</span></div>
+            <div style="font-size: 12px; color: #9AA4B2; margin-top: 4px;">스펙이 계약을 벗어나면 이 단계에서 거부</div>
+          </div>
+        </div>
+        <div style="width: 1px; height: 22px; margin-left: 17px; background: linear-gradient(rgba(46,107,255,.5), rgba(22,179,100,.5));"></div>
+        <div style="display: flex; gap: 14px; align-items: center;">
+          <span style="width: 34px; height: 34px; border-radius: 10px; background: rgba(237,240,244,.06); border: 1px solid rgba(237,240,244,.12); display: grid; place-items: center; flex: none; font-size: 13px;">⚙</span>
+          <div style="flex: 1; padding: 12px 15px; border-radius: 11px; border: 1px solid rgba(22,179,100,.35); background: rgba(22,179,100,.07);">
+            <div style="display: flex; justify-content: space-between; align-items: center;"><b style="font-size: 14px;">엔진 — 수치 리졸브</b><span style="font-family: 'JetBrains Mono', monospace; font-size: 9.5px; color: #16B364; border: 1px solid rgba(22,179,100,.4); padding: 2px 7px; border-radius: 999px;">공공데이터 검증값</span></div>
+            <div style="font-size: 12px; color: #9AA4B2; margin-top: 4px;">핵심 수치는 관세청 실적과 산업부 K-SURE·KOTRA 데이터에서 계산되어 채워짐</div>
+          </div>
+        </div>
+        <div style="width: 1px; height: 22px; margin-left: 17px; background: linear-gradient(rgba(22,179,100,.5), rgba(237,240,244,.2));"></div>
+        <div style="display: flex; gap: 14px; align-items: center;">
+          <span style="width: 34px; height: 34px; border-radius: 10px; background: linear-gradient(120deg, #16C8F5, #2E6BFF, #7A5BF0); display: grid; place-items: center; flex: none; font-size: 13px;">📄</span>
+          <div style="flex: 1; padding: 12px 15px; border-radius: 11px; border: 1px solid rgba(237,240,244,.14); background: rgba(30,34,48,.4);">
+            <b style="font-size: 14px;">인터랙티브 리포트</b>
+            <div style="font-size: 12px; color: #9AA4B2; margin-top: 4px;">검증된 수치로만 조립한 리포트</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 신뢰 포인트 -->
+    <div style="display: flex; flex-direction: column; gap: 14px;">
+      <div style="border: 1px solid rgba(237,240,244,.12); border-radius: 16px; background: rgba(8,8,11,.6); padding: 22px 24px;">
+        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;"><span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #16C8F5;">01</span><b style="font-size: 16px;">필수 공공데이터, 원본 그대로</b></div>
+        <div style="font-size: 13.5px; line-height: 1.65; color: #9AA4B2;">관세청 <b style="color: #C9CFD8;">품목별 국가별 수출입실적</b>과 산업부 산하기관 <b style="color: #C9CFD8;">K-SURE·KOTRA 데이터</b>(data.go.kr)을 직접 연동합니다. 가공을 거치지 않은 국가 통계 원본에서 출발합니다.</div>
+      </div>
+      <div style="border: 1px solid rgba(237,240,244,.12); border-radius: 16px; background: rgba(8,8,11,.6); padding: 22px 24px;">
+        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;"><span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #2E6BFF;">02</span><b style="font-size: 16px;">답변마다 근거 수치 인용</b></div>
+        <div style="font-size: 13.5px; line-height: 1.65; color: #9AA4B2;">AI 애널리스트와 리포트의 모든 주장에는 실적 시계열·스코어 분해 등 <b style="color: #C9CFD8;">확인 가능한 근거</b>가 붙습니다. 근거 없는 숫자는 화면에 등장하지 않습니다.</div>
+      </div>
+      <div style="border: 1px solid rgba(237,240,244,.12); border-radius: 16px; background: rgba(8,8,11,.6); padding: 22px 24px;">
+        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;"><span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #7A5BF0;">03</span><b style="font-size: 16px;">항상 동작하는 데모</b></div>
+        <div style="font-size: 13.5px; line-height: 1.65; color: #9AA4B2;">인증키가 없어도 <b style="color: #C9CFD8;">관세청·산업부 공표치 앵커</b>를 기준으로 항상 동작합니다. AGPL-3.0 오픈소스이며 개인·기업 식별 정보는 담지 않습니다.</div>
+      </div>
+      <div style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; color: #4B5563; padding: 0 4px;">// 국산 AI 엔진(예측·스코어·상담) 포함 — server/</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ CTA / FOOTER ══════════════ -->
+<section id="download" data-screen-label="다운로드 CTA" style="position: relative; padding: 120px 72px 60px; text-align: center; overflow: hidden;">
+  <div aria-hidden="true" style="position: absolute; left: 50%; top: 0; transform: translateX(-50%); width: 900px; height: 500px; background: radial-gradient(ellipse at 50% 0%, rgba(46,107,255,.22), transparent 65%); pointer-events: none;"></div>
+  <div data-reveal style="position: relative;">
+    <h2 style="margin: 0 0 20px; font-size: clamp(36px, 4.4vw, 60px); line-height: 1.08; letter-spacing: -0.03em; font-weight: 900;">지금 레이더를 켜보세요</h2>
+    <p style="margin: 0 auto 40px; max-width: 480px; font-size: 16.5px; line-height: 1.6; color: #9AA4B2;">웹에서 바로 열거나, Google Play와 GitHub에서 받으세요.</p>
+    <div style="display: flex; justify-content: center; gap: 14px; flex-wrap: wrap;">
+      <a href="app/" target="_blank" rel="noreferrer" style="display: inline-flex; align-items: center; gap: 9px; padding: 16px 30px; border-radius: 10px; background: linear-gradient(120deg, #16C8F5, #2E6BFF 46%, #7A5BF0); color: #fff; text-decoration: none; font-weight: 700; font-size: 16px; box-shadow: 0 8px 34px rgba(46,107,255,.45);">플랫폼 열기 →</a>
+      <a href="https://play.google.com/store/apps/details?id=kr.tradewind.app" target="_blank" rel="noreferrer" style="display: inline-flex; align-items: center; gap: 9px; padding: 16px 26px; border-radius: 10px; border: 1px solid rgba(237,240,244,.16); color: #EDF0F4; text-decoration: none; font-weight: 600; font-size: 15px;">Google Play</a>
+      <a href="https://github.com/spcx0701/tradar" target="_blank" rel="noreferrer" style="display: inline-flex; align-items: center; gap: 9px; padding: 16px 26px; border-radius: 10px; border: 1px solid rgba(237,240,244,.16); color: #EDF0F4; text-decoration: none; font-weight: 600; font-size: 15px;">GitHub</a>
+    </div>
+  </div>
+  <footer style="position: relative; margin-top: 110px; padding-top: 28px; border-top: 1px solid rgba(237,240,244,.07); display: flex; justify-content: space-between; align-items: center; font-size: 12.5px; color: #6B7585;">
+    <span>© 2026 Tradar · AGPL-3.0-or-later</span>
+    <span style="font-family: 'JetBrains Mono', monospace;">관세청·산업부 공공데이터(data.go.kr) 연동</span>
+  </footer>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{
+  &quot;demoAutoRun&quot;: { &quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: true, &quot;tsType&quot;: &quot;boolean&quot;, &quot;section&quot;: &quot;리포트 스튜디오&quot;, &quot;description&quot;: &quot;스크롤 진입 시 첫 질문 자동 실행&quot; },
+  &quot;aiQuestion&quot;: { &quot;editor&quot;: &quot;text&quot;, &quot;default&quot;: &quot;베트남 라면 수출, 지금 들어가도 늦지 않았어?&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;AI 애널리스트&quot;, &quot;description&quot;: &quot;⌘K 팔레트에 타이핑되는 질문&quot; },
+  &quot;showTicker&quot;: { &quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: true, &quot;tsType&quot;: &quot;boolean&quot;, &quot;section&quot;: &quot;히어로&quot;, &quot;description&quot;: &quot;히어로 아래 HS코드 티커 표시&quot; }
+}">
+class Component extends DCLogic {
+  componentDidMount() {
+    const root = document;
+    // scroll reveal
+    this._io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('tr-in'); this._io.unobserve(e.target); } });
+    }, { threshold: 0.15 });
+    root.querySelectorAll('[data-reveal]').forEach((el) => this._io.observe(el));
+    // count-up
+    const counters = root.querySelectorAll('[data-count]');
+    const cio = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (!e.isIntersecting) return;
+        cio.unobserve(e.target);
+        const target = parseFloat(e.target.getAttribute('data-count'));
+        const t0 = performance.now();
+        const dur = 1400;
+        const tick = (t) => {
+          const p = Math.min(1, (t - t0) / dur);
+          const eased = 1 - Math.pow(1 - p, 3);
+          e.target.textContent = String(Math.round(target * eased));
+          if (p < 1) requestAnimationFrame(tick);
+        };
+        requestAnimationFrame(tick);
+      });
+    }, { threshold: 0.4 });
+    counters.forEach((el) => cio.observe(el));
+    this._cio = cio;
+    // auto-run first report question when demo scrolls into view
+    const rs = root.getElementById('rs-demo-mount');
+    if (rs && (this.props.demoAutoRun ?? true)) {
+      this._rsio = new IntersectionObserver((es) => {
+        es.forEach((e) => {
+          if (e.isIntersecting && this.state.rsPhase === 0) { this.runQ(0); this._rsio.disconnect(); }
+        });
+      }, { threshold: 0.35 });
+      this._rsio.observe(rs);
+    }
+    // fallback: reveal anything already in viewport if IO missed (hidden/prerendered iframe)
+    const revealVisible = () => {
+      root.querySelectorAll('[data-reveal]:not(.tr-in)').forEach((el) => {
+        const r = el.getBoundingClientRect();
+        if (r.top < window.innerHeight && r.bottom > 0) el.classList.add('tr-in');
+      });
+    };
+    this._revealFb = setTimeout(revealVisible, 900);
+    this._onVis = () => { if (!document.hidden) setTimeout(revealVisible, 80); };
+    document.addEventListener('visibilitychange', this._onVis);
+  }
+  componentWillUnmount() {
+    if (this._io) this._io.disconnect();
+    if (this._cio) this._cio.disconnect();
+  }
+  state = { rsQ: -1, rsPhase: 0, rsTyped: '', rsSpecN: 0, rsKpi: false, rsChart: false, rsTable: false, ftTab: 0, aiTyped: '', aiShowA: false };
+
+  FT_TABS = ['🗺️ 마켓맵', '🧭 커맨드센터', '📊 스코어 프로파일', '💬 AI 애널리스트', '🔎 디스커버리'];
+  AI_Q = '베트남 라면 수출, 지금 들어가도 늦지 않았어?';
+
+  setFt(i) {
+    if (this._ai) { clearInterval(this._ai); this._ai = null; }
+    if (this._aiT) { clearTimeout(this._aiT); this._aiT = null; }
+    this.setState({ ftTab: i, aiTyped: '', aiShowA: false });
+    if (i === 3) this._aiT = setTimeout(() => this.aiLoop(), 500);
+  }
+
+  aiLoop() {
+    const Q = this.props.aiQuestion || this.AI_Q;
+    let ci = 0;
+    this.setState({ aiTyped: '', aiShowA: false });
+    this._ai = setInterval(() => {
+      ci += 1;
+      if (ci >= Q.length) {
+        clearInterval(this._ai); this._ai = null;
+        this.setState({ aiTyped: Q });
+        this._aiT = setTimeout(() => {
+          this.setState({ aiShowA: true });
+          this._aiT = setTimeout(() => { if (this.state.ftTab === 3) this.aiLoop(); }, 6000);
+        }, 550);
+      } else {
+        this.setState({ aiTyped: Q.slice(0, ci) });
+      }
+    }, 34);
+  }
+
+  RS_DATA = [
+    {
+      q: '미국 반도체 수출, 다음 분기 전망은?',
+      chip: '🇺🇸 반도체 다음 분기 전망',
+      title: '반도체 · 미국 시장 전망 리포트',
+      meta: 'HS 8542 · US · 6M FORECAST',
+      spec: [
+        { t: '{', c: '#6B7585' },
+        { t: '  "report": "market_forecast",', c: '#EDF0F4' },
+        { t: '  "item": { "hs": "8542", "name": "반도체" },', c: '#A8C5FB' },
+        { t: '  "market": "US",', c: '#A8C5FB' },
+        { t: '  "horizon_months": 6,', c: '#A8C5FB' },
+        { t: '  "blocks": [ "kpi_summary",', c: '#16C8F5' },
+        { t: '              "trend_forecast",', c: '#16C8F5' },
+        { t: '              "top_markets" ]', c: '#16C8F5' },
+        { t: '}', c: '#6B7585' }
+      ],
+      kpis: [
+        { label: '연 수출액 (US)', value: '$10.7B', delta: '▲ 4.3% YoY', dc: '#16B364' },
+        { label: 'Tradar Score', value: '91', delta: 'TOP 3 / 28개 품목', dc: '#16C8F5' },
+        { label: '6개월 예측', value: '+6.2%', delta: '신뢰구간 ±1.8%p', dc: '#7A5BF0' }
+      ],
+      chart: 'line',
+      path: 'M0,150 L40,142 L80,148 L120,128 L160,120 L200,124 L240,104 L280,92 L320,84',
+      fore: 'M320,84 L380,76 L440,66 L500,58',
+      band: '320,84 380,70 440,54 500,40 500,76 440,72 380,80 320,84',
+      xlabels: ['2024.01', '2024.07', '2025.01', '2025.07', '2026.01', '예측 →'],
+      cols: ['시장', '연 수출액', 'YoY', 'Score'],
+      rows: [
+        { a: '🇺🇸 미국', b: '$10.7B', c: '▲ 4.3%', cc: '#16B364', d: '91' },
+        { a: '🇻🇳 베트남', b: '$12.4B', c: '▲ 8.7%', cc: '#16B364', d: '86' },
+        { a: '🇹🇼 대만', b: '$18.2B', c: '▲ 3.1%', cc: '#16B364', d: '79' },
+        { a: '🇨🇳 중국', b: '$41.9B', c: '▼ 2.1%', cc: '#F0443B', d: '74' }
+      ],
+      bars: []
+    },
+    {
+      q: 'K-라면 수출이 가장 빨리 크는 시장은?',
+      chip: '🍜 K-라면 최고 성장 시장',
+      title: '라면 · 성장 시장 랭킹',
+      meta: 'HS 1902.30 · GLOBAL · GROWTH RANK',
+      spec: [
+        { t: '{', c: '#6B7585' },
+        { t: '  "report": "growth_ranking",', c: '#EDF0F4' },
+        { t: '  "item": { "hs": "1902.30", "name": "라면" },', c: '#A8C5FB' },
+        { t: '  "scope": "ALL_MARKETS",', c: '#A8C5FB' },
+        { t: '  "sort": "yoy_growth_desc",', c: '#A8C5FB' },
+        { t: '  "blocks": [ "kpi_summary",', c: '#16C8F5' },
+        { t: '              "growth_bars",', c: '#16C8F5' },
+        { t: '              "top_markets" ]', c: '#16C8F5' },
+        { t: '}', c: '#6B7585' }
+      ],
+      kpis: [
+        { label: '연 수출액 (전체)', value: '$1.24B', delta: '▲ 31.2% YoY', dc: '#16B364' },
+        { label: '최고 성장 시장', value: '베트남', delta: '▲ 31.2% YoY', dc: '#16C8F5' },
+        { label: 'Tradar Score', value: '84', delta: '달아오르는 시장', dc: '#7A5BF0' }
+      ],
+      chart: 'bars',
+      path: '', fore: '', band: '',
+      xlabels: [],
+      bars: [
+        { label: '베트남', pct: '+31.2%', h: 156, delay: '0s' },
+        { label: '미국', pct: '+24.8%', h: 124, delay: '.08s' },
+        { label: '네덜란드', pct: '+18.5%', h: 94, delay: '.16s' },
+        { label: '중국', pct: '+12.1%', h: 62, delay: '.24s' },
+        { label: '일본', pct: '+8.4%', h: 44, delay: '.32s' }
+      ],
+      cols: ['시장', '연 수출액', 'YoY', 'Score'],
+      rows: [
+        { a: '🇻🇳 베트남', b: '$182M', c: '▲ 31.2%', cc: '#16B364', d: '84' },
+        { a: '🇺🇸 미국', b: '$215M', c: '▲ 24.8%', cc: '#16B364', d: '82' },
+        { a: '🇳🇱 네덜란드', b: '$96M', c: '▲ 18.5%', cc: '#16B364', d: '77' }
+      ]
+    },
+    {
+      q: '2차전지 리스크 경보 정리해줘',
+      chip: '⚠️ 2차전지 리스크 브리핑',
+      title: '2차전지 · 리스크 브리핑',
+      meta: 'HS 8507 · RISK SCAN · 6M',
+      spec: [
+        { t: '{', c: '#6B7585' },
+        { t: '  "report": "risk_briefing",', c: '#EDF0F4' },
+        { t: '  "item": { "hs": "8507", "name": "2차전지" },', c: '#A8C5FB' },
+        { t: '  "signals": [ "decline", "anomaly" ],', c: '#A8C5FB' },
+        { t: '  "horizon_months": 6,', c: '#A8C5FB' },
+        { t: '  "blocks": [ "kpi_summary",', c: '#16C8F5' },
+        { t: '              "trend_forecast",', c: '#16C8F5' },
+        { t: '              "risk_markets" ]', c: '#16C8F5' },
+        { t: '}', c: '#6B7585' }
+      ],
+      kpis: [
+        { label: '연 수출액 (전체)', value: '$8.9B', delta: '▼ 1.8% YoY', dc: '#F0443B' },
+        { label: '리스크 인덱스', value: '68', delta: '경보 · 3개 시장', dc: '#F2A20C' },
+        { label: '6개월 예측', value: '−3.4%', delta: '하방 시나리오 −7.1%', dc: '#F0443B' }
+      ],
+      chart: 'line',
+      path: 'M0,70 L40,78 L80,74 L120,88 L160,96 L200,92 L240,108 L280,116 L320,122',
+      fore: 'M320,122 L380,132 L440,140 L500,148',
+      band: '320,122 380,124 440,128 500,132 500,164 440,152 380,140 320,122',
+      xlabels: ['2024.01', '2024.07', '2025.01', '2025.07', '2026.01', '예측 →'],
+      cols: ['시장', '연 수출액', 'YoY', '리스크'],
+      rows: [
+        { a: '🇩🇪 독일', b: '$2.1B', c: '▼ 6.2%', cc: '#F0443B', d: '높음 ⚠' },
+        { a: '🇵🇱 폴란드', b: '$1.8B', c: '▼ 4.5%', cc: '#F0443B', d: '중간 ⚠' },
+        { a: '🇺🇸 미국', b: '$3.4B', c: '▲ 1.2%', cc: '#16B364', d: '낮음' }
+      ],
+      bars: []
+    }
+  ];
+
+  clearRsTimers() {
+    (this._t || []).forEach((id) => clearTimeout(id));
+    if (this._ti) clearInterval(this._ti);
+    this._t = [];
+  }
+
+  runQ(i) {
+    this.clearRsTimers();
+    const d = this.RS_DATA[i];
+    this.setState({ rsQ: i, rsPhase: 1, rsTyped: '', rsSpecN: 0, rsKpi: false, rsChart: false, rsTable: false });
+    let ci = 0;
+    this._ti = setInterval(() => {
+      ci += 1;
+      if (ci >= d.q.length) {
+        clearInterval(this._ti);
+        this.setState({ rsTyped: d.q, rsPhase: 2 });
+        this.runSpec(i);
+      } else {
+        this.setState({ rsTyped: d.q.slice(0, ci) });
+      }
+    }, 26);
+  }
+
+  runSpec(i) {
+    const d = this.RS_DATA[i];
+    let li = 0;
+    this._ti = setInterval(() => {
+      li += 1;
+      if (li >= d.spec.length) {
+        clearInterval(this._ti);
+        this.setState({ rsSpecN: d.spec.length, rsPhase: 3 });
+        this._t.push(setTimeout(() => this.setState({ rsPhase: 4, rsKpi: true }), 620));
+        this._t.push(setTimeout(() => this.setState({ rsChart: true }), 1120));
+        this._t.push(setTimeout(() => this.setState({ rsTable: true, rsPhase: 5 }), 1800));
+      } else {
+        this.setState({ rsSpecN: li });
+      }
+    }, 95);
+  }
+
+  renderVals() {
+    const s = this.state;
+    const d = s.rsQ >= 0 ? this.RS_DATA[s.rsQ] : null;
+    const phase = s.rsPhase;
+    return {
+      rsChips: this.RS_DATA.map((x, i) => ({
+        chip: x.chip,
+        onRun: () => this.runQ(i),
+        bg: s.rsQ === i ? 'rgba(46,107,255,.16)' : 'rgba(237,240,244,.04)',
+        bd: s.rsQ === i ? 'rgba(46,107,255,.55)' : 'rgba(237,240,244,.12)'
+      })),
+      rsIdle: phase === 0,
+      rsActive: phase > 0,
+      rsTyped: s.rsTyped,
+      rsTyping: phase === 1,
+      rsSpecShown: phase >= 2,
+      rsSpecLines: d ? d.spec.slice(0, s.rsSpecN) : [],
+      rsResolved: phase >= 3,
+      rsTitle: d ? d.title : '',
+      rsMeta: d ? d.meta : '',
+      rsShowHead: phase >= 3,
+      rsKpi: s.rsKpi,
+      rsKpis: d ? d.kpis : [],
+      rsChart: s.rsChart,
+      rsIsLine: !!(d && d.chart === 'line' && s.rsChart),
+      rsIsBars: !!(d && d.chart === 'bars' && s.rsChart),
+      rsPath: d ? d.path : '',
+      rsFore: d ? d.fore : '',
+      rsBand: d ? d.band : '',
+      rsXLabels: d ? d.xlabels : [],
+      rsBars: d ? d.bars : [],
+      rsTable: s.rsTable,
+      rsCols: d ? d.cols : [],
+      rsRows: d ? d.rows : [],
+      rsDone: phase >= 5,
+      rsStep1: phase >= 1, rsStep2: phase >= 2, rsStep3: phase >= 3, rsStep4: phase >= 4,
+      ftTabs: this.FT_TABS.map((label, i) => ({
+        label,
+        onTab: () => this.setFt(i),
+        bg: s.ftTab === i ? 'rgba(46,107,255,.15)' : 'transparent',
+        bd: s.ftTab === i ? 'rgba(46,107,255,.55)' : 'rgba(237,240,244,.1)',
+        fg: s.ftTab === i ? '#EDF0F4' : '#6B7585'
+      })),
+      ftIs0: s.ftTab === 0, ftIs1: s.ftTab === 1, ftIs2: s.ftTab === 2, ftIs3: s.ftTab === 3, ftIs4: s.ftTab === 4,
+      aiTyped: s.aiTyped,
+      aiCaret: s.ftTab === 3 && !s.aiShowA,
+      aiShowA: s.aiShowA,
+      showTicker: this.props.showTicker ?? true
+    };
+  }
+}
+</script>
+</body>
+</html>

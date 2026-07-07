@@ -1,0 +1,26 @@
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Tradar">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#16C8F5"/>
+      <stop offset="0.5" stop-color="#2E6BFF"/>
+      <stop offset="1" stop-color="#7A5BF0"/>
+    </linearGradient>
+    <radialGradient id="sweep" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.9"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="512" height="512" rx="116" fill="url(#g)"/>
+  <g fill="none" stroke="#ffffff" stroke-linecap="round">
+    <circle cx="256" cy="256" r="52" stroke-opacity="0.35" stroke-width="14"/>
+    <circle cx="256" cy="256" r="108" stroke-opacity="0.28" stroke-width="14"/>
+    <circle cx="256" cy="256" r="164" stroke-opacity="0.20" stroke-width="14"/>
+  </g>
+  <!-- radar sweep -->
+  <path d="M256 256 L256 92 A164 164 0 0 1 400 176 Z" fill="url(#sweep)"/>
+  <!-- sweep line -->
+  <line x1="256" y1="256" x2="256" y2="86" stroke="#ffffff" stroke-width="16" stroke-linecap="round"/>
+  <!-- blip -->
+  <circle cx="336" cy="180" r="24" fill="#ffffff"/>
+  <circle cx="256" cy="256" r="20" fill="#ffffff"/>
+</svg>

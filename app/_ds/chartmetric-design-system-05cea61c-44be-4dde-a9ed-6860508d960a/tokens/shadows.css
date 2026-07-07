@@ -1,0 +1,21 @@
+/* ============================================================
+   Shadows — restrained and cool-tinted. The product reads as
+   flat and scannable: hairline borders do most of the
+   separation work; shadows appear mainly on raised/floating
+   surfaces (menus, popovers, hover-lifted cards).
+   ============================================================ */
+:root {
+  --cm-shadow-xs:   0 1px 2px rgba(12, 13, 17, 0.06);
+  --cm-shadow-sm:   0 1px 3px rgba(12, 13, 17, 0.08), 0 1px 2px rgba(12, 13, 17, 0.04);
+  --cm-shadow-md:   0 4px 12px rgba(12, 13, 17, 0.08), 0 1px 3px rgba(12, 13, 17, 0.05);
+  --cm-shadow-lg:   0 12px 28px rgba(12, 13, 17, 0.12), 0 4px 8px rgba(12, 13, 17, 0.06);
+  --cm-shadow-xl:   0 24px 48px rgba(12, 13, 17, 0.16);
+
+  /* Card resting elevation = hairline border + whisper shadow */
+  --cm-shadow-card:       var(--cm-shadow-xs);
+  --cm-shadow-card-hover: var(--cm-shadow-md);
+  --cm-shadow-popover:    var(--cm-shadow-lg);
+
+  /* Focus / accent glow */
+  --cm-glow-accent: 0 0 0 3px rgba(29, 104, 240, 0.30);
+}

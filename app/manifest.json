@@ -1,0 +1,19 @@
+{
+  "name": "Tradar — 수출 인텔리전스 플랫폼",
+  "short_name": "Tradar",
+  "description": "관세청 수출입통계와 산업부 K-SURE·KOTRA 데이터, 국산 AI로 수출 시장을 스코어링하고 떠오르는 기회를 먼저 포착하는 수출 인텔리전스 플랫폼.",
+  "lang": "ko",
+  "start_url": "index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#191c22",
+  "theme_color": "#191c22",
+  "categories": ["business", "productivity", "finance"],
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" },
+    { "src": "icons/logo.svg", "sizes": "any", "type": "image/svg+xml" }
+  ]
+}
