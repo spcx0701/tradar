@@ -353,6 +353,32 @@ def test_build_llm_adapter_supports_gemini_flash(monkeypatch):
     assert adapter.api_key == "gemini-test-key"
 
 
+def test_gemini_adapter_minimizes_reasoning_to_avoid_truncated_answers():
+    captured = {}
+
+    def fake_transport(url, headers, payload, timeout):
+        captured["url"] = url
+        captured["payload"] = payload
+        return {"choices": [{"message": {"content": "완성된 답변입니다."}}]}
+
+    adapter = KoreanLLMAdapter(
+        provider="gemini-flash",
+        api_key="gemini-test-key",
+        transport=fake_transport,
+    )
+
+    refined = adapter.refine(
+        "라면 어디에 수출하면 좋을까?",
+        {"headline": "초안", "evidence": [{"label": "인도네시아", "value": "기회 75"}]},
+        "초안 답변",
+    )
+
+    assert refined == "완성된 답변입니다."
+    assert captured["url"] == "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions"
+    assert captured["payload"]["model"] == "gemini-3.5-flash"
+    assert captured["payload"]["reasoning_effort"] == "minimal"
+
+
 def test_admin_llm_provider_selection_requires_token_and_updates_runtime(monkeypatch):
     from server.config import settings as live_settings
 

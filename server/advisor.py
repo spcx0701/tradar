@@ -399,6 +399,10 @@ class KoreanLLMAdapter:
             "max_tokens": 700,
             "stream": False,
         }
+        if self.provider == "gemini-flash":
+            # Gemini 3.x thinking can consume the max_tokens budget and truncate
+            # short admin test answers unless the reasoning effort is minimized.
+            payload["reasoning_effort"] = "minimal"
         headers = {
             "Authorization": f"Bearer {self.api_key}",
             "Content-Type": "application/json",
