@@ -250,6 +250,8 @@ PROVIDER_ALIASES = {
     "solar-openrouter": "openrouter-solar-free",
     "gemini": "gemini-flash",
     "gemini-flash": "gemini-flash",
+    "groq": "groq-free",
+    "groq-free": "groq-free",
 }
 
 PROVIDER_DEFAULTS = {
@@ -263,6 +265,10 @@ PROVIDER_DEFAULTS = {
         "base_url": "https://generativelanguage.googleapis.com/v1beta/openai",
         "model": "gemini-3.5-flash",
     },
+    "groq-free": {
+        "base_url": "https://api.groq.com/openai/v1",
+        "model": "llama-3.3-70b-versatile",
+    },
 }
 
 
@@ -275,15 +281,21 @@ def _provider_connection(config: Settings, provider: str) -> dict[str, str]:
     defaults = PROVIDER_DEFAULTS.get(provider, {})
     if provider == "openrouter-solar-free":
         return {
-            "api_key": config.openrouter_api_key or config.llm_api_key,
+            "api_key": config.openrouter_api_key,
             "base_url": config.openrouter_base_url or defaults.get("base_url", ""),
             "model": config.openrouter_model or defaults.get("model", ""),
         }
     if provider == "gemini-flash":
         return {
-            "api_key": config.gemini_api_key or config.llm_api_key,
+            "api_key": config.gemini_api_key,
             "base_url": config.gemini_base_url or defaults.get("base_url", ""),
             "model": config.gemini_model or defaults.get("model", ""),
+        }
+    if provider == "groq-free":
+        return {
+            "api_key": config.groq_api_key,
+            "base_url": config.groq_base_url or defaults.get("base_url", ""),
+            "model": config.groq_model or defaults.get("model", ""),
         }
     return {
         "api_key": config.llm_api_key,
@@ -296,6 +308,7 @@ def llm_provider_status(config: Settings = settings) -> list[dict[str, Any]]:
     providers = [
         ("solar", "Upstage Solar official"),
         ("openrouter-solar-free", "OpenRouter Solar Pro 3 free"),
+        ("groq-free", "Groq Llama 3.3 70B free"),
         ("gemini-flash", "Google Gemini Flash"),
     ]
     status = []
@@ -342,7 +355,7 @@ class KoreanLLMAdapter:
     """Grounded chat-completions LLM 어댑터.
 
     기본 운영 모드는 OpenAI-compatible Chat Completions API다.
-    Solar, OpenRouter, Gemini OpenAI 호환 엔드포인트를 같은 근거 팩 계약으로 호출한다.
+    Solar, OpenRouter, Groq, Gemini OpenAI 호환 엔드포인트를 같은 근거 팩 계약으로 호출한다.
     """
 
     def __init__(

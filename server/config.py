@@ -21,7 +21,7 @@ def _first_env(*names: str) -> str:
 class Settings:
     # 관세청 data.go.kr 인증키 — 없으면 데모 스냅샷 사용
     data_go_kr_key: str = field(default_factory=lambda: os.environ.get("DATA_GO_KR_KEY", ""))
-    # 운영자 선택 LLM(Solar/OpenRouter/Gemini) — 없으면 데모 NLG 사용
+    # 운영자 선택 LLM(Solar/OpenRouter/Gemini/Groq) — 없으면 데모 NLG 사용
     llm_provider: str = field(default_factory=lambda: os.environ.get("TW_LLM_PROVIDER", ""))
     llm_api_key: str = field(default_factory=lambda: os.environ.get("TW_LLM_KEY", ""))
     llm_base_url: str = field(default_factory=lambda: os.environ.get("TW_LLM_BASE_URL", ""))
@@ -35,6 +35,15 @@ class Settings:
     )
     openrouter_model: str = field(
         default_factory=lambda: os.environ.get("TW_OPENROUTER_MODEL", "upstage/solar-pro-3:free")
+    )
+    groq_api_key: str = field(
+        default_factory=lambda: _first_env("TW_GROQ_KEY", "GROQ_API_KEY")
+    )
+    groq_base_url: str = field(
+        default_factory=lambda: os.environ.get("TW_GROQ_BASE_URL", "https://api.groq.com/openai/v1")
+    )
+    groq_model: str = field(
+        default_factory=lambda: os.environ.get("TW_GROQ_MODEL", "llama-3.3-70b-versatile")
     )
     gemini_api_key: str = field(
         default_factory=lambda: _first_env("TW_GEMINI_KEY", "GEMINI_API_KEY")

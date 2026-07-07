@@ -91,11 +91,14 @@ def test_admin_llm_provider_ui_controls_server_runtime_without_secret_fields():
     assert "Authorization" in html
     assert "Bearer" in html
     assert "openrouter-solar-free" in html
+    assert "groq-free" in html
     assert "gemini-flash" in html
     assert "TW_GEMINI_KEY" not in html
     assert "TW_OPENROUTER_KEY" not in html
+    assert "TW_GROQ_KEY" not in html
     assert "GEMINI_API_KEY" not in html
     assert "OPENROUTER_API_KEY" not in html
+    assert "GROQ_API_KEY" not in html
 
 
 def _load_tradar_payload() -> dict:

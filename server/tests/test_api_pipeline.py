@@ -339,6 +339,36 @@ def test_build_llm_adapter_supports_openrouter_solar_free(monkeypatch):
     assert adapter.api_key == "or-test-key"
 
 
+def test_provider_specific_adapters_do_not_reuse_generic_llm_key(monkeypatch):
+    monkeypatch.setenv("TW_LLM_KEY", "legacy-upstage-key")
+    monkeypatch.delenv("TW_OPENROUTER_KEY", raising=False)
+    monkeypatch.delenv("OPENROUTER_API_KEY", raising=False)
+    monkeypatch.delenv("TW_GROQ_KEY", raising=False)
+    monkeypatch.delenv("GROQ_API_KEY", raising=False)
+
+    openrouter_settings = Settings()
+    openrouter_settings.llm_provider = "openrouter-solar-free"
+    groq_settings = Settings()
+    groq_settings.llm_provider = "groq-free"
+
+    assert build_llm_adapter(openrouter_settings) is None
+    assert build_llm_adapter(groq_settings) is None
+
+
+def test_build_llm_adapter_supports_groq_free(monkeypatch):
+    monkeypatch.setenv("TW_LLM_PROVIDER", "groq-free")
+    monkeypatch.setenv("TW_GROQ_KEY", "groq-test-key")
+    monkeypatch.delenv("TW_LLM_KEY", raising=False)
+
+    adapter = build_llm_adapter(Settings())
+
+    assert adapter is not None
+    assert adapter.provider == "groq-free"
+    assert adapter.base_url == "https://api.groq.com/openai/v1"
+    assert adapter.model == "llama-3.3-70b-versatile"
+    assert adapter.api_key == "groq-test-key"
+
+
 def test_build_llm_adapter_supports_gemini_flash(monkeypatch):
     monkeypatch.setenv("TW_LLM_PROVIDER", "gemini-flash")
     monkeypatch.setenv("TW_GEMINI_KEY", "gemini-test-key")
@@ -409,8 +439,10 @@ def test_admin_llm_provider_selection_requires_token_and_updates_runtime(monkeyp
     assert payload["selected_provider"] == "openrouter-solar-free"
     assert {provider["provider"] for provider in payload["providers"]} >= {
         "gemini-flash",
+        "groq-free",
         "openrouter-solar-free",
     }
+    assert any(provider["provider"] == "groq-free" and not provider["configured"] for provider in payload["providers"])
     assert all("api_key" not in provider for provider in payload["providers"])
 
 

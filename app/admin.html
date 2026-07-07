@@ -399,7 +399,7 @@
           </div>
         </div>
         <div id="provider-grid" class="provider-grid">
-          <div class="empty-state">Enter admin token and refresh status. Expected providers: openrouter-solar-free, gemini-flash.</div>
+          <div class="empty-state">Enter admin token and refresh status. Expected providers: openrouter-solar-free, groq-free, gemini-flash.</div>
         </div>
       </section>
 
@@ -602,7 +602,7 @@
 
       clearTokenButton.addEventListener('click', () => {
         sessionStorage.removeItem(tokenStorageKey);
-        providerGrid.innerHTML = '<div class="empty-state">Enter admin token and refresh status. Expected providers: openrouter-solar-free, gemini-flash.</div>';
+        providerGrid.innerHTML = '<div class="empty-state">Enter admin token and refresh status. Expected providers: openrouter-solar-free, groq-free, gemini-flash.</div>';
         selectedSummary.textContent = 'Token required.';
         setRuntimeStatus('Locked', 'warn');
         setMessage('Token cleared.', '');
